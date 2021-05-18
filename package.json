@@ -1,0 +1,14 @@
+{
+  "name": "sim-stats-gui",
+  "version": "1.0.0",
+  "main": "main.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "electron": "^12.0.8",
+    "fs": "^0.0.1-security",
+    "puppeteer": "^9.1.1"
+  }
+}
