@@ -3,26 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> MX Simulator Auto Stats Generator</title>
+    <title> MX Simulator Auto Statistics Generator </title>
     <link rel="stylesheet" href="style.css">
+    <script defer src="render.js"></script>
 </head>
 <body>
-<h1>MX Simulator Auto Stats Generator</h1>
-<input type="text" class="urls" placeholder="Qualifying Link"/>
 
-<input type="text" class="urls" placeholder="250 Heat 1"/>
-<input type="text" class="urls" placeholder="250 Heat 2"/>
+<h1>MX Simulator Auto Statistics Generator</h1>
+<p class="buttons">
+    <button onclick="showSxPro()">Pro Supercross</button>
+    <button onclick="showSxAm()">Am Supercross</button>
+    <button>Pro Motocross</button>
+    <button>Am Motocross</button>
+</p>
 
-<input type="text" class="urls" placeholder="450 Heat 1"/>
-<input type="text" class="urls" placeholder="450 Heat 2"/>
+<div id="sxPro">
+    <p class="inputs">
+        <label>Qualifying</label>
+        <input type="text" class="proQualifying" placeholder="Qualifying URL">
+        <label>250 Heat 1</label>
+        <input type="text" class="proSxHeat1_250" placeholder="250 Heat 1">
+        <label>250 Heat 2</label>
+        <input type="text" class="proSxHeat2_250" placeholder="250 Heat 2">
+        <label>450 Heat 1</label>
+        <input type="text" class="proSxHeat1_450" placeholder="450 Heat 1">
+        <label>450 Heat 2</label>
+        <input type="text" class="proSxHeat2_450" placeholder="450 Heat 2">
+        <label>250 LCQ</label>
+        <input type="text" class="proSxLCQ_250" placeholder="250 LCQ">
+        <label>450 LCQ</label>
+        <input type="text" class="proSxLCQ_450" placeholder="450 LCQ">
+        <label>250 Main</label>
+        <input type="text" class="proSxMain_250" placeholder="250 Main">
+        <label>450 Main</label>
+        <input type="text" class="proSxMain_450" placeholder="450 Main">
+    </p>
+    <button class="generateButton" onclick="generateProSxStats()">Generate Stats</button>
+</div>
 
-<input type="text" class="urls" placeholder="250 LCQ"/>
-<input type="text" class="urls" placeholder="450 LCQ"/>
+<div id="sxAm">
+    <p class="inputs">
+        <label>Qualifying</label>
+        <input type="text" class="amQualifying" placeholder="Qualifying URL">
+        <label>Novice Heat 1</label>
+        <input type="text" class="amSxHeat1_nov" placeholder="Novice Heat 1">
+        <label>Novice Heat 2</label>
+        <input type="text" class="amSxHeat2_nov" placeholder="Novice Heat 2">
+        <label>250 Am Heat 1</label>
+        <input type="text" class="amSxHeat1_250" placeholder="250 Heat 1">
+        <label>250 Am Heat 2</label>
+        <input type="text" class="amSxHeat2_250" placeholder="250 Heat 2">
+        <label>450 Am Heat 1</label>
+        <input type="text" class="amSxHeat1_450" placeholder="450 Heat 1">
+        <label>450 Am Heat 2</label>
+        <input type="text" class="amSxHeat2_450" placeholder="450 Heat 2">
+        <label>Novice LCQ</label>
+        <input type="text" class="amSxLCQ_nov" placeholder="Novice LCQ">
+        <label>250 Am LCQ</label>
+        <input type="text" class="amSxLCQ_250" placeholder="250 LCQ">
+        <label>450 Am LCQ</label>
+        <input type="text" class="amSxLCQ_450" placeholder="450 LCQ">
+        <label>Novice Main</label>
+        <input type="text" class="amSxMain_nov" placeholder="Novice Main">
+        <label>250 Am Main</label>
+        <input type="text" class="amSxMain_250" placeholder="250 Am Main">
+        <label>450 Am Main</label>
+        <input type="text" class="amSxMain_450" placeholder="450 Am Main">
+    </p>
+    <button class="generateButton" onclick="generateAmSxStats()">Generate Stats</button>
+</div>
 
-<input type="text" class="urls" placeholder="250 Main"/>
-<input type="text" class="urls" placeholder="450 Main"/>
 
-<button>Generate Stats</button>
 
+<h1 id="finished"></h1>
+
+<script>
+    function showSxPro(){
+        const sxPro = document.getElementById("sxPro");
+        const sxAm = document.getElementById("sxAm");
+
+        if(sxPro.style.display === "none"){
+            sxPro.style.display = "block";
+            sxAm.style.display = "none";
+        } else {
+            sxPro.style.display = "none";
+        }
+    }
+    function showSxAm(){
+        const sxPro = document.getElementById("sxPro");
+        const sxAm = document.getElementById("sxAm");
+        if(sxAm.style.display === "none"){
+            sxAm.style.display = "block";
+            sxPro.style.display = "none";
+        } else {
+            sxAm.style.display = "none";
+        }
+    }
+</script>
 </body>
 </html>
