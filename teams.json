@@ -1,0 +1,93 @@
+﻿[
+  {
+    "timestamp": "2021-05-22T03:24:57.190Z",
+    "uid": 6521,
+    "name": "Logan Heagney",
+    "team": "Galaxy",
+    "bike": "FF0000"
+  },
+  {
+    "timestamp": "2021-05-22T03:22:33.133Z",
+    "uid": 10047,
+    "name": "Caleb Hall",
+    "team": "Underground RC",
+    "bike": "00BF00"
+  },
+  {
+    "timestamp": "2021-05-22T03:26:49.897Z",
+    "uid": 10123,
+    "name": "Neil Fitzpatrick",
+    "team": "Proline Designs",
+    "bike": "CC0000"
+  },
+  {
+    "timestamp": "2021-05-22T02:50:38.116Z",
+    "uid": 11747,
+    "name": "Lane Burkes",
+    "team": "Coors Light Honda",
+    "bike": "FF0000"
+  },
+  {
+    "timestamp": "2021-05-22T02:52:39.033Z",
+    "uid": 19306,
+    "name": "Dane Sabo",
+    "team": "Coors Light Honda",
+    "bike": "FF0000"
+  },
+  {
+    "timestamp": "2021-05-22T03:19:14.286Z",
+    "uid": 22937,
+    "name": "Joseph Pilsner",
+    "team": "AEO",
+    "bike": "CC0000"
+  },
+  {
+    "timestamp": "2021-05-22T03:26:05.741Z",
+    "uid": 23901,
+    "name": "Colby Egeland",
+    "team": "Panini Motosports",
+    "bike": "0000FF"
+  },
+  {
+    "timestamp": "2021-05-22T03:17:14.888Z",
+    "uid": 24832,
+    "name": "Kael Braden",
+    "team": "Jibr.co",
+    "bike": "FF0000"
+  },
+  {
+    "timestamp": "2021-05-22T03:25:47.004Z",
+    "uid": 29859,
+    "name": "Jaden Wilson",
+    "team": "Panini Motorsports",
+    "bike": "0000FF"
+  },
+  {
+    "timestamp": "2021-05-22T03:24:46.746Z",
+    "uid": 30353,
+    "name": "Colton Hansen",
+    "team": "AEO",
+    "bike": "CC0000"
+  },
+  {
+    "timestamp": "2021-05-22T03:30:41.519Z",
+    "uid": 30371,
+    "name": "Jake Spease",
+    "team": "Distrct Designs",
+    "bike": "FF8000"
+  },
+  {
+    "timestamp": "2021-05-22T03:31:12.534Z",
+    "uid": 33241,
+    "name": "Hayden Scott",
+    "team": "District Desings",
+    "bike": "FF8000"
+  },
+  {
+    "timestamp": "2021-05-22T03:18:44.561Z",
+    "uid": 34198,
+    "name": "Talan Zollers",
+    "team": "Covenant ",
+    "bike": "FF0000"
+  }
+]

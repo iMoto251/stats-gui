@@ -20,7 +20,12 @@
 <div id="sxPro">
     <p class="inputs">
         <label>Qualifying</label>
-        <input type="text" class="proQualifying" placeholder="Qualifying URL">
+        <input type="text" class="proSxQualifying" placeholder="Qualifying URL">
+        <label>250 Coast</label>
+        <select class="coast">
+            <option value="West">West</option>
+            <option value="East">East</option>
+        </select>
         <label>250 Heat 1</label>
         <input type="text" class="proSxHeat1_250" placeholder="250 Heat 1">
         <label>250 Heat 2</label>
@@ -29,8 +34,12 @@
         <input type="text" class="proSxHeat1_450" placeholder="450 Heat 1">
         <label>450 Heat 2</label>
         <input type="text" class="proSxHeat2_450" placeholder="450 Heat 2">
+        <label>No 250 LCQ</label>
+        <input type="checkbox" class="proSxLCQ_250Check" value="true"/>
         <label>250 LCQ</label>
         <input type="text" class="proSxLCQ_250" placeholder="250 LCQ">
+        <label>No 450 LCQ</label>
+        <input type="checkbox" class="proSxLCQ_450Check" value="true"/>
         <label>450 LCQ</label>
         <input type="text" class="proSxLCQ_450" placeholder="450 LCQ">
         <label>250 Main</label>
@@ -44,7 +53,7 @@
 <div id="sxAm">
     <p class="inputs">
         <label>Qualifying</label>
-        <input type="text" class="amQualifying" placeholder="Qualifying URL">
+        <input type="text" class="amSxQualifying" placeholder="Qualifying URL">
         <label>Novice Heat 1</label>
         <input type="text" class="amSxHeat1_nov" placeholder="Novice Heat 1">
         <label>Novice Heat 2</label>
@@ -57,10 +66,16 @@
         <input type="text" class="amSxHeat1_450" placeholder="450 Heat 1">
         <label>450 Am Heat 2</label>
         <input type="text" class="amSxHeat2_450" placeholder="450 Heat 2">
+        <label>No Novice LCQ</label>
+        <input type="checkbox" class="amSxLCQ_NovCheck"/>
         <label>Novice LCQ</label>
         <input type="text" class="amSxLCQ_nov" placeholder="Novice LCQ">
+        <label>No 250 LCQ</label>
+        <input type="checkbox" class="amSxLCQ_250Check"/>
         <label>250 Am LCQ</label>
         <input type="text" class="amSxLCQ_250" placeholder="250 LCQ">
+        <label>No 450 LCQ</label>
+        <input type="checkbox" class="amSxLCQ_450Check"/>
         <label>450 Am LCQ</label>
         <input type="text" class="amSxLCQ_450" placeholder="450 LCQ">
         <label>Novice Main</label>
