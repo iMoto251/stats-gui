@@ -3,12 +3,20 @@
   "version": "1.0.0",
   "main": "main.js",
   "license": "MIT",
+  "author": "Lane Burkes <dbrider251@gmail.com>",
+  "description": "An app that generates statistics for Mx Simulator modeled after the man Kerr.",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "postinstall": "install-app-deps",
+    "pack": "build --dir",
+    "dist": "build"
   },
   "dependencies": {
     "electron": "11.1.1",
     "fs": "^0.0.1-security",
     "puppeteer": "^9.1.1"
+  },
+  "devDependencies": {
+    "electron-packager": "^15.2.0"
   }
 }
