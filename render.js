@@ -10,9 +10,9 @@ const generateProSxStats =  () => {
             proSxHeat1_450: document.querySelector('.proSxHeat1_450').value,
             proSxHeat2_450: document.querySelector('.proSxHeat2_450').value,
             proSxLCQ_250: document.querySelector('.proSxLCQ_250').value,
-            proSxLCQ_250Check: document.querySelector('.proSxLCQ_250Check').value,
+            proSxLCQ_250Check: document.querySelector('.proSxLCQ_250Check').checked,
             proSxLCQ_450: document.querySelector('.proSxLCQ_450').value,
-            proSxLCQ_450Check: document.querySelector('.proSxLCQ_450Check').value,
+            proSxLCQ_450Check: document.querySelector('.proSxLCQ_450Check').checked,
             proSxMain_250: document.querySelector('.proSxMain_250').value,
             proSxMain_450: document.querySelector('.proSxMain_450').value,
             coast: document.querySelector('.coast').value
@@ -23,9 +23,9 @@ const generateProSxStats =  () => {
         document.querySelector('.proSxHeat1_450').value,
         document.querySelector('.proSxHeat2_450').value,
         document.querySelector('.proSxLCQ_250').value,
-        document.querySelector('.proSxLCQ_250Check').value,
+        document.querySelector('.proSxLCQ_250Check').checked,
         document.querySelector('.proSxLCQ_450').value,
-        document.querySelector('.proSxLCQ_450Check').value,
+        document.querySelector('.proSxLCQ_450Check').checked,
         document.querySelector('.proSxMain_250').value,
         document.querySelector('.proSxMain_450').value,
         document.querySelector('.coast').value
@@ -69,6 +69,58 @@ const generateAmSxStats = () => {
         document.querySelector('.amSxMain_nov').value,
         document.querySelector('.amSxMain_250').value,
         document.querySelector('.amSxMain_450').value
+    );
+}
+
+const generateProMxStats =  () => {
+    ipcRenderer.send(
+        "generateProMxStats",
+        {
+            proMxQualifying: document.querySelector(".proMxQualifying").value,
+            proMxConsi_250Check: document.querySelector(".proMxConsi_250Check").checked,
+            proMxConsi_250: document.querySelector(".proMxConsi_250").value,
+            proMxMoto1_250: document.querySelector(".proMxMoto1_250").value,
+            proMxMoto2_250: document.querySelector(".proMxMoto2_250").value,
+            proMxConsi_450Check: document.querySelector(".proMxConsi_450Check").checked,
+            proMxConsi_450: document.querySelector(".proMxConsi_450").value,
+            proMxMoto1_450: document.querySelector(".proMxMoto1_450").value,
+            proMxMoto2_450: document.querySelector(".proMxMoto2_450").value
+        },
+        document.querySelector(".proMxQualifying").value,
+        document.querySelector(".proMxConsi_250Check").checked,
+        document.querySelector(".proMxConsi_250").value,
+        document.querySelector(".proMxMoto1_250").value,
+        document.querySelector(".proMxMoto2_250").value,
+        document.querySelector(".proMxConsi_450Check").checked,
+        document.querySelector(".proMxConsi_450").value,
+        document.querySelector(".proMxMoto1_450").value,
+        document.querySelector(".proMxMoto2_450").value
+    );
+}
+
+const generateAmMxStats =  () => {
+    ipcRenderer.send(
+        "generateProMxStats",
+        {
+            amMxQualifying: document.querySelector(".amMxQualifying").value,
+            amMxConsi_250Check: document.querySelector(".amMxConsi_250Check").checked,
+            amMxConsi_250: document.querySelector(".amMxConsi_250").value,
+            amMxMoto1_250: document.querySelector(".amMxMoto1_250").value,
+            amMxMoto2_250: document.querySelector(".amMxMoto2_250").value,
+            amMxConsi_450Check: document.querySelector(".amMxConsi_450Check").checked,
+            amMxConsi_450: document.querySelector(".amMxConsi_450").value,
+            amMxMoto1_450: document.querySelector(".amMxMoto1_450").value,
+            amMxMoto2_450: document.querySelector(".amMxMoto2_450").value
+        },
+        document.querySelector(".amMxQualifying").value,
+        document.querySelector(".amMxConsi_250Check").checked,
+        document.querySelector(".amMxConsi_250").value,
+        document.querySelector(".amMxMoto1_250").value,
+        document.querySelector(".amMxMoto2_250").value,
+        document.querySelector(".amMxConsi_450Check").checked,
+        document.querySelector(".amMxConsi_450").value,
+        document.querySelector(".amMxMoto1_450").value,
+        document.querySelector(".amMxMoto2_450").value
     );
 }
 

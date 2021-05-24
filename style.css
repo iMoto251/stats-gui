@@ -53,6 +53,22 @@ input {
     width: 30px;
 }
 
+.proMxConsi_250Check{
+    width: 30px;
+}
+
+.proMxConsi_450Check{
+    width: 30px;
+}
+
+.amMxConsi_250Check{
+    width: 30px;
+}
+
+.amMxConsi_450Check{
+    width: 30px;
+}
+
 button {
     margin: 20px;
     height: 40px;
@@ -99,3 +115,10 @@ button.generateButton{
     display: none;
 }
 
+#mxPro{
+    display: none;
+}
+
+#mxAm{
+    display: none;
+}
