@@ -8,15 +8,23 @@
   "scripts": {
     "start": "electron .",
     "postinstall": "install-app-deps",
-    "pack": "build --dir",
-    "dist": "build"
+    "dist": "electron-builder"
   },
   "dependencies": {
-    "electron": "11.1.1",
     "fs": "^0.0.1-security",
     "puppeteer": "^9.1.1"
   },
   "devDependencies": {
+    "electron": "11.1.1",
     "electron-packager": "^15.2.0"
+  },
+  "build": {
+    "appId": "com.sim-stats.app",
+    "productName": "Mx Simulator Auto Stats",
+    "target": "NSIS",
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   }
 }
