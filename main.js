@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const teams = require('./teams.json');
+const motoScore = require('mxpoints')
 
 let win = null;
 
@@ -119,7 +120,11 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await qualMX250Pro(data.proMxQualifying);
         await qualMX450Pro(data.proMxQualifying);
         await win.webContents.send("statsUpdates", 'Qualifying Done')
+    } catch (e) {
+        await win.webContents.send("statsUpdates", 'Error in Qualifying')
+    }
 
+    try{
         fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Consi Results[/b][/u]\n`)
         if(data.proMxConsi_250Check === false){
             await lcq("250", data.proMxConsi_250, "Motocross", "Consi");
@@ -128,23 +133,29 @@ ipcMain.on("generateProMxStats", async (event, data) => {
             await lcq("450", data.proMxConsi_450, "Motocross", "Consi");
         }
         await win.webContents.send("statsUpdates", 'Consis Done')
+    } catch (e){
+        await win.webContents.send("statsUpdates", 'Error in Consi')
+    }
 
+    try{
         fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Moto Results[/b][/u]\n`)
         await mains("250", data.proMxMoto1_250, "Motocross", "Moto 1");
         await mains("250", data.proMxMoto2_250, "Motocross", "Moto 2");
         await mains("450", data.proMxMoto1_450, "Motocross", "Moto 1");
         await mains("450", data.proMxMoto2_450, "Motocross", "Moto 2");
         await win.webContents.send("statsUpdates", 'Mains Done')
-
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Top 20 in Points[/b][/u]\n`);
-        await pointsMX250Pro(data.proMxQualifying);
-        await pointsMX450Pro(data.proMxQualifying);
-
-        await win.webContents.send("statsUpdates", 'Finished!')
-    } catch (e) {
-        await win.webContents.send("statsUpdates", 'Error, please check values and try again')
+    } catch (e){
+        await win.webContents.send("statsUpdates", 'Error in Motos')
     }
 
+    try{
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Top 20 in Points[/b][/u]\n`);
+        await pointsMXPro(data.proMxQualifying, data.proMxStand_250, "250");
+        await pointsMXPro(data.proMxQualifying, data.proMxStand_450, "450");
+        await win.webContents.send("statsUpdates", 'Finished!')
+    } catch (e){
+        await win.webContents.send("statsUpdates", 'Error in Points')
+    }
 });
 
 ipcMain.on("generateAmMxStats", async (event, data) => {
@@ -616,7 +627,6 @@ async function mains(title, url, series, race){
         let n = helper.includes("|");
 
         if(!n){
-            console.log(helper + ": no team");
             fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${results.numberArray[j]}[/size][/i] ${helper}\n`)
         } else {
             let name = helper.substring(0,helper.indexOf("|")-1);
@@ -625,7 +635,6 @@ async function mains(title, url, series, race){
             for(let k=0; k<teams.length; k++){
                 if(results.uidArray[j] === teams[k].uid){
                     bikeColor = teams[k].bike;
-                    console.log("Match:" + teams[k].uid + " " + teams[k].name)
                 } else{
                     //do nothing
                 }
@@ -1002,6 +1011,7 @@ async function qualMX450Pro(qualurl){
         let nameArray = [];
         let timeArray = [];
         let uidArray = [];
+
         for(let i=0;i<10;i++){
             numberArray[i] = document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
             nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
@@ -1025,104 +1035,6 @@ async function qualMX450Pro(qualurl){
             fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
             fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
-        }
-    }
-    await browser.close();
-}
-
-async function pointsMX250Pro(qualurl){
-    let browser = await puppeteer.launch({headless: true});
-    let page = await browser.newPage();
-    await page.setViewport({width: 1920, height: 1080})
-    await page.goto(qualurl);
-    await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]250 Motocross[/b][/u]\n`);
-
-    let points = await page.evaluate(() =>{
-        function capitalize(str) {
-            return str.replace(
-                /\w\S*/g,
-                function(txt) {
-                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-                }
-            );
-        }
-        let numberArray = [];
-        let nameArray = [];
-        let pointArray = [];
-        let uidArray = [];
-        for(let i=0;i<20;i++){
-            numberArray[i] = document.querySelector(`#standings-5 > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#standings-5 > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
-            pointArray[i] = document.querySelector(`#standings-5 > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#standings-5 > table > tbody > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML)
-        }
-        return {numberArray, nameArray, pointArray, uidArray};
-    });
-    for(let j = 0; j<20;j++){
-        let bikeColor = '';
-        let teamStr = '';
-        for(let k=0; k<teams.length; k++){
-            if(points.uidArray[j] === teams[k].uid){
-                bikeColor = teams[k].bike;
-                teamStr = teams[k].team;
-            } else{
-                //do nothing
-            }
-        }
-        if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
-        } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
-        }
-    }
-    await browser.close();
-}
-
-async function pointsMX450Pro(qualurl){
-    let browser = await puppeteer.launch({headless: true});
-    let page = await browser.newPage();
-    await page.setViewport({width: 1920, height: 1080})
-    await page.goto(qualurl);
-    await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]450 Motocross[/b][/u]\n`);
-
-    let points = await page.evaluate(() =>{
-        function capitalize(str) {
-            return str.replace(
-                /\w\S*/g,
-                function(txt) {
-                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-                }
-            );
-        }
-        let numberArray = [];
-        let nameArray = [];
-        let pointArray = [];
-        let uidArray = [];
-        for(let i=0;i<20;i++){
-            numberArray[i] = document.querySelector(`#standings-4 > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#standings-4 > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
-            pointArray[i] = document.querySelector(`#standings-4 > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#standings-4 > table > tbody > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML)
-        }
-        return {numberArray, nameArray, pointArray, uidArray};
-    });
-    for(let j = 0; j<20;j++){
-        let bikeColor = '';
-        let teamStr = '';
-        for(let k=0; k<teams.length; k++){
-            if(points.uidArray[j] === teams[k].uid){
-                bikeColor = teams[k].bike;
-                teamStr = teams[k].team;
-            } else{
-                //do nothing
-            }
-        }
-        if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
-        } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -1221,6 +1133,57 @@ async function qualMX450Am(qualurl){
             fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
             fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+        }
+    }
+    await browser.close();
+}
+
+async function pointsMXPro(qualurl, stand, race){
+    let browser = await puppeteer.launch({headless: true});
+    let page = await browser.newPage();
+    await page.setViewport({width: 1920, height: 1080})
+    await page.goto(qualurl);
+    await page.waitForTimeout(2000);
+    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]${race} Motocross[/b][/u]\n`);
+
+
+    let points = await page.evaluate((stand) =>{
+        function capitalize(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                }
+            );
+        }
+        let numberArray = [];
+        let nameArray = [];
+        let pointArray = [];
+        let uidArray = [];
+
+        for(let i=0;i<20;i++){
+            numberArray[i] = document.querySelector(`#${stand} > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+            nameArray[i] = capitalize(document.querySelector(`#${stand} > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
+            pointArray[i] = document.querySelector(`#${stand} > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#${stand} > table > tbody > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML)
+        }
+        return {numberArray, nameArray, pointArray, uidArray};
+    }, stand);
+    for(let j = 0; j<20;j++){
+        let bikeColor = '';
+        let teamStr = '';
+        for(let k=0; k<teams.length; k++){
+            if(points.uidArray[j] === teams[k].uid){
+                bikeColor = teams[k].bike;
+                teamStr = teams[k].team;
+            } else{
+                //do nothing
+            }
+        }
+        if(teamStr !== ''){
+            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+        } else{
+            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
