@@ -16,7 +16,8 @@
   },
   "devDependencies": {
     "electron": "11.1.1",
-    "electron-packager": "^15.2.0"
+    "electron-packager": "^15.2.0",
+    "mxpoints": "^1.0.2"
   },
   "build": {
     "appId": "com.sim-stats.app",
