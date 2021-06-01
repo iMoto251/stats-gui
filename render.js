@@ -104,7 +104,7 @@ const generateProMxStats =  () => {
 
 const generateAmMxStats =  () => {
     ipcRenderer.send(
-        "generateProMxStats",
+        "generateAmMxStats",
         {
             amMxQualifying: document.querySelector(".amMxQualifying").value,
             amMxConsi_250Check: document.querySelector(".amMxConsi_250Check").checked,
