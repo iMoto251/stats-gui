@@ -34,7 +34,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Heat Results[/b][/u]\n`)
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Heat Results[/b][/u][/color]\n`)
         await heats(`250 ${coast}`, "1", data.proSxHeat1_250);
         await heats(`250 ${coast}`, "2", data.proSxHeat2_250);
         await heats("450", "1", data.proSxHeat1_450);
@@ -45,7 +45,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]LCQ Results[/b][/u]\n`)
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]LCQ Results[/b][/u][/color]\n`)
         if(data.proSxLCQ_250Check === false){
             await lcq("250", data.proSxLCQ_250, "Supercross", "LCQ");
         }
@@ -58,7 +58,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Main Results[/b][/u]\n`)
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Main Results[/b][/u][/color]\n`)
         await mains("250", data.proSxMain_250, "Supercross", "Main Event");
         await mains("450", data.proSxMain_450, "Supercross", "Main Event");
         await win.webContents.send("statsUpdates", 'Mains Done')
@@ -67,7 +67,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Top 20 in Points[/b][/u]\n`);
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
         await pointsSX250wPro(data.proSxQualifying);
         await pointsSX250ePro(data.proSxQualifying);
         await pointsSX450Pro(data.proSxQualifying);
@@ -92,7 +92,7 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Heat Results[/b][/u]\n`)
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Heat Results[/b][/u][/color]\n`)
         await heats(`250 Novice`, "1", data.amSxHeat1_nov);
         await heats(`250 Novice`, "2", data.amSxHeat2_nov);
         await heats(`250 Am`, "1", data.amSxHeat1_250);
@@ -105,7 +105,7 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]LCQ Results[/b][/u]\n`)
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]LCQ Results[/b][/u][/color]\n`)
 
         if(data.amSxLCQ_NovCheck === false){
             await lcq("250 Novice", data.amSxLCQ_nov, "Supercross", "LCQ");
@@ -122,7 +122,7 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Main Results[/b][/u]\n`)
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Main Results[/b][/u][/color]\n`)
         await mains("250 Novice", data.amSxMain_nov, "Supercross", "Main Event");
         await mains("250 Am", data.amSxMain_250, "Supercross", "Main Event");
         await mains("450 Am", data.amSxMain_450, "Supercross", "Main Event");
@@ -132,7 +132,7 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Top 20 in Points[/b][/u]\n`);
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
         await pointsSX250Novice(data.amSxQualifying);
         await pointsSX250Am(data.amSxQualifying);
         await pointsSX450Am(data.amSxQualifying);
@@ -156,7 +156,7 @@ ipcMain.on("generateProMxStats", async (event, data) => {
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Consi Results[/b][/u]\n`)
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Consi Results[/b][/u][/color]\n`)
         if(data.proMxConsi_250Check === false){
             await lcq("250", data.proMxConsi_250, "Motocross", "Consi");
         }
@@ -169,7 +169,7 @@ ipcMain.on("generateProMxStats", async (event, data) => {
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Moto Results[/b][/u]\n`)
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Moto Results[/b][/u][/color]\n`)
         await mains("250", data.proMxMoto1_250, "Motocross", "Moto 1");
         await mains("250", data.proMxMoto2_250, "Motocross", "Moto 2");
         await mains("450", data.proMxMoto1_450, "Motocross", "Moto 1");
@@ -180,7 +180,7 @@ ipcMain.on("generateProMxStats", async (event, data) => {
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Overall Results[/b][/u]\n`);
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Overall Results[/b][/u][/color]\n`);
         await overalls("250", data.proMxMoto1_250, data.proMxMoto2_250, "Motocross", "Overall")
         await overalls("450", data.proMxMoto1_450, data.proMxMoto2_450, "Motocross", "Overall")
         await win.webContents.send("statsUpdates", 'Overalls Done')
@@ -189,7 +189,7 @@ ipcMain.on("generateProMxStats", async (event, data) => {
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Top 20 in Points[/b][/u]\n`);
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
         await pointsMXPro(data.proMxQualifying, data.proMxStand_250, "250");
         await pointsMXPro(data.proMxQualifying, data.proMxStand_450, "450");
         await win.webContents.send("statsUpdates", 'Finished!')
@@ -210,7 +210,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Consi Results[/b][/u]\n`)
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Consi Results[/b][/u][/color]\n`)
         if(data.amMxConsi_250Check === false){
             await lcq("250 Am", data.amMxConsi_250, "Motocross", "Consi");
         }
@@ -223,7 +223,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Moto Results[/b][/u]\n`)
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Moto Results[/b][/u][/color]\n`)
         await mains("250 Am", data.amMxMoto1_250, "Motocross", "Moto 1");
         await mains("250 Am", data.amMxMoto2_250, "Motocross", "Moto 2");
         await mains("450 Am", data.amMxMoto1_450, "Motocross", "Moto 1");
@@ -234,7 +234,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Overall Results[/b][/u]\n`);
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Overall Results[/b][/u][/color]\n`);
         await overalls("250 Am", data.amMxMoto1_250, data.amMxMoto2_250, "Motocross", "Overall")
         await overalls("450 Am", data.amMxMoto1_450, data.amMxMoto2_450, "Motocross", "Overall")
         await win.webContents.send("statsUpdates", 'Overalls Done')
@@ -243,7 +243,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]Top 20 in Points[/b][/u]\n`);
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
         await pointsMX250Am(data.amMxQualifying);
         await pointsMX450Am(data.amMxQualifying);
 
