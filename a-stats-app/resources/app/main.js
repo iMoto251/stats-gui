@@ -30,6 +30,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Qualifying Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Qualifying')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -42,6 +43,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Heats Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Heats')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -55,6 +57,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'LCQs Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in LCQs')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -64,6 +67,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Mains Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Mains')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -75,6 +79,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e){
         await win.webContents.send("statsUpdates", 'Error in Points')
+        await win.webContents.send("sendError", e)
     }
 
 });
@@ -89,6 +94,7 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
         await win.webContents.send("statsUpdates", 'Qualifying Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Qualifying')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -102,6 +108,7 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
         await win.webContents.send("statsUpdates", 'Heats Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Heats')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -119,6 +126,7 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
         await win.webContents.send("statsUpdates", 'LCQs Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in LCQs')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -129,6 +137,7 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
         await win.webContents.send("statsUpdates", 'Mains Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Mains')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -140,6 +149,7 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
         await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e){
         await win.webContents.send("statsUpdates", 'Error in Points')
+        await win.webContents.send("sendError", e)
     }
 
 });
@@ -153,6 +163,7 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Qualifying Done')
     } catch (e) {
         await win.webContents.send("statsUpdates", 'Error in Qualifying')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -166,6 +177,7 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Consis Done')
     } catch (e){
         await win.webContents.send("statsUpdates", 'Error in Consi')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -177,6 +189,7 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Motos Done')
     } catch (e){
         await win.webContents.send("statsUpdates", 'Error in Motos')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -186,6 +199,7 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Overalls Done')
     } catch(e){
         await win.webContents.send("statsUpdates", 'Error in Overalls')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -195,6 +209,7 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e){
         await win.webContents.send("statsUpdates", 'Error in Points')
+        await win.webContents.send("sendError", e)
     }
 });
 
@@ -207,6 +222,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Qualifying Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Qualifying')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -220,6 +236,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Consis Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Consi')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -231,6 +248,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Motos Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Motos')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -240,6 +258,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Overalls Done')
     } catch(e){
         await win.webContents.send("statsUpdates", 'Error in Overalls')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -250,6 +269,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e) {
         await win.webContents.send("statsUpdates", 'Error in Points')
+        await win.webContents.send("sendError", e)
     }
 
 });
