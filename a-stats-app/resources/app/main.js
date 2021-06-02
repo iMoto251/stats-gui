@@ -23,7 +23,6 @@ app.whenReady().then(createWindow);
 
 ipcMain.on("generateProSxStats", async (event, data) => {
     try{
-        let coast = data.coast;
         await win.webContents.send("statsUpdates", 'Starting')
 
         await qualSX250Pro(data.proSxQualifying);
@@ -34,6 +33,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
     }
 
     try{
+        let coast = data.coast;
         fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Heat Results[/b][/u][/color]\n`)
         await heats(`250 ${coast}`, "1", data.proSxHeat1_250);
         await heats(`250 ${coast}`, "2", data.proSxHeat2_250);
@@ -284,7 +284,7 @@ async function qualSX250Pro(qualurl){
         return {numberArray, nameArray, timeArray, uidArray};
     });
     for(let j = 0; j<10; j++){
-        let bikeColor = '';
+        let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
             if(qualifying.uidArray[j] === teams[k].uid){
@@ -333,7 +333,7 @@ async function qualSX450Pro(qualurl){
         return {numberArray, nameArray, timeArray, uidArray};
     });
     for(let j = 0; j<10; j++){
-        let bikeColor = '';
+        let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
             if(qualifying.uidArray[j] === teams[k].uid){
@@ -382,7 +382,7 @@ async function qualSX250Novice(qualurl){
         return {numberArray, nameArray, timeArray, uidArray};
     });
     for(let j = 0; j<10; j++){
-        let bikeColor = '';
+        let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
             if(qualifying.uidArray[j] === teams[k].uid){
@@ -432,7 +432,7 @@ async function qualSX250Am(qualurl){
         return {numberArray, nameArray, timeArray, uidArray};
     });
     for(let j = 0; j<10; j++){
-        let bikeColor = '';
+        let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
             if(qualifying.uidArray[j] === teams[k].uid){
@@ -482,7 +482,7 @@ async function qualSX450Am(qualurl){
         return {numberArray, nameArray, timeArray, uidArray};
     });
     for(let j = 0; j<10; j++){
-        let bikeColor = '';
+        let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
             if(qualifying.uidArray[j] === teams[k].uid){
@@ -540,13 +540,16 @@ async function heats(title, num, url){
             if(!n){
                 fs.appendFileSync(`${__dirname}/stats.txt`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper}\n`)
             } else {
-                let name = helper.substring(0,helper.indexOf("|")).trim();
-                let team = helper.substring(helper.indexOf("|")+1).trim();
-                let bikeColor = '';
+                let name = '';
+                name = helper.substring(0,helper.indexOf("|")).trim();
+                let team = '';
+                team = helper.substring(helper.indexOf("|")+1).trim();
+                let bikeColor = '000000';
                 for(let k=0; k<teams.length; k++){
                     if(results.uidArray[j] === teams[k].uid){
                         bikeColor = teams[k].bike;
                         team = teams[k].team;
+                        name = teams[k].name;
                     } else{
                         //do nothing
                     }
@@ -560,12 +563,16 @@ async function heats(title, num, url){
             if(!n){
                 fs.appendFileSync(`${__dirname}/stats.txt`, `[color=#FF0000]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper}\n`)
             } else {
-                let name = helper.substring(0,helper.indexOf("|")).trim();
-                let team = helper.substring(helper.indexOf("|")+1).trim();
-                let bikeColor = '';
+                let name = '';
+                name = helper.substring(0,helper.indexOf("|")).trim();
+                let team = '';
+                team = helper.substring(helper.indexOf("|")+1).trim();
+                let bikeColor = '000000';
                 for(let k=0; k<teams.length; k++){
                     if(results.uidArray[j] === teams[k].uid){
                         bikeColor = teams[k].bike;
+                        team = teams[k].team;
+                        name = teams[k].name;
                     } else{
                         //do nothing
                     }
@@ -616,13 +623,16 @@ async function lcq(title, url, series, race){
             if(!n){
                 fs.appendFileSync(`${__dirname}/stats.txt`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper}\n`)
             } else {
-                let name = helper.substring(0,helper.indexOf("|")).trim();
-                let team = helper.substring(helper.indexOf("|")+1).trim();
-                let bikeColor = '';
+                let name = '';
+                name = helper.substring(0,helper.indexOf("|")).trim();
+                let team = '';
+                team = helper.substring(helper.indexOf("|")+1).trim();
+                let bikeColor = '000000';
                 for(let k=0; k<teams.length; k++){
                     if(results.uidArray[j] === teams[k].uid){
                         bikeColor = teams[k].bike;
                         team = teams[k].team;
+                        name = teams[k].name;
                     } else{
                         //do nothing
                     }
@@ -636,12 +646,16 @@ async function lcq(title, url, series, race){
             if(!n){
                 fs.appendFileSync(`${__dirname}/stats.txt`, `[color=#FF0000]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper}\n`)
             } else {
-                let name = helper.substring(0,helper.indexOf("|")).trim();
-                let team = helper.substring(helper.indexOf("|")+1).trim();
-                let bikeColor = '';
+                let name = '';
+                name = helper.substring(0,helper.indexOf("|")).trim();
+                let team = '';
+                team = helper.substring(helper.indexOf("|")+1).trim();
+                let bikeColor = '000000';
                 for(let k=0; k<teams.length; k++){
                     if(results.uidArray[j] === teams[k].uid){
                         bikeColor = teams[k].bike;
+                        team = teams[k].team;
+                        name = teams[k].name;
                     } else{
                         //do nothing
                     }
@@ -692,13 +706,16 @@ async function mains(title, url, series, race){
         if(!n){
             fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper}\n`)
         } else {
-            let name = helper.substring(0,helper.indexOf("|")).trim();
-            let team = helper.substring(helper.indexOf("|")+1).trim();
-            let bikeColor = '';
+            let name = '';
+            name = helper.substring(0,helper.indexOf("|")).trim();
+            let team = '';
+            team = helper.substring(helper.indexOf("|")+1).trim();
+            let bikeColor = '000000';
             for(let k=0; k<teams.length; k++){
                 if(results.uidArray[j] === teams[k].uid){
                     bikeColor = teams[k].bike;
                     team = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
@@ -741,7 +758,7 @@ async function pointsSX250wPro(qualurl){
     });
     for(let j = 0; j<20;j++){
         for(let j = 0; j<20;j++){
-            let bikeColor = '';
+            let bikeColor = '000000';
             let teamStr = '';
             for(let k=0; k<teams.length; k++){
                 if(points.uidArray[j] === teams[k].uid){
@@ -790,7 +807,7 @@ async function pointsSX250ePro(qualurl){
         return {numberArray, nameArray, pointArray, uidArray};
     });
     for(let j = 0; j<20;j++){
-        let bikeColor = '';
+        let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
             if(points.uidArray[j] === teams[k].uid){
@@ -839,7 +856,7 @@ async function pointsSX450Pro(qualurl){
         return {numberArray, nameArray, pointArray, uidArray};
     });
     for(let j = 0; j<20;j++){
-        let bikeColor = '';
+        let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
             if(points.uidArray[j] === teams[k].uid){
@@ -888,7 +905,7 @@ async function pointsSX250Novice(qualurl){
         return {numberArray, nameArray, pointArray, uidArray};
     });
     for(let j = 0; j<20;j++){
-        let bikeColor = '';
+        let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
             if(points.uidArray[j] === teams[k].uid){
@@ -937,7 +954,7 @@ async function pointsSX250Am(qualurl){
         return {numberArray, nameArray, pointArray, uidArray};
     });
     for(let j = 0; j<20;j++){
-        let bikeColor = '';
+        let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
             if(points.uidArray[j] === teams[k].uid){
@@ -986,7 +1003,7 @@ async function pointsSX450Am(qualurl){
         return {numberArray, nameArray, pointArray, uidArray};
     });
     for(let j = 0; j<20;j++){
-        let bikeColor = '';
+        let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
             if(points.uidArray[j] === teams[k].uid){
@@ -1035,7 +1052,7 @@ async function qualMX250Pro(qualurl){
         return {numberArray, nameArray, timeArray, uidArray};
     });
     for(let j = 0; j<10; j++){
-        let bikeColor = '';
+        let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
             if(qualifying.uidArray[j] === teams[k].uid){
@@ -1085,7 +1102,7 @@ async function qualMX450Pro(qualurl){
         return {numberArray, nameArray, timeArray, uidArray};
     });
     for(let j = 0; j<10; j++){
-        let bikeColor = '';
+        let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
             if(qualifying.uidArray[j] === teams[k].uid){
@@ -1134,7 +1151,7 @@ async function qualMX250Am(qualurl){
         return {numberArray, nameArray, timeArray, uidArray};
     });
     for(let j = 0; j<10; j++){
-        let bikeColor = '';
+        let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
             if(qualifying.uidArray[j] === teams[k].uid){
@@ -1183,7 +1200,7 @@ async function qualMX450Am(qualurl){
         return {numberArray, nameArray, timeArray, uidArray};
     });
     for(let j = 0; j<10; j++){
-        let bikeColor = '';
+        let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
             if(qualifying.uidArray[j] === teams[k].uid){
@@ -1234,7 +1251,7 @@ async function pointsMXPro(qualurl, stand, race){
         return {numberArray, nameArray, pointArray, uidArray};
     }, stand);
     for(let j = 0; j<20;j++){
-        let bikeColor = '';
+        let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
             if(points.uidArray[j] === teams[k].uid){
@@ -1283,7 +1300,7 @@ async function pointsMX250Am(qualurl){
         return {numberArray, nameArray, pointArray, uidArray};
     });
     for(let j = 0; j<20;j++){
-        let bikeColor = '';
+        let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
             if(points.uidArray[j] === teams[k].uid){
@@ -1332,7 +1349,7 @@ async function pointsMX450Am(qualurl){
         return {numberArray, nameArray, pointArray, uidArray};
     });
     for(let j = 0; j<20;j++){
-        let bikeColor = '';
+        let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
             if(points.uidArray[j] === teams[k].uid){
@@ -1557,7 +1574,8 @@ async function overalls(title, urlm1, urlm2, series, race){
         if(!n){
             fs.appendFileSync(`${__dirname}/stats.txt`, `${a+1}. [i][size=85]#${overall[a].number}[/size][/i] - ${helper} [i][size=85](${overall[a].moto1} - ${overall[a].moto2})[/size][/i]\n`)
         } else{
-            let name = helper.substring(0,helper.indexOf("|")).trim();
+            let name = '';
+            name = helper.substring(0,helper.indexOf("|")).trim();
             let team = '';
             team = helper.substring(helper.indexOf("|")+1).trim();
             let bikeColor = '000000';
@@ -1565,6 +1583,7 @@ async function overalls(title, urlm1, urlm2, series, race){
                 if(overall[a].uid === teams[b].uid){
                     bikeColor = teams[b].bike;
                     team = teams[b].team;
+                    name = teams[b].name;
                 } else {
                     //do nothing
                 }
