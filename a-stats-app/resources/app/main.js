@@ -30,7 +30,6 @@ ipcMain.on("generateProSxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Qualifying Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Qualifying')
-        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -43,7 +42,6 @@ ipcMain.on("generateProSxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Heats Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Heats')
-        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -57,7 +55,6 @@ ipcMain.on("generateProSxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'LCQs Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in LCQs')
-        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -67,7 +64,6 @@ ipcMain.on("generateProSxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Mains Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Mains')
-        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -79,7 +75,6 @@ ipcMain.on("generateProSxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e){
         await win.webContents.send("statsUpdates", 'Error in Points')
-        await win.webContents.send("sendError", e)
     }
 
 });
@@ -94,7 +89,6 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
         await win.webContents.send("statsUpdates", 'Qualifying Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Qualifying')
-        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -108,7 +102,6 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
         await win.webContents.send("statsUpdates", 'Heats Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Heats')
-        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -126,7 +119,6 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
         await win.webContents.send("statsUpdates", 'LCQs Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in LCQs')
-        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -137,7 +129,6 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
         await win.webContents.send("statsUpdates", 'Mains Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Mains')
-        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -149,7 +140,6 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
         await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e){
         await win.webContents.send("statsUpdates", 'Error in Points')
-        await win.webContents.send("sendError", e)
     }
 
 });
@@ -163,7 +153,6 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Qualifying Done')
     } catch (e) {
         await win.webContents.send("statsUpdates", 'Error in Qualifying')
-        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -177,7 +166,6 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Consis Done')
     } catch (e){
         await win.webContents.send("statsUpdates", 'Error in Consi')
-        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -189,7 +177,6 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Motos Done')
     } catch (e){
         await win.webContents.send("statsUpdates", 'Error in Motos')
-        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -199,7 +186,15 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Overalls Done')
     } catch(e){
         await win.webContents.send("statsUpdates", 'Error in Overalls')
-        await win.webContents.send("sendError", e)
+    }
+
+    try{
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Qualifying to Overall Results Differences[/b][/u][/color]\n`);
+        await diffOAQuali("250", data.proMxQualifying, data.proMxMoto1_250, data.proMxMoto2_250, "Motocross", "Quali - Overall Difference")
+        await diffOAQuali("450", data.proMxQualifying, data.proMxMoto1_450, data.proMxMoto2_450, "Motocross", "Quali - Overall Difference")
+        await win.webContents.send("statsUpdates", 'Overalls Done')
+    } catch(e){
+        await win.webContents.send("statsUpdates", 'Error in Overalls')
     }
 
     try{
@@ -209,7 +204,6 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e){
         await win.webContents.send("statsUpdates", 'Error in Points')
-        await win.webContents.send("sendError", e)
     }
 });
 
@@ -222,7 +216,6 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Qualifying Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Qualifying')
-        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -236,7 +229,6 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Consis Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Consi')
-        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -248,7 +240,6 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Motos Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Motos')
-        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -258,7 +249,15 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Overalls Done')
     } catch(e){
         await win.webContents.send("statsUpdates", 'Error in Overalls')
-        await win.webContents.send("sendError", e)
+    }
+
+    try{
+        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Qualifying to Overall Results Differences[/b][/u][/color]\n`);
+        await diffOAQuali("250 Am", data.amMxQualifying, data.amMxMoto1_250, data.amMxMoto2_250, "Motocross", "Quali - Overall Difference")
+        await diffOAQuali("450 Am", data.proMxQualifying, data.amMxMoto1_450, data.amMxMoto2_450, "Motocross", "Quali - Overall Difference")
+        await win.webContents.send("statsUpdates", 'Overalls Done')
+    } catch(e){
+        await win.webContents.send("statsUpdates", 'Error in Overalls')
     }
 
     try{
@@ -269,7 +268,6 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e) {
         await win.webContents.send("statsUpdates", 'Error in Points')
-        await win.webContents.send("sendError", e)
     }
 
 });
@@ -1615,50 +1613,284 @@ async function overalls(title, urlm1, urlm2, series, race){
     await browser.close();
 }
 
-// async function motoPoints(pos){
-//     switch(pos){
-//         case 1:
-//             return 25;
-//         case 2:
-//             return 22;
-//         case 3:
-//             return 20;
-//         case 4:
-//             return 18;
-//         case 5:
-//             return 16;
-//         case 6:
-//             return 15;
-//         case 7:
-//             return 14;
-//         case 8:
-//             return 13;
-//         case 9:
-//             return 12;
-//         case 10:
-//             return 11;
-//         case 11:
-//             return 10;
-//         case 12:
-//             return 9;
-//         case 13:
-//             return 8;
-//         case 14:
-//             return 7;
-//         case 15:
-//             return 6;
-//         case 16:
-//             return 5;
-//         case 17:
-//             return 4;
-//         case 18:
-//             return 3;
-//         case 19:
-//             return 2;
-//         case 20:
-//             return 1;
-//         default:
-//             return 0;
-//     }
-//
-// }
+async function diffOAQuali(title, quali, urlm1, urlm2, series, race){
+    let browser = await puppeteer.launch({headless: true});
+    let page = await browser.newPage();
+    await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
+    await page.goto(quali);
+    await page.waitForTimeout(2000);
+    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]${title} ${series} ${race}[/b][/u]\n`);
+
+    let dataTable = '';
+    if(title === "250" || title === "450 Am"){
+        await page.click('#nav-qualifying-tab');
+        await page.select('#DataTables_Table_4_length > label > select','100');
+        dataTable = 'DataTables_Table_4'
+    } else if(title === "450" || title === "250 Am"){
+        await page.click('#nav-qualifying-tab');
+        await page.select('#DataTables_Table_3_length > label > select','100');
+        dataTable = 'DataTables_Table_3'
+    }
+
+    let qualifying = await page.evaluate((dataTable) =>{
+        function capitalize(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                }
+            );
+        }
+        let numberArray = [];
+        let nameArray = [];
+        let uidArray = [];
+        let entry = document.querySelectorAll(`#${dataTable} > tbody:nth-child(2) > tr`);
+        let entryNum = entry.length;
+        for(let i=0;i<entry.length;i++){
+            numberArray[i] = document.querySelector(`#${dataTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+            nameArray[i] = capitalize(document.querySelector(`#${dataTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            uidArray[i] = parseInt(document.querySelector(`#${dataTable} > tbody > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML)
+        }
+        return {numberArray, nameArray, uidArray, entryNum};
+    }, dataTable);
+
+    await page.goto(urlm1);
+    await page.waitForTimeout(2000);
+
+    let resultsm1 = await page.evaluate(() =>{
+        function capitalize(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1);
+                }
+            );
+        }
+        function motoPoints(pos){
+            switch(pos){
+                case 1:
+                    return 25;
+                case 2:
+                    return 22;
+                case 3:
+                    return 20;
+                case 4:
+                    return 18;
+                case 5:
+                    return 16;
+                case 6:
+                    return 15;
+                case 7:
+                    return 14;
+                case 8:
+                    return 13;
+                case 9:
+                    return 12;
+                case 10:
+                    return 11;
+                case 11:
+                    return 10;
+                case 12:
+                    return 9;
+                case 13:
+                    return 8;
+                case 14:
+                    return 7;
+                case 15:
+                    return 6;
+                case 16:
+                    return 5;
+                case 17:
+                    return 4;
+                case 18:
+                    return 3;
+                case 19:
+                    return 2;
+                case 20:
+                    return 1;
+                default:
+                    return 0;
+            }
+
+        }
+
+        let position = document.querySelectorAll(`td.pos`);
+        let moto1 = [];
+        let posNum = position.length;
+        for(let i=0;i<position.length;i++){
+            moto1[i] = {
+                position: parseInt(document.querySelector(`body > div.main > table:nth-child(5) > tbody > tr:nth-child(${i+2}) > td.pos`).innerHTML),
+                number: document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(2)`).innerHTML,
+                name: capitalize(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(3) > a:nth-child(1)`).innerHTML),
+                uid: parseInt(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(9)`).innerHTML),
+                points: motoPoints(i+1)
+            }
+
+        }
+        return {posNum, moto1};
+    });
+
+    await page.goto(urlm2);
+    await page.waitForTimeout(2000);
+
+    let resultsm2 = await page.evaluate(() =>{
+        function capitalize(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1);
+                }
+            );
+        }
+        function motoPoints(pos){
+            switch(pos){
+                case 1:
+                    return 25;
+                case 2:
+                    return 22;
+                case 3:
+                    return 20;
+                case 4:
+                    return 18;
+                case 5:
+                    return 16;
+                case 6:
+                    return 15;
+                case 7:
+                    return 14;
+                case 8:
+                    return 13;
+                case 9:
+                    return 12;
+                case 10:
+                    return 11;
+                case 11:
+                    return 10;
+                case 12:
+                    return 9;
+                case 13:
+                    return 8;
+                case 14:
+                    return 7;
+                case 15:
+                    return 6;
+                case 16:
+                    return 5;
+                case 17:
+                    return 4;
+                case 18:
+                    return 3;
+                case 19:
+                    return 2;
+                case 20:
+                    return 1;
+                default:
+                    return 0;
+            }
+
+        }
+
+        let position = document.querySelectorAll(`td.pos`);
+        let moto2 = [];
+        let posNum = position.length;
+        for(let i=0;i<position.length;i++){
+            moto2[i] = {
+                position: parseInt(document.querySelector(`body > div.main > table:nth-child(5) > tbody > tr:nth-child(${i+2}) > td.pos`).innerHTML),
+                number: document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(2)`).innerHTML,
+                name: capitalize(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(3) > a:nth-child(1)`).innerHTML),
+                uid: parseInt(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(9)`).innerHTML),
+                points: motoPoints(i+1)
+            }
+
+        }
+        return {posNum, moto2};
+    });
+
+    let overall = [];
+    for(let i=0;i<resultsm1.posNum;i++){
+        overall[i] = {
+            name: resultsm1.moto1[i].name,
+            uid: resultsm1.moto1[i].uid,
+            number: resultsm1.moto1[i].number,
+            moto1: resultsm1.moto1[i].position,
+            moto2: "DNS",
+            points: (0 - parseInt(resultsm1.moto1[i].position) - 60),
+            overallPos: null
+        }
+        for(let j=0;j<resultsm2.posNum;j++){
+            if(resultsm2.moto2[j].uid === resultsm1.moto1[i].uid){
+                if((resultsm1.moto1[i].points + resultsm2.moto2[j].points) > 0){
+                    overall[i] = {
+                        name:resultsm1.moto1[i].name,
+                        uid: resultsm1.moto1[i].uid,
+                        number:resultsm1.moto1[i].number,
+                        moto1:resultsm1.moto1[i].position,
+                        moto2:resultsm2.moto2[j].position,
+                        points:(resultsm1.moto1[i].points + resultsm2.moto2[j].points),
+                        overallPos: null
+                    }
+                } else {
+                    overall[i] = {
+                        name:resultsm1.moto1[i].name,
+                        uid: resultsm1.moto1[i].uid,
+                        number:resultsm1.moto1[i].number,
+                        moto1:resultsm1.moto1[i].position,
+                        moto2:resultsm2.moto2[j].position,
+                        points:(0 - parseInt(resultsm1.moto1[i].position) - parseInt(resultsm2.moto2[j].position)),
+                        overallPos: null
+                    }
+                }
+            }
+        }
+    }
+    overall.sort((a,b)=>(a.points < b.points) ? 1 : -1)
+    for(let i=0;i<overall.length;i++){
+        overall[i].overallPos = (i+1)
+    }
+
+    let overQuali = [];
+    for(let i=0;i<overall.length;i++){
+        for(let j=0;j<qualifying.entryNum;j++){
+            if(qualifying.uidArray[j] === overall[i].uid){
+                overQuali[i] = {
+                    name: overall[i].name,
+                    uid: overall[i].uid,
+                    number: overall[i].number,
+                    oaPos: parseInt(overall[i].overallPos),
+                    qualiPos: j+1,
+                    difference: (j+1) - parseInt(overall[i].overallPos)
+                }
+            }
+        }
+    }
+    overQuali.sort((a,b)=>(a.difference < b.difference) ? 1 : -1)
+
+    for(let i=0; i<overQuali.length; i++){
+        let helper = overQuali[i].name;
+        let n = helper.includes("|");
+
+        if(!n){
+            fs.appendFileSync(`${__dirname}/stats.txt`, `${i+1}. [i][size=85]#${overQuali[i].number}[/size][/i] - ${helper} [i][size=85](Qualifying: ${overQuali[i].qualiPos} - Overall: ${overQuali[i].oaPos} - Positions Gained/Lost: ${overQuali[i].difference})[/size][/i]\n`)
+        } else{
+            let name = '';
+            name = helper.substring(0,helper.indexOf("|")).trim();
+            let team = '';
+            team = helper.substring(helper.indexOf("|")+1).trim();
+            let bikeColor = '000000';
+            for(let b=0;b<teams.length;b++){
+                if(overQuali[i].uid === teams[b].uid){
+                    bikeColor = teams[b].bike;
+                    team = teams[b].team;
+                    name = teams[b].name;
+                } else {
+                    //do nothing
+                }
+            }
+            if(team === "Privateer"){bikeColor='000000'}
+            fs.appendFileSync(`${__dirname}/stats.txt`, `${i+1}. [i][size=85]#${overQuali[i].number}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size] [i][size=85](Qualifying: ${overQuali[i].qualiPos} - Overall: ${overQuali[i].oaPos} - Positions Gained/Lost: ${overQuali[i].difference})[/size][/i]\n`)
+        }
+    }
+
+    await browser.close();
+}
