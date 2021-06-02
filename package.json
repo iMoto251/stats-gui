@@ -7,7 +7,6 @@
   "description": "An app that generates statistics for Mx Simulator modeled after the man Kerr.",
   "scripts": {
     "start": "electron .",
-    "postinstall": "install-app-deps",
     "dist": "electron-builder"
   },
   "dependencies": {
