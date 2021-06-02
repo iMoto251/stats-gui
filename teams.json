@@ -340,14 +340,14 @@
     "uid": 4943,
     "name": "Thomas Wilcox",
     "team": "C4Designs",
-    "bike": "00BFFF"
+    "bike": "CC0000"
   },
   {
     "timestamp": "2021-05-30T05:12:35.000Z",
     "uid": 32760,
     "name": "Adam Hauck",
     "team": "C4Designs",
-    "bike": "00BFFF"
+    "bike": "CC0000"
   },
   {
     "timestamp": "2021-05-22T03:51:31.074Z",
@@ -700,18 +700,18 @@
     "bike": "BFBFBF"
   },
   {
+    "timestamp": "2021-05-31T21:35:55.183Z",
+    "uid": 12970,
+    "name": "Will Knau",
+    "team": "FourLoko Designs",
+    "bike": "BFBFBF"
+  },
+  {
     "timestamp": "2021-05-22T03:24:57.190Z",
     "uid": 6521,
     "name": "Logan Heagney",
     "team": "Galaxy",
     "bike": "FF0000"
-  },
-  {
-    "timestamp": "2021-05-25T12:54:14.738Z",
-    "uid": 12970,
-    "name": "Will Knau",
-    "team": "Horizon",
-    "bike": "FF8000"
   },
   {
     "timestamp": "2021-05-30T05:13:08.000Z",
@@ -906,6 +906,13 @@
     "timestamp": "2021-05-25T13:06:49.051Z",
     "uid": 45996,
     "name": "Tanner Scott",
+    "team": "Limited Decal",
+    "bike": "FF0000"
+  },
+  {
+    "timestamp": "2021-05-26T20:33:02.413Z",
+    "uid": 17452,
+    "name": "Chad Paulsen",
     "team": "Limited Decal",
     "bike": "FF0000"
   },
@@ -1435,16 +1442,16 @@
     "bike": "FF0000"
   },
   {
-    "timestamp": "2021-05-30T05:13:02.000Z",
-    "uid": 24588,
-    "name": "Trevor DiBasilio",
+    "timestamp": "2021-05-30T05:12:51.000Z",
+    "uid": 22889,
+    "name": "Zachary Whitaker",
     "team": "T&R Motorsports",
     "bike": "000000"
   },
   {
-    "timestamp": "2021-05-30T05:12:51.000Z",
-    "uid": 22889,
-    "name": "Zachary Whitaker",
+    "timestamp": "2021-05-30T05:13:02.000Z",
+    "uid": 24588,
+    "name": "Trevor DiBasilio",
     "team": "T&R Motorsports",
     "bike": "000000"
   },
@@ -1554,27 +1561,6 @@
     "bike": "FF8000"
   },
   {
-    "timestamp": "2021-05-25T14:23:29.627Z",
-    "uid": 24545,
-    "name": "Carl Novak ",
-    "team": "Underground RC",
-    "bike": "CC0000"
-  },
-  {
-    "timestamp": "2021-05-26T20:33:08.000Z",
-    "uid": 32983,
-    "name": "Layne Wofford",
-    "team": "Underground RC",
-    "bike": "CC0000"
-  },
-  {
-    "timestamp": "2021-05-30T05:12:57.000Z",
-    "uid": 13567,
-    "name": "Ricky Hardman",
-    "team": "Underground RC",
-    "bike": "CC0000"
-  },
-  {
     "timestamp": "2021-05-22T03:22:33.133Z",
     "uid": 10047,
     "name": "Caleb Hall",
@@ -1652,18 +1638,32 @@
     "bike": "00BF00"
   },
   {
+    "timestamp": "2021-05-25T14:23:29.627Z",
+    "uid": 24545,
+    "name": "Carl Novak ",
+    "team": "Underground RC",
+    "bike": "CC0000"
+  },
+  {
+    "timestamp": "2021-05-26T20:33:08.000Z",
+    "uid": 32983,
+    "name": "Layne Wofford",
+    "team": "Underground RC",
+    "bike": "CC0000"
+  },
+  {
+    "timestamp": "2021-05-30T05:12:57.000Z",
+    "uid": 13567,
+    "name": "Ricky Hardman",
+    "team": "Underground RC",
+    "bike": "CC0000"
+  },
+  {
     "timestamp": "2021-05-23T15:53:26.000Z",
     "uid": 30151,
     "name": "Tucker Chitwood",
     "team": "Unlimited.Co",
     "bike": "0000FF"
-  },
-  {
-    "timestamp": "2021-05-26T20:33:02.413Z",
-    "uid": 17452,
-    "name": "Chad Paulsen",
-    "team": "Very Good Racing",
-    "bike": "FF8000"
   },
   {
     "timestamp": "2021-05-27T20:33:02.000Z",
