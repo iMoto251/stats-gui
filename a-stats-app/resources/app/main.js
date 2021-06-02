@@ -1589,7 +1589,7 @@ async function overalls(title, urlm1, urlm2, series, race){
                 }
             }
             if(team === "Privateer"){bikeColor='000000'}
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${a+1}. [i][size=85]#${overall[a].number}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size] [i][size=85](${overall[a].moto1} - ${overall[a].moto2})[/i][/size]\n`)
+            fs.appendFileSync(`${__dirname}/stats.txt`, `${a+1}. [i][size=85]#${overall[a].number}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size] [i][size=85](${overall[a].moto1} - ${overall[a].moto2})[/size][/i]\n`)
         }
     }
     await browser.close();
