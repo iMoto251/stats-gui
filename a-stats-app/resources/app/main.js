@@ -216,6 +216,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Qualifying Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Qualifying')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -229,6 +230,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Consis Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Consi')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -240,6 +242,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Motos Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Motos')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -249,6 +252,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Overalls Done')
     } catch(e){
         await win.webContents.send("statsUpdates", 'Error in Overalls')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -258,6 +262,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Overalls Done')
     } catch(e){
         await win.webContents.send("statsUpdates", 'Error in Overalls')
+        await win.webContents.send("sendError", e)
     }
 
     try{
@@ -268,6 +273,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e) {
         await win.webContents.send("statsUpdates", 'Error in Points')
+        await win.webContents.send("sendError", e)
     }
 
 });
@@ -276,6 +282,7 @@ async function qualSX250Pro(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.writeFile(`${__dirname}/stats.txt`, `[url=${qualurl}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n[b][u]250 Supercross[/b][/u]\n`, 'utf8', () =>{});
@@ -325,6 +332,7 @@ async function qualSX450Pro(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]450 Supercross[/b][/u]\n`);
@@ -374,6 +382,7 @@ async function qualSX250Novice(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.writeFile(`${__dirname}/stats.txt`, `[url=${qualurl}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n[b][u]250 Novice Supercross[/b][/u]\n`, 'utf8', () =>{});
@@ -424,6 +433,7 @@ async function qualSX250Am(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]250 Am Supercross[/b][/u]\n`);
@@ -474,6 +484,7 @@ async function qualSX450Am(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]450 Am Supercross[/b][/u]\n`);
@@ -524,6 +535,7 @@ async function heats(title, num, url){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(url);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]${title} Supercross Heat ${num}[/b][/u]\n`);
@@ -607,6 +619,7 @@ async function lcq(title, url, series, race){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(url);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]${title} ${series} ${race}[/b][/u]\n`);
@@ -690,6 +703,7 @@ async function mains(title, url, series, race){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(url);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]${title} ${series} ${race}[/b][/u]\n`);
@@ -708,21 +722,66 @@ async function mains(title, url, series, race){
         let numberArray = [];
         let nameArray = [];
         let uidArray = [];
+        let totMins = [];
+        let totSecs = [];
+        let completedLaps = [];
         let posNum = position.length;
         for(let i=0;i<position.length;i++){
             numberArray[i] = document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(2)`).innerHTML;
             nameArray[i] = capitalize(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(3) > a:nth-child(1)`).innerHTML);
+            completedLaps[i] = parseInt(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(5)`).innerHTML)
+            totMins[i] = parseInt(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(6)`).innerHTML.substring(0,document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(6)`).innerHTML.indexOf(":")).trim())
+            totSecs[i] = parseFloat(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(6)`).innerHTML.substring(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(6)`).innerHTML.indexOf(":")+1).trim())
             uidArray[i] = parseInt(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(9)`).innerHTML)
         }
-        return {numberArray, nameArray, posNum, uidArray};
+        return {numberArray, nameArray, posNum, totMins, totSecs, completedLaps, uidArray};
     });
+
+    let timeBehind = [];
+    for(let i = 0;i<results.posNum;i++){
+        if(i===0){
+            timeBehind[i] = results.totMins[i].toString() + ":" + results.totSecs[i].toString()
+        } else if(results.completedLaps[i] === results.completedLaps[0]){
+            if(results.totMins[i] === results.totMins[0]){
+                if((results.totSecs[i]-results.totSecs[0])<10){
+                    timeBehind[i] = "0:0" + (results.totSecs[i]-results.totSecs[0]).toFixed(3)
+                }else{
+                    timeBehind[i] = "0:" + (results.totSecs[i]-results.totSecs[0]).toFixed(3)
+                }
+
+            } else if(results.totMins[i] !== results.totMins[0] && results.totSecs[i] < results.totSecs[0]){
+                if((results.totSecs[i]-results.totSecs[0]+60)<10){
+                    timeBehind[i] = "+" + (results.totMins[i]-results.totMins[0] - 1) + ":0" + (results.totSecs[i]-results.totSecs[0]+60).toFixed(3)
+                }else{
+                    timeBehind[i] = "+" + (results.totMins[i]-results.totMins[0] - 1) + ":" + (results.totSecs[i]-results.totSecs[0]+60).toFixed(3)
+                }
+            } else if(results.totMins[i] !== results.totMins[0] && results.totSecs[i] > results.totSecs[0]){
+                if((results.totSecs[i]-results.totSecs[0])<10){
+                    timeBehind[i] = "+" + (results.totMins[i]-results.totMins[0]) + ":0" + (results.totSecs[i]-results.totSecs[0]).toFixed(3)
+                }else{
+                    timeBehind[i] = "+" + (results.totMins[i]-results.totMins[0]) + ":" + (results.totSecs[i]-results.totSecs[0]).toFixed(3)
+                }
+            }
+        } else{
+            if(results.totMins[0] <= results.totMins[i]){
+                if((results.completedLaps[0] - results.completedLaps[i]) === 1){
+                    timeBehind[i] = "+" + (results.completedLaps[0] - results.completedLaps[i]) + " lap"
+                } else {
+                    timeBehind[i] = "+" + (results.completedLaps[0] - results.completedLaps[i]) + " laps"
+                }
+            } else{
+                timeBehind[i] = "DNF"
+            }
+
+        }
+    }
 
     for(let j = 0; j<results.posNum;j++){
         let helper = results.nameArray[j];
         let n = helper.includes("|");
 
         if(!n){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper}\n`)
+            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper} [size=85]- ${timeBehind[j]}\n`)
         } else {
             let name = '';
             name = helper.substring(0,helper.indexOf("|")).trim();
@@ -739,7 +798,7 @@ async function mains(title, url, series, race){
                 }
             }
             if(team === "Privateer"){bikeColor='000000'}
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
+            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color] - ${timeBehind[j]}[/size]\n`)
         }
     }
     await browser.close();
@@ -749,6 +808,7 @@ async function pointsSX250wPro(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]250 West Supercross[/b][/u]\n`);
@@ -799,6 +859,7 @@ async function pointsSX250ePro(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]250 East Supercross[/b][/u]\n`);
@@ -848,6 +909,7 @@ async function pointsSX450Pro(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]450 Supercross[/b][/u]\n`);
@@ -897,6 +959,7 @@ async function pointsSX250Novice(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]250 Novice Supercross[/b][/u]\n`);
@@ -946,6 +1009,7 @@ async function pointsSX250Am(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]250 Am Supercross[/b][/u]\n`);
@@ -995,6 +1059,7 @@ async function pointsSX450Am(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]450 Am Supercross[/b][/u]\n`);
@@ -1044,6 +1109,7 @@ async function qualMX250Pro(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.writeFile(`${__dirname}/stats.txt`, `[url=${qualurl}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n[b][u]250 Motocross[/b][/u]\n`, 'utf8', () =>{});
@@ -1093,6 +1159,7 @@ async function qualMX450Pro(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]450 Motocross[/b][/u]\n`);
@@ -1143,6 +1210,7 @@ async function qualMX250Am(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.writeFile(`${__dirname}/stats.txt`, `[url=${qualurl}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n[b][u]250 Am Motocross[/b][/u]\n`, 'utf8', () =>{});
@@ -1192,6 +1260,7 @@ async function qualMX450Am(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]450 Am Motocross[/b][/u]\n`);
@@ -1241,6 +1310,7 @@ async function pointsMXPro(qualurl, stand, race){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]${race} Motocross[/b][/u]\n`);
@@ -1292,6 +1362,7 @@ async function pointsMX250Am(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]250 Am Motocross[/b][/u]\n`);
@@ -1341,6 +1412,7 @@ async function pointsMX450Am(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]450 Am Motocross[/b][/u]\n`);
@@ -1390,6 +1462,7 @@ async function overalls(title, urlm1, urlm2, series, race){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
     await page.goto(urlm1);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]${title} ${series} ${race}[/b][/u]\n`);
