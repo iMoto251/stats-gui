@@ -781,7 +781,7 @@ async function mains(title, url, series, race){
         let n = helper.includes("|");
 
         if(!n){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper} [size=85]- ${timeBehind[j]}\n`)
+            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper} [size=85]- ${timeBehind[j]}[/size]\n`)
         } else {
             let name = '';
             name = helper.substring(0,helper.indexOf("|")).trim();
