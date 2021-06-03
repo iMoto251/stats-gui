@@ -24,6 +24,7 @@ app.whenReady().then(createWindow);
 ipcMain.on("generateProSxStats", async (event, data) => {
     try{
         await win.webContents.send("statsUpdates", 'Starting')
+        await win.webContents.send("sendError", "")
 
         await qualSX250Pro(data.proSxQualifying);
         await qualSX450Pro(data.proSxQualifying);
@@ -82,6 +83,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
 ipcMain.on("generateAmSxStats", async(event, data) =>{
     try{
         await win.webContents.send("statsUpdates", 'Starting')
+        await win.webContents.send("sendError", "")
 
         await qualSX250Novice(data.amSxQualifying);
         await qualSX250Am(data.amSxQualifying);
@@ -147,6 +149,7 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
 ipcMain.on("generateProMxStats", async (event, data) => {
     try{
         await win.webContents.send("statsUpdates", 'Starting')
+        await win.webContents.send("sendError", "")
 
         await qualMX250Pro(data.proMxQualifying);
         await qualMX450Pro(data.proMxQualifying);
@@ -208,9 +211,10 @@ ipcMain.on("generateProMxStats", async (event, data) => {
 });
 
 ipcMain.on("generateAmMxStats", async (event, data) => {
-    await win.webContents.send("statsUpdates", 'Starting')
-
     try {
+        await win.webContents.send("statsUpdates", 'Starting')
+        await win.webContents.send("sendError", "")
+
         await qualMX250Am(data.amMxQualifying);
         await qualMX450Am(data.amMxQualifying);
         await win.webContents.send("statsUpdates", 'Qualifying Done')
