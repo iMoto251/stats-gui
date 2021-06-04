@@ -22,9 +22,11 @@ const createWindow = () => {
 app.whenReady().then(createWindow);
 
 ipcMain.on("generateProSxStats", async (event, data) => {
+
     try{
         await win.webContents.send("statsUpdates", 'Starting')
-        await win.webContents.send("sendError", "")
+        await win.webContents.send("sendError", `${__dirname}`)
+        //await win.webContents.send("sendError", "")
 
         await qualSX250Pro(data.proSxQualifying);
         await qualSX450Pro(data.proSxQualifying);
