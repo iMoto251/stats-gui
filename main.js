@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const teams = require('./teams.json');
+const path = require('path');
 
 let win = null;
 
@@ -22,20 +23,25 @@ const createWindow = () => {
 app.whenReady().then(createWindow);
 
 ipcMain.on("generateProSxStats", async (event, data) => {
+
     try{
         await win.webContents.send("statsUpdates", 'Starting')
+        //await win.webContents.send("sendError", `${path.join(__dirname, "../../stats.txt")}`)
         await win.webContents.send("sendError", "")
+        //`${__dirname}/stats.txt`
+        //`${path.join(__dirname, "../../stats.txt")}`
 
         await qualSX250Pro(data.proSxQualifying);
         await qualSX450Pro(data.proSxQualifying);
         await win.webContents.send("statsUpdates", 'Qualifying Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Qualifying')
+        await win.webContents.send("sendError", e)
     }
 
     try{
         let coast = data.coast;
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Heat Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Heat Results[/b][/u][/color]\n`)
         await heats(`250 ${coast}`, "1", data.proSxHeat1_250);
         await heats(`250 ${coast}`, "2", data.proSxHeat2_250);
         await heats("450", "1", data.proSxHeat1_450);
@@ -43,10 +49,11 @@ ipcMain.on("generateProSxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Heats Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Heats')
+        await win.webContents.send("sendError", e)
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]LCQ Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]LCQ Results[/b][/u][/color]\n`)
         if(data.proSxLCQ_250Check === false){
             await lcq("250", data.proSxLCQ_250, "Supercross", "LCQ");
         }
@@ -56,19 +63,21 @@ ipcMain.on("generateProSxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'LCQs Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in LCQs')
+        await win.webContents.send("sendError", e)
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Main Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Main Results[/b][/u][/color]\n`)
         await mains("250", data.proSxMain_250, "Supercross", "Main Event");
         await mains("450", data.proSxMain_450, "Supercross", "Main Event");
         await win.webContents.send("statsUpdates", 'Mains Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Mains')
+        await win.webContents.send("sendError", e)
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
         await pointsSX250wPro(data.proSxQualifying);
         await pointsSX250ePro(data.proSxQualifying);
         await pointsSX450Pro(data.proSxQualifying);
@@ -76,6 +85,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e){
         await win.webContents.send("statsUpdates", 'Error in Points')
+        await win.webContents.send("sendError", e)
     }
 
 });
@@ -91,10 +101,11 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
         await win.webContents.send("statsUpdates", 'Qualifying Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Qualifying')
+        await win.webContents.send("sendError", e)
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Heat Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Heat Results[/b][/u][/color]\n`)
         await heats(`250 Novice`, "1", data.amSxHeat1_nov);
         await heats(`250 Novice`, "2", data.amSxHeat2_nov);
         await heats(`250 Am`, "1", data.amSxHeat1_250);
@@ -104,10 +115,11 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
         await win.webContents.send("statsUpdates", 'Heats Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Heats')
+        await win.webContents.send("sendError", e)
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]LCQ Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]LCQ Results[/b][/u][/color]\n`)
 
         if(data.amSxLCQ_NovCheck === false){
             await lcq("250 Novice", data.amSxLCQ_nov, "Supercross", "LCQ");
@@ -121,20 +133,22 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
         await win.webContents.send("statsUpdates", 'LCQs Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in LCQs')
+        await win.webContents.send("sendError", e)
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Main Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Main Results[/b][/u][/color]\n`)
         await mains("250 Novice", data.amSxMain_nov, "Supercross", "Main Event");
         await mains("250 Am", data.amSxMain_250, "Supercross", "Main Event");
         await mains("450 Am", data.amSxMain_450, "Supercross", "Main Event");
         await win.webContents.send("statsUpdates", 'Mains Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Mains')
+        await win.webContents.send("sendError", e)
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
         await pointsSX250Novice(data.amSxQualifying);
         await pointsSX250Am(data.amSxQualifying);
         await pointsSX450Am(data.amSxQualifying);
@@ -142,6 +156,7 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
         await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e){
         await win.webContents.send("statsUpdates", 'Error in Points')
+        await win.webContents.send("sendError", e)
     }
 
 });
@@ -156,10 +171,11 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Qualifying Done')
     } catch (e) {
         await win.webContents.send("statsUpdates", 'Error in Qualifying')
+        await win.webContents.send("sendError", e)
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Consi Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Consi Results[/b][/u][/color]\n`)
         if(data.proMxConsi_250Check === false){
             await lcq("250", data.proMxConsi_250, "Motocross", "Consi");
         }
@@ -169,10 +185,11 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Consis Done')
     } catch (e){
         await win.webContents.send("statsUpdates", 'Error in Consi')
+        await win.webContents.send("sendError", e)
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Moto Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Moto Results[/b][/u][/color]\n`)
         await mains("250", data.proMxMoto1_250, "Motocross", "Moto 1");
         await mains("250", data.proMxMoto2_250, "Motocross", "Moto 2");
         await mains("450", data.proMxMoto1_450, "Motocross", "Moto 1");
@@ -180,33 +197,37 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Motos Done')
     } catch (e){
         await win.webContents.send("statsUpdates", 'Error in Motos')
+        await win.webContents.send("sendError", e)
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Overall Results[/b][/u][/color]\n`);
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Overall Results[/b][/u][/color]\n`);
         await overalls("250", data.proMxMoto1_250, data.proMxMoto2_250, "Motocross", "Overall")
         await overalls("450", data.proMxMoto1_450, data.proMxMoto2_450, "Motocross", "Overall")
         await win.webContents.send("statsUpdates", 'Overalls Done')
     } catch(e){
         await win.webContents.send("statsUpdates", 'Error in Overalls')
+        await win.webContents.send("sendError", e)
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Qualifying to Overall Results Differences[/b][/u][/color]\n`);
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Qualifying to Overall Results Differences[/b][/u][/color]\n`);
         await diffOAQuali("250", data.proMxQualifying, data.proMxMoto1_250, data.proMxMoto2_250, "Motocross", "Quali - Overall Difference")
         await diffOAQuali("450", data.proMxQualifying, data.proMxMoto1_450, data.proMxMoto2_450, "Motocross", "Quali - Overall Difference")
         await win.webContents.send("statsUpdates", 'Overalls Done')
     } catch(e){
-        await win.webContents.send("statsUpdates", 'Error in Overalls')
+        await win.webContents.send("statsUpdates", 'Error in Quali to Overalls')
+        await win.webContents.send("sendError", e)
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
         await pointsMXPro(data.proMxQualifying, data.proMxStand_250, "250");
         await pointsMXPro(data.proMxQualifying, data.proMxStand_450, "450");
         await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e){
         await win.webContents.send("statsUpdates", 'Error in Points')
+        await win.webContents.send("sendError", e)
     }
 });
 
@@ -224,7 +245,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Consi Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Consi Results[/b][/u][/color]\n`)
         if(data.amMxConsi_250Check === false){
             await lcq("250 Am", data.amMxConsi_250, "Motocross", "Consi");
         }
@@ -238,7 +259,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Moto Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Moto Results[/b][/u][/color]\n`)
         await mains("250 Am", data.amMxMoto1_250, "Motocross", "Moto 1");
         await mains("250 Am", data.amMxMoto2_250, "Motocross", "Moto 2");
         await mains("450 Am", data.amMxMoto1_450, "Motocross", "Moto 1");
@@ -250,7 +271,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Overall Results[/b][/u][/color]\n`);
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Overall Results[/b][/u][/color]\n`);
         await overalls("250 Am", data.amMxMoto1_250, data.amMxMoto2_250, "Motocross", "Overall")
         await overalls("450 Am", data.amMxMoto1_450, data.amMxMoto2_450, "Motocross", "Overall")
         await win.webContents.send("statsUpdates", 'Overalls Done')
@@ -260,17 +281,17 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Qualifying to Overall Results Differences[/b][/u][/color]\n`);
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Qualifying to Overall Results Differences[/b][/u][/color]\n`);
         await diffOAQuali("250 Am", data.amMxQualifying, data.amMxMoto1_250, data.amMxMoto2_250, "Motocross", "Quali - Overall Difference")
         await diffOAQuali("450 Am", data.amMxQualifying, data.amMxMoto1_450, data.amMxMoto2_450, "Motocross", "Quali - Overall Difference")
         await win.webContents.send("statsUpdates", 'Overalls Done')
     } catch(e){
-        await win.webContents.send("statsUpdates", 'Error in Overalls')
+        await win.webContents.send("statsUpdates", 'Error in Quali to Overall')
         await win.webContents.send("sendError", e)
     }
 
     try{
-        fs.appendFileSync(`${__dirname}/stats.txt`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
+        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
         await pointsMX250Am(data.amMxQualifying);
         await pointsMX450Am(data.amMxQualifying);
 
@@ -289,7 +310,7 @@ async function qualSX250Pro(qualurl){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.writeFile(`${__dirname}/stats.txt`, `[url=${qualurl}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n[b][u]250 Supercross[/b][/u]\n`, 'utf8', () =>{});
+    fs.writeFile(`${path.join(__dirname, "../../stats.txt")}`, `[url=${qualurl}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n[b][u]250 Supercross[/b][/u]\n`, 'utf8', () =>{});
 
     let qualifying = await page.evaluate(() =>{
         function capitalize(str) {
@@ -324,9 +345,9 @@ async function qualSX250Pro(qualurl){
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -339,7 +360,7 @@ async function qualSX450Pro(qualurl){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]450 Supercross[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]450 Supercross[/b][/u]\n`);
 
     let qualifying = await page.evaluate(() =>{
         function capitalize(str) {
@@ -374,9 +395,9 @@ async function qualSX450Pro(qualurl){
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -389,7 +410,7 @@ async function qualSX250Novice(qualurl){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.writeFile(`${__dirname}/stats.txt`, `[url=${qualurl}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n[b][u]250 Novice Supercross[/b][/u]\n`, 'utf8', () =>{});
+    fs.writeFile(`${path.join(__dirname, "../../stats.txt")}`, `[url=${qualurl}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n[b][u]250 Novice Supercross[/b][/u]\n`, 'utf8', () =>{});
 
     let qualifying = await page.evaluate(() =>{
         function capitalize(str) {
@@ -424,9 +445,9 @@ async function qualSX250Novice(qualurl){
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         }
     }
 
@@ -440,7 +461,7 @@ async function qualSX250Am(qualurl){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]250 Am Supercross[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]250 Am Supercross[/b][/u]\n`);
 
     let qualifying = await page.evaluate(() =>{
         function capitalize(str) {
@@ -475,9 +496,9 @@ async function qualSX250Am(qualurl){
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         }
     }
 
@@ -491,7 +512,7 @@ async function qualSX450Am(qualurl){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]450 Am Supercross[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]450 Am Supercross[/b][/u]\n`);
 
     let qualifying = await page.evaluate(() =>{
         function capitalize(str) {
@@ -526,9 +547,9 @@ async function qualSX450Am(qualurl){
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         }
 
     }
@@ -542,7 +563,7 @@ async function heats(title, num, url){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(url);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]${title} Supercross Heat ${num}[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]${title} Supercross Heat ${num}[/b][/u]\n`);
 
     let results = await page.evaluate(() =>{
         function capitalize(str) {
@@ -572,7 +593,7 @@ async function heats(title, num, url){
             let helper = results.nameArray[j];
             let n = helper.includes("|");
             if(!n){
-                fs.appendFileSync(`${__dirname}/stats.txt`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper}\n`)
+                fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper}\n`)
             } else {
                 let name = '';
                 name = helper.substring(0,helper.indexOf("|")).trim();
@@ -589,13 +610,13 @@ async function heats(title, num, url){
                     }
                 }
                 if(team === "Privateer"){bikeColor='000000'}
-                fs.appendFileSync(`${__dirname}/stats.txt`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
             }
         } else {
             let helper = results.nameArray[j];
             let n = helper.includes("|");
             if(!n){
-                fs.appendFileSync(`${__dirname}/stats.txt`, `[color=#FF0000]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper}\n`)
+                fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `[color=#FF0000]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper}\n`)
             } else {
                 let name = '';
                 name = helper.substring(0,helper.indexOf("|")).trim();
@@ -612,7 +633,7 @@ async function heats(title, num, url){
                     }
                 }
                 if(team === "Privateer"){bikeColor='000000'}
-                fs.appendFileSync(`${__dirname}/stats.txt`, `[color=#FF0000]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `[color=#FF0000]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
             }
         }
     }
@@ -626,7 +647,7 @@ async function lcq(title, url, series, race){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(url);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]${title} ${series} ${race}[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]${title} ${series} ${race}[/b][/u]\n`);
 
     let results = await page.evaluate(() =>{
         function capitalize(str) {
@@ -656,7 +677,7 @@ async function lcq(title, url, series, race){
             let helper = results.nameArray[j];
             let n = helper.includes("|");
             if(!n){
-                fs.appendFileSync(`${__dirname}/stats.txt`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper}\n`)
+                fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper}\n`)
             } else {
                 let name = '';
                 name = helper.substring(0,helper.indexOf("|")).trim();
@@ -673,13 +694,13 @@ async function lcq(title, url, series, race){
                     }
                 }
                 if(team === "Privateer"){bikeColor='000000'}
-                fs.appendFileSync(`${__dirname}/stats.txt`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
             }
         } else {
             let helper = results.nameArray[j];
             let n = helper.includes("|");
             if(!n){
-                fs.appendFileSync(`${__dirname}/stats.txt`, `[color=#FF0000]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper}\n`)
+                fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `[color=#FF0000]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper}\n`)
             } else {
                 let name = '';
                 name = helper.substring(0,helper.indexOf("|")).trim();
@@ -696,7 +717,7 @@ async function lcq(title, url, series, race){
                     }
                 }
                 if(team === "Privateer"){bikeColor='000000'}
-                fs.appendFileSync(`${__dirname}/stats.txt`, `[color=#FF0000]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `[color=#FF0000]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
             }
         }
     }
@@ -710,7 +731,7 @@ async function mains(title, url, series, race){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(url);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]${title} ${series} ${race}[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]${title} ${series} ${race}[/b][/u]\n`);
 
     let results = await page.evaluate(() =>{
         function capitalize(str) {
@@ -785,7 +806,7 @@ async function mains(title, url, series, race){
         let n = helper.includes("|");
 
         if(!n){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper} [size=85]- ${timeBehind[j]}[/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${results.numberArray[j]}[/size][/i] - ${helper} [size=85]- ${timeBehind[j]}[/size]\n`)
         } else {
             let name = '';
             name = helper.substring(0,helper.indexOf("|")).trim();
@@ -802,7 +823,7 @@ async function mains(title, url, series, race){
                 }
             }
             if(team === "Privateer"){bikeColor='000000'}
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color] - ${timeBehind[j]}[/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color] - ${timeBehind[j]}[/size]\n`)
         }
     }
     await browser.close();
@@ -815,7 +836,7 @@ async function pointsSX250wPro(qualurl){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]250 West Supercross[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]250 West Supercross[/b][/u]\n`);
 
     let points = await page.evaluate(() =>{
         function capitalize(str) {
@@ -851,9 +872,9 @@ async function pointsSX250wPro(qualurl){
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             }
         }    }
     await browser.close();
@@ -866,7 +887,7 @@ async function pointsSX250ePro(qualurl){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]250 East Supercross[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]250 East Supercross[/b][/u]\n`);
 
     let points = await page.evaluate(() =>{
         function capitalize(str) {
@@ -901,9 +922,9 @@ async function pointsSX250ePro(qualurl){
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -916,7 +937,7 @@ async function pointsSX450Pro(qualurl){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]450 Supercross[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]450 Supercross[/b][/u]\n`);
 
     let points = await page.evaluate(() =>{
         function capitalize(str) {
@@ -951,9 +972,9 @@ async function pointsSX450Pro(qualurl){
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -966,7 +987,7 @@ async function pointsSX250Novice(qualurl){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]250 Novice Supercross[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]250 Novice Supercross[/b][/u]\n`);
 
     let points = await page.evaluate(() =>{
         function capitalize(str) {
@@ -1001,9 +1022,9 @@ async function pointsSX250Novice(qualurl){
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -1016,7 +1037,7 @@ async function pointsSX250Am(qualurl){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]250 Am Supercross[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]250 Am Supercross[/b][/u]\n`);
 
     let points = await page.evaluate(() =>{
         function capitalize(str) {
@@ -1051,9 +1072,9 @@ async function pointsSX250Am(qualurl){
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -1066,7 +1087,7 @@ async function pointsSX450Am(qualurl){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]450 Am Supercross[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]450 Am Supercross[/b][/u]\n`);
 
     let points = await page.evaluate(() =>{
         function capitalize(str) {
@@ -1101,9 +1122,9 @@ async function pointsSX450Am(qualurl){
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -1116,7 +1137,7 @@ async function qualMX250Pro(qualurl){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.writeFile(`${__dirname}/stats.txt`, `[url=${qualurl}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n[b][u]250 Motocross[/b][/u]\n`, 'utf8', () =>{});
+    fs.writeFile(`${path.join(__dirname, "../../stats.txt")}`, `[url=${qualurl}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n[b][u]250 Motocross[/b][/u]\n`, 'utf8', () =>{});
 
     let qualifying = await page.evaluate(() =>{
         function capitalize(str) {
@@ -1151,9 +1172,9 @@ async function qualMX250Pro(qualurl){
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -1166,7 +1187,7 @@ async function qualMX450Pro(qualurl){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]450 Motocross[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]450 Motocross[/b][/u]\n`);
 
     let qualifying = await page.evaluate(() =>{
         function capitalize(str) {
@@ -1202,9 +1223,9 @@ async function qualMX450Pro(qualurl){
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -1217,7 +1238,7 @@ async function qualMX250Am(qualurl){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.writeFile(`${__dirname}/stats.txt`, `[url=${qualurl}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n[b][u]250 Am Motocross[/b][/u]\n`, 'utf8', () =>{});
+    fs.writeFile(`${path.join(__dirname, "../../stats.txt")}`, `[url=${qualurl}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n[b][u]250 Am Motocross[/b][/u]\n`, 'utf8', () =>{});
 
     let qualifying = await page.evaluate(() =>{
         function capitalize(str) {
@@ -1252,9 +1273,9 @@ async function qualMX250Am(qualurl){
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -1267,7 +1288,7 @@ async function qualMX450Am(qualurl){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]450 Am Motocross[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]450 Am Motocross[/b][/u]\n`);
 
     let qualifying = await page.evaluate(() =>{
         function capitalize(str) {
@@ -1302,9 +1323,9 @@ async function qualMX450Am(qualurl){
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -1317,7 +1338,7 @@ async function pointsMXPro(qualurl, stand, race){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]${race} Motocross[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]${race} Motocross[/b][/u]\n`);
 
 
     let points = await page.evaluate((stand) =>{
@@ -1354,9 +1375,9 @@ async function pointsMXPro(qualurl, stand, race){
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -1369,7 +1390,7 @@ async function pointsMX250Am(qualurl){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]250 Am Motocross[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]250 Am Motocross[/b][/u]\n`);
 
     let points = await page.evaluate(() =>{
         function capitalize(str) {
@@ -1404,9 +1425,9 @@ async function pointsMX250Am(qualurl){
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -1419,7 +1440,7 @@ async function pointsMX450Am(qualurl){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]450 Am Motocross[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]450 Am Motocross[/b][/u]\n`);
 
     let points = await page.evaluate(() =>{
         function capitalize(str) {
@@ -1454,9 +1475,9 @@ async function pointsMX450Am(qualurl){
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -1469,7 +1490,7 @@ async function overalls(title, urlm1, urlm2, series, race){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(urlm1);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]${title} ${series} ${race}[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]${title} ${series} ${race}[/b][/u]\n`);
 
     let resultsm1 = await page.evaluate(() =>{
         function capitalize(str) {
@@ -1667,7 +1688,7 @@ async function overalls(title, urlm1, urlm2, series, race){
         let n = helper.includes("|");
 
         if(!n){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${a+1}. [i][size=85]#${overall[a].number}[/size][/i] - ${helper} [i][size=85](${overall[a].moto1} - ${overall[a].moto2})[/size][/i]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${a+1}. [i][size=85]#${overall[a].number}[/size][/i] - ${helper} [i][size=85](${overall[a].moto1} - ${overall[a].moto2})[/size][/i]\n`)
         } else{
             let name = '';
             name = helper.substring(0,helper.indexOf("|")).trim();
@@ -1684,7 +1705,7 @@ async function overalls(title, urlm1, urlm2, series, race){
                 }
             }
             if(team === "Privateer"){bikeColor='000000'}
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${a+1}. [i][size=85]#${overall[a].number}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size] [i][size=85](${overall[a].moto1} - ${overall[a].moto2})[/size][/i]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${a+1}. [i][size=85]#${overall[a].number}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size] [i][size=85](${overall[a].moto1} - ${overall[a].moto2})[/size][/i]\n`)
         }
     }
     await browser.close();
@@ -1697,7 +1718,7 @@ async function diffOAQuali(title, quali, urlm1, urlm2, series, race){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(quali);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${__dirname}/stats.txt`, `\n[b][u]${title} ${series} ${race}[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]${title} ${series} ${race}[/b][/u]\n`);
 
     let dataTable = '';
     if(title === "250" || title === "450 Am"){
@@ -1948,7 +1969,7 @@ async function diffOAQuali(title, quali, urlm1, urlm2, series, race){
         let n = helper.includes("|");
 
         if(!n){
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${i+1}. [i][size=85]#${overQuali[i].number}[/size][/i] - ${helper} [i][size=85](Qualifying: ${overQuali[i].qualiPos} - Overall: ${overQuali[i].oaPos} - Positions Gained/Lost: ${overQuali[i].difference})[/size][/i]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${i+1}. [i][size=85]#${overQuali[i].number}[/size][/i] - ${helper} [i][size=85](Qualifying: ${overQuali[i].qualiPos} - Overall: ${overQuali[i].oaPos} - Positions Gained/Lost: ${overQuali[i].difference})[/size][/i]\n`)
         } else{
             let name = '';
             name = helper.substring(0,helper.indexOf("|")).trim();
@@ -1965,7 +1986,7 @@ async function diffOAQuali(title, quali, urlm1, urlm2, series, race){
                 }
             }
             if(team === "Privateer"){bikeColor='000000'}
-            fs.appendFileSync(`${__dirname}/stats.txt`, `${i+1}. [i][size=85]#${overQuali[i].number}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size] [i][size=85](Qualifying: ${overQuali[i].qualiPos} - Overall: ${overQuali[i].oaPos} - Positions Gained/Lost: ${overQuali[i].difference})[/size][/i]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${i+1}. [i][size=85]#${overQuali[i].number}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size] [i][size=85](Qualifying: ${overQuali[i].qualiPos} - Overall: ${overQuali[i].oaPos} - Positions Gained/Lost: ${overQuali[i].difference})[/size][/i]\n`)
         }
     }
 
