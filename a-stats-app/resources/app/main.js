@@ -220,15 +220,15 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await win.webContents.send("sendError", e)
     }
 
-    try{
-        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
-        await pointsMXPro(data.proMxQualifying, data.proMxStand_250, "250");
-        await pointsMXPro(data.proMxQualifying, data.proMxStand_450, "450");
-        await win.webContents.send("statsUpdates", 'Finished!')
-    } catch (e){
-        await win.webContents.send("statsUpdates", 'Error in Points')
-        await win.webContents.send("sendError", e)
-    }
+    //try{
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
+    await pointsMXPro(data.proMxQualifying, data.proMxStand_250, "250");
+    await pointsMXPro(data.proMxQualifying, data.proMxStand_450, "450");
+    await win.webContents.send("statsUpdates", 'Finished!')
+    //} catch (e){
+    //await win.webContents.send("statsUpdates", 'Error in Points')
+    //await win.webContents.send("sendError", e)
+    //}
 });
 
 ipcMain.on("generateAmMxStats", async (event, data) => {
@@ -284,18 +284,18 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Qualifying to Overall Results Differences[/b][/u][/color]\n`);
         await diffOAQuali("250 Am", data.amMxQualifying, data.amMxMoto1_250, data.amMxMoto2_250, "Motocross", "Quali - Overall Difference")
         await diffOAQuali("450 Am", data.amMxQualifying, data.amMxMoto1_450, data.amMxMoto2_450, "Motocross", "Quali - Overall Difference")
-        await win.webContents.send("statsUpdates", 'Overalls Done')
+        await win.webContents.send("statsUpdates", 'Quali - Overalls Done')
     } catch(e){
         await win.webContents.send("statsUpdates", 'Error in Quali to Overall')
         await win.webContents.send("sendError", e)
     }
 
     //try{
-        fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
-        await pointsMX250Am(data.amMxQualifying);
-        await pointsMX450Am(data.amMxQualifying);
+    fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
+    await pointsMX250Am(data.amMxQualifying);
+    await pointsMX450Am(data.amMxQualifying);
 
-        await win.webContents.send("statsUpdates", 'Finished!')
+    await win.webContents.send("statsUpdates", 'Finished!')
     //} catch (e) {
     //    await win.webContents.send("statsUpdates", 'Error in Points')
     //    await win.webContents.send("sendError", e)
@@ -1332,16 +1332,45 @@ async function qualMX450Am(qualurl){
 }
 
 async function pointsMXPro(qualurl, stand, race){
-    let browser = await puppeteer.launch({headless: true});
+    let standings = '';
+    let browser = await puppeteer.launch({headless: false});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
+    switch(stand){
+        case "4":
+            standings = 'DataTables_Table_14'
+            break;
+        case "83":
+            standings = 'DataTables_Table_14'
+            break;
+        case "85":
+            standings = 'DataTables_Table_14'
+            break;
+        case "5":
+            standings = 'DataTables_Table_13'
+            break;
+        case "84":
+            standings = 'DataTables_Table_13'
+            break;
+        case "86":
+            standings = 'DataTables_Table_13'
+            break;
+        default:
+            standings = ''
+            break;
+    }
     fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]${race} Motocross[/b][/u]\n`);
+    await page.click('#nav-standings-tab')
+    await page.select('#standingsClassSelector', stand)
+    await page.select(`#${standings}_length > label:nth-child(1) > select:nth-child(1)`, '100')
+    await page.waitForTimeout(5000)
+    console.log(stand + " " + standings)
 
 
-    let points = await page.evaluate((stand) =>{
+    let points = await page.evaluate((standings) =>{
         function capitalize(str) {
             return str.replace(
                 /\w\S*/g,
@@ -1356,13 +1385,14 @@ async function pointsMXPro(qualurl, stand, race){
         let uidArray = [];
 
         for(let i=0;i<20;i++){
-            numberArray[i] = document.querySelector(`#${stand} > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#${stand} > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
-            pointArray[i] = document.querySelector(`#${stand} > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#${stand} > table > tbody > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML)
+            //#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(2)
+            numberArray[i] = document.querySelector(`#${standings} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+            nameArray[i] = capitalize(document.querySelector(`#${standings} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
+            pointArray[i] = document.querySelector(`#${standings} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#${standings} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML)
         }
         return {numberArray, nameArray, pointArray, uidArray};
-    }, stand);
+    }, standings);
     for(let j = 0; j<20;j++){
         let bikeColor = '000000';
         let teamStr = '';
