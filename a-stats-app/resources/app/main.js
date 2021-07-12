@@ -290,16 +290,16 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("sendError", e)
     }
 
-    try{
+    //try{
         fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
         await pointsMX250Am(data.amMxQualifying);
         await pointsMX450Am(data.amMxQualifying);
 
         await win.webContents.send("statsUpdates", 'Finished!')
-    } catch (e) {
-        await win.webContents.send("statsUpdates", 'Error in Points')
-        await win.webContents.send("sendError", e)
-    }
+    //} catch (e) {
+    //    await win.webContents.send("statsUpdates", 'Error in Points')
+    //    await win.webContents.send("sendError", e)
+    //}
 
 });
 
@@ -1391,6 +1391,10 @@ async function pointsMX250Am(qualurl){
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]250 Am Motocross[/b][/u]\n`);
+    await page.click('#nav-standings-tab')
+    await page.select('#standingsClassSelector', '39')
+    await page.select('#DataTables_Table_14_length > label:nth-child(1) > select:nth-child(1)', '100')
+
 
     let points = await page.evaluate(() =>{
         function capitalize(str) {
@@ -1405,11 +1409,12 @@ async function pointsMX250Am(qualurl){
         let nameArray = [];
         let pointArray = [];
         let uidArray = [];
+        //#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(2)
         for(let i=0;i<20;i++){
-            numberArray[i] = document.querySelector(`#standings-39 > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#standings-39 > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
-            pointArray[i] = document.querySelector(`#standings-39 > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#standings-39 > table > tbody > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML)
+            numberArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
+            pointArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML)
         }
         return {numberArray, nameArray, pointArray, uidArray};
     });
@@ -1441,6 +1446,9 @@ async function pointsMX450Am(qualurl){
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[b][u]450 Am Motocross[/b][/u]\n`);
+    await page.click('#nav-standings-tab')
+    await page.select('#standingsClassSelector', '40')
+    await page.select('#DataTables_Table_13_length > label:nth-child(1) > select:nth-child(1)', '100')
 
     let points = await page.evaluate(() =>{
         function capitalize(str) {
@@ -1455,11 +1463,12 @@ async function pointsMX450Am(qualurl){
         let nameArray = [];
         let pointArray = [];
         let uidArray = [];
+        //#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(2)
         for(let i=0;i<20;i++){
-            numberArray[i] = document.querySelector(`#standings-40 > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#standings-40 > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
-            pointArray[i] = document.querySelector(`#standings-40 > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#standings-40 > table > tbody > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML)
+            numberArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
+            pointArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML)
         }
         return {numberArray, nameArray, pointArray, uidArray};
     });
@@ -1968,27 +1977,39 @@ async function diffOAQuali(title, quali, urlm1, urlm2, series, race){
         let helper = overQuali[i].name;
         let n = helper.includes("|");
 
-        if(!n){
-            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${i+1}. [i][size=85]#${overQuali[i].number}[/size][/i] - ${helper} [i][size=85](Qualifying: ${overQuali[i].qualiPos} - Overall: ${overQuali[i].oaPos} - Positions Gained/Lost: ${overQuali[i].difference})[/size][/i]\n`)
-        } else{
-            let name = '';
-            name = helper.substring(0,helper.indexOf("|")).trim();
-            let team = '';
-            team = helper.substring(helper.indexOf("|")+1).trim();
-            let bikeColor = '000000';
-            for(let b=0;b<teams.length;b++){
-                if(overQuali[i].uid === teams[b].uid){
-                    bikeColor = teams[b].bike;
-                    team = teams[b].team;
-                    name = teams[b].name;
-                } else {
-                    //do nothing
-                }
-            }
-            if(team === "Privateer"){bikeColor='000000'}
-            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${i+1}. [i][size=85]#${overQuali[i].number}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size] [i][size=85](Qualifying: ${overQuali[i].qualiPos} - Overall: ${overQuali[i].oaPos} - Positions Gained/Lost: ${overQuali[i].difference})[/size][/i]\n`)
+        if(i === 0){
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `Top 5 Most Improved\n`)
         }
+        if(i === (overQuali.length-5)){
+            fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `Top 5 Least Improved\n`)
+        }
+
+        if(i < 5 || i > (overQuali.length-6)){
+            if(!n){
+                fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${i+1}. [i][size=85]#${overQuali[i].number}[/size][/i] - ${helper} [i][size=85](Qualifying: ${overQuali[i].qualiPos} - Overall: ${overQuali[i].oaPos} - Positions Gained/Lost: ${overQuali[i].difference})[/size][/i]\n`)
+            } else{
+                let name = '';
+                name = helper.substring(0,helper.indexOf("|")).trim();
+                let team = '';
+                team = helper.substring(helper.indexOf("|")+1).trim();
+                let bikeColor = '000000';
+                for(let b=0;b<teams.length;b++){
+                    if(overQuali[i].uid === teams[b].uid){
+                        bikeColor = teams[b].bike;
+                        team = teams[b].team;
+                        name = teams[b].name;
+                    } else {
+                        //do nothing
+                    }
+                }
+                if(team === "Privateer"){bikeColor='000000'}
+                fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `${i+1}. [i][size=85]#${overQuali[i].number}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size] [i][size=85](Qualifying: ${overQuali[i].qualiPos} - Overall: ${overQuali[i].oaPos} - Positions Gained/Lost: ${overQuali[i].difference})[/size][/i]\n`)
+            }
+        }
+
     }
 
     await browser.close();
 }
+
+
