@@ -220,15 +220,22 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await win.webContents.send("sendError", e)
     }
 
-    //try{
+    try{
     fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
     await pointsMXPro(data.proMxQualifying, data.proMxStand_250, "250");
     await pointsMXPro(data.proMxQualifying, data.proMxStand_450, "450");
     await win.webContents.send("statsUpdates", 'Finished!')
-    //} catch (e){
-    //await win.webContents.send("statsUpdates", 'Error in Points')
-    //await win.webContents.send("sendError", e)
-    //}
+    } catch (e){
+    await win.webContents.send("statsUpdates", 'Error in Points')
+    await win.webContents.send("sendError", e)
+    }
+
+    try{
+        fs.appendFileSync()
+    } catch (e){
+        await win.webContents.send("statsUpdates", 'Error in Others')
+        await win.webContents.send("sendError", e)
+    }
 });
 
 ipcMain.on("generateAmMxStats", async (event, data) => {
@@ -290,16 +297,16 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("sendError", e)
     }
 
-    //try{
+    try{
     fs.appendFileSync(`${path.join(__dirname, "../../stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
     await pointsMX250Am(data.amMxQualifying);
     await pointsMX450Am(data.amMxQualifying);
 
     await win.webContents.send("statsUpdates", 'Finished!')
-    //} catch (e) {
-    //    await win.webContents.send("statsUpdates", 'Error in Points')
-    //    await win.webContents.send("sendError", e)
-    //}
+    } catch (e) {
+        await win.webContents.send("statsUpdates", 'Error in Points')
+        await win.webContents.send("sendError", e)
+    }
 
 });
 
@@ -2041,5 +2048,3 @@ async function diffOAQuali(title, quali, urlm1, urlm2, series, race){
 
     await browser.close();
 }
-
-
