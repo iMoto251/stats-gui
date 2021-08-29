@@ -1340,7 +1340,7 @@ async function qualMX450Am(qualurl){
 
 async function pointsMXPro(qualurl, stand, race){
     let standings = '';
-    let browser = await puppeteer.launch({headless: false});
+    let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
     await page.setDefaultNavigationTimeout(120000);
