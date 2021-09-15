@@ -229,13 +229,6 @@ ipcMain.on("generateProMxStats", async (event, data) => {
     await win.webContents.send("statsUpdates", 'Error in Points')
     await win.webContents.send("sendError", e)
     }
-
-    try{
-        fs.appendFileSync()
-    } catch (e){
-        await win.webContents.send("statsUpdates", 'Error in Others')
-        await win.webContents.send("sendError", e)
-    }
 });
 
 ipcMain.on("generateAmMxStats", async (event, data) => {
