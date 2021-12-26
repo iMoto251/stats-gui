@@ -6,7 +6,7 @@ Very **very** rough, but funcitonal, statistics generator for Mx Simulator in ra
 The web scraper is built utilizing puppeteer.
 
 ## GUI
-The GUI is in HTML packed by electron.
+The GUI is in HTML and CSS packed by electron.
 
 ## Upcoming projects
 - MSI installer to install the program and all dependencies for ease of use.
