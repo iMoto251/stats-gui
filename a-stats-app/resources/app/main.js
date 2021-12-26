@@ -26,10 +26,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
 
     try{
         await win.webContents.send("statsUpdates", 'Starting')
-        //await win.webContents.send("sendError", `${path.join(__dirname, "../../stats.txt")}`)
         await win.webContents.send("sendError", "")
-        //`${__dirname}/stats.txt`
-        //`${path.join(__dirname, "../../stats.txt")}`
 
         await qualSX250Pro(data.proSxQualifying);
         await qualSX450Pro(data.proSxQualifying);
@@ -1770,6 +1767,7 @@ async function diffOAQuali(title, quali, urlm1, urlm2, series, race){
         dataTable = 'DataTables_Table_3'
     }
 
+
     let qualifying = await page.evaluate((dataTable) =>{
         function capitalize(str) {
             return str.replace(
@@ -1794,6 +1792,8 @@ async function diffOAQuali(title, quali, urlm1, urlm2, series, race){
 
     await page.goto(urlm1);
     await page.waitForTimeout(2000);
+
+    
 
     let resultsm1 = await page.evaluate(() =>{
         function capitalize(str) {
