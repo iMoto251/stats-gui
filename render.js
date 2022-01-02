@@ -4,6 +4,7 @@ const generateProSxStats =  () => {
     ipcRenderer.send(
         "generateProSxStats",
         {
+            proSxQualiCheck: document.querySelector(".proSxQualiCheck").checked,
             proSxQualifying: document.querySelector(".proSxQualifying").value,
             proSxHeat1_250: document.querySelector('.proSxHeat1_250').value,
             proSxHeat2_250: document.querySelector('.proSxHeat2_250').value,
@@ -17,6 +18,7 @@ const generateProSxStats =  () => {
             proSxMain_450: document.querySelector('.proSxMain_450').value,
             coast: document.querySelector('.coast').value
         },
+        document.querySelector(".proSxQualiCheck").checked,
         document.querySelector(".proSxQualifying").value,
         document.querySelector('.proSxHeat1_250').value,
         document.querySelector('.proSxHeat2_250').value,
@@ -36,6 +38,7 @@ const generateAmSxStats = () => {
     ipcRenderer.send(
         "generateAmSxStats",
         {
+            amSxQualiCheck: document.querySelector(".amSxQualiCheck").checked,
             amSxQualifying: document.querySelector(".amSxQualifying").value,
             amSxHeat1_nov: document.querySelector('.amSxHeat1_nov').value,
             amSxHeat2_nov: document.querySelector('.amSxHeat2_nov').value,
@@ -53,6 +56,7 @@ const generateAmSxStats = () => {
             amSxMain_250: document.querySelector('.amSxMain_250').value,
             amSxMain_450: document.querySelector('.amSxMain_450').value
         },
+        document.querySelector(".amSxQualiCheck").checked,
         document.querySelector(".amSxQualifying").value,
         document.querySelector('.amSxHeat1_nov').value,
         document.querySelector('.amSxHeat2_nov').value,
@@ -76,6 +80,7 @@ const generateProMxStats =  () => {
     ipcRenderer.send(
         "generateProMxStats",
         {
+            proMxQualiCheck: document.querySelector(".proMxQualiCheck").checked,
             proMxQualifying: document.querySelector(".proMxQualifying").value,
             proMxConsi_250Check: document.querySelector(".proMxConsi_250Check").checked,
             proMxConsi_250: document.querySelector(".proMxConsi_250").value,
@@ -88,6 +93,7 @@ const generateProMxStats =  () => {
             proMxMoto2_450: document.querySelector(".proMxMoto2_450").value,
             proMxStand_450: document.querySelector(".standings450").value,
         },
+        document.querySelector(".proMxQualiCheck").checked,
         document.querySelector(".proMxQualifying").value,
         document.querySelector(".proMxConsi_250Check").checked,
         document.querySelector(".proMxConsi_250").value,
@@ -106,6 +112,7 @@ const generateAmMxStats =  () => {
     ipcRenderer.send(
         "generateAmMxStats",
         {
+            amMxQualiCheck: document.querySelector(".amMxQualiCheck").checked,
             amMxQualifying: document.querySelector(".amMxQualifying").value,
             amMxConsi_250Check: document.querySelector(".amMxConsi_250Check").checked,
             amMxConsi_250: document.querySelector(".amMxConsi_250").value,
@@ -116,6 +123,7 @@ const generateAmMxStats =  () => {
             amMxMoto1_450: document.querySelector(".amMxMoto1_450").value,
             amMxMoto2_450: document.querySelector(".amMxMoto2_450").value
         },
+        document.querySelector(".amMxQualiCheck").checked,
         document.querySelector(".amMxQualifying").value,
         document.querySelector(".amMxConsi_250Check").checked,
         document.querySelector(".amMxConsi_250").value,
