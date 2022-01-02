@@ -93,6 +93,22 @@ input {
     width: 30px;
 }
 
+.proSxQualiCheck{
+    width: 30px;
+}
+
+.amSxQualiCheck{
+    width: 30px;
+}
+
+.proMxQualiCheck{
+    width: 30px;
+}
+
+.amMxQualiCheck{
+    width: 30px;
+}
+
 button {
     margin: 20px;
     height: 40px;
@@ -121,7 +137,7 @@ p.inputs{
 
 p.buttons{
     display: grid;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto auto;
 }
 
 button.generateButton{
@@ -144,5 +160,13 @@ button.generateButton{
 }
 
 #mxAm{
+    display: none;
+}
+
+#sxRace{
+    display: none;
+}
+
+#mxRace{
     display: none;
 }

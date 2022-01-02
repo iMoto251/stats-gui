@@ -19,12 +19,15 @@
 
 <div id="sxPro">
     <p class="inputs">
+        <label>No Qualifying</label>
+        <input type="checkbox" class="proSxQualiCheck"/>
         <label>Qualifying</label>
         <input type="text" class="proSxQualifying" placeholder="Qualifying URL">
         <label>250 Coast</label>
         <select class="coast">
             <option value="West">West</option>
             <option value="East">East</option>
+            <option value="None">None</option>
         </select>
         <label>250 Heat 1</label>
         <input type="text" class="proSxHeat1_250" placeholder="250 Heat 1">
@@ -52,6 +55,8 @@
 
 <div id="sxAm">
     <p class="inputs">
+        <label>No Qualifying</label>
+        <input type="checkbox" class="amSxQualiCheck"/>
         <label>Qualifying</label>
         <input type="text" class="amSxQualifying" placeholder="Qualifying URL">
         <label>Novice Heat 1</label>
@@ -90,6 +95,8 @@
 
 <div id="mxPro">
     <p class="inputs">
+        <label>No Qualifying</label>
+        <input type="checkbox" class="proMxQualiCheck"/>
         <label>Qualifying</label>
         <input type="text" class="proMxQualifying" placeholder="Qualifying URL">
         <label>No 250 Consi</label>
@@ -126,6 +133,8 @@
 
 <div id="mxAm">
     <p class="inputs">
+        <label>No Qualifying</label>
+        <input type="checkbox" class="amMxQualiCheck"/>
         <label>Qualifying</label>
         <input type="text" class="amMxQualifying" placeholder="Qualifying URL">
         <label>No 250 Consi</label>
@@ -148,7 +157,6 @@
     <button class="generateButton" onclick="generateAmMxStats()">Generate Am MX Stats</button>
 </div>
 
-
 <h1 id="finished"></h1>
 <h1 id="error"></h1>
 
@@ -157,12 +165,16 @@
         const sxPro = document.getElementById("sxPro");
         const sxAm = document.getElementById("sxAm");
         const mxPro = document.getElementById("mxPro");
-        const mxAm = document.getElementById("mxAm")
+        const mxAm = document.getElementById("mxAm");
+        const sxRace = document.getElementById("sxRace");
+        const mxRace = document.getElementById("mxRace");
         if(sxPro.style.display === "none"){
             sxPro.style.display = "block";
             sxAm.style.display = "none";
             mxPro.style.display = "none";
             mxAm.style.display = "none";
+            sxRace.style.display = "none";
+            mxRace.style.display = "none";
         } else {
             sxPro.style.display = "none";
         }
@@ -171,7 +183,7 @@
         const sxPro = document.getElementById("sxPro");
         const sxAm = document.getElementById("sxAm");
         const mxPro = document.getElementById("mxPro");
-        const mxAm = document.getElementById("mxAm")
+        const mxAm = document.getElementById("mxAm");
         if(sxAm.style.display === "none"){
             sxAm.style.display = "block";
             sxPro.style.display = "none";
@@ -185,7 +197,7 @@
         const sxPro = document.getElementById("sxPro");
         const sxAm = document.getElementById("sxAm");
         const mxPro = document.getElementById("mxPro");
-        const mxAm = document.getElementById("mxAm")
+        const mxAm = document.getElementById("mxAm");
         if(mxPro.style.display === "none"){
             mxPro.style.display = "block";
             sxPro.style.display = "none";
@@ -199,7 +211,7 @@
         const sxPro = document.getElementById("sxPro");
         const sxAm = document.getElementById("sxAm");
         const mxPro = document.getElementById("mxPro");
-        const mxAm = document.getElementById("mxAm")
+        const mxAm = document.getElementById("mxAm");
         if(mxAm.style.display === "none"){
             mxAm.style.display = "block";
             mxPro.style.display = "none";
@@ -208,6 +220,7 @@
         } else {
             mxAm.style.display = "none";
         }
+    
     }
 </script>
 </body>
