@@ -87,8 +87,16 @@ ipcMain.on("generateProSxStats", async (event, data) => {
     try{
         if(data.proSxQualiCheck === false){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
-            await pointsSX250wPro(data.proSxQualifying);
-            await pointsSX250ePro(data.proSxQualifying);
+            if(data.coast === "West"){
+                await pointsSX250wPro(data.proSxQualifying);
+            } else if(data.coast === "East"){
+                await pointsSX250ePro(data.proSxQualifying);
+            } else {
+                await pointsSX250wPro(data.proSxQualifying);
+                await pointsSX250ePro(data.proSxQualifying);
+            }
+            
+            
             await pointsSX450Pro(data.proSxQualifying);
         }
         await win.webContents.send("statsUpdates", 'Finished!')
@@ -890,10 +898,6 @@ async function pointsSX250wPro(qualurl){
         let pointArray = [];
         let uidArray = [];
         for(let i=0;i<20;i++){
-            //#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(2)
-            //#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(3)
-            //#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(5)
-            //#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(4)
             numberArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
             nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
             pointArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
@@ -902,23 +906,22 @@ async function pointsSX250wPro(qualurl){
         return {numberArray, nameArray, pointArray, uidArray};
     });
     for(let j = 0; j<20;j++){
-        for(let j = 0; j<20;j++){
-            let bikeColor = '000000';
-            let teamStr = '';
-            for(let k=0; k<teams.length; k++){
-                if(points.uidArray[j] === teams[k].uid){
-                    bikeColor = teams[k].bike;
-                    teamStr = teams[k].team;
-                } else{
-                    //do nothing
-                }
-            }
-            if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+        let bikeColor = '000000';
+        let teamStr = '';
+        for(let k=0; k<teams.length; k++){
+            if(points.uidArray[j] === teams[k].uid){
+                bikeColor = teams[k].bike;
+                teamStr = teams[k].team;
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                //do nothing
             }
-        }    }
+        }
+        if(teamStr !== ''){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+        } else{
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+        }
+    }
     await browser.close();
 }
 
@@ -949,7 +952,6 @@ async function pointsSX250ePro(qualurl){
         let pointArray = [];
         let uidArray = [];
         for(let i=0;i<20;i++){
-            //#DataTables_Table_15 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(2)
             numberArray[i] = document.querySelector(`#DataTables_Table_15 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
             nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_15 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
             pointArray[i] = document.querySelector(`#DataTables_Table_15 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
