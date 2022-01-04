@@ -23,5 +23,5 @@ The GUI is in HTML and CSS packed by electron.
 2. Open a command prompt in administrator mode
 3. Run the command `npm install --global yarn`
 4. Clone the [repository](https://github.com/iMoto251/stats-gui.git) or [download the zip file](https://github.com/iMoto251/stats-gui/archive/refs/heads/main.zip) and extract the folder to your desired location
-5. Run the Install.bat file to install necessary dependencies
+5. Run the Install.bat file to install necessary dependencies (This can take a while depending on internet speed)
 6. Run the StartApp.bat file to start the app
