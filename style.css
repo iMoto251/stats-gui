@@ -109,6 +109,18 @@ input {
     width: 30px;
 }
 
+.proSxTcQualiCheck{
+    width: 30px;
+}
+
+.proSxTcLCQ_250Check{
+    width: 30px;
+}
+
+.proSxTcLCQ_450Check{
+    width: 30px;
+}
+
 button {
     margin: 20px;
     height: 40px;
@@ -151,7 +163,15 @@ button.generateButton{
     display: block;
 }
 
+#sxProTC{
+    display: none;
+}
+
 #sxAm{
+    display: none;
+}
+
+#sxAmTC{
     display: none;
 }
 
@@ -160,13 +180,5 @@ button.generateButton{
 }
 
 #mxAm{
-    display: none;
-}
-
-#sxRace{
-    display: none;
-}
-
-#mxRace{
     display: none;
 }
