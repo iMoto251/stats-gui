@@ -34,6 +34,40 @@ const generateProSxStats =  () => {
     );
 }
 
+const generateProSxTCStats = () => {
+    ipcRenderer.send(
+        "generateProSxTCStats",
+        {
+            proSxTcQualiCheck: document.querySelector(".proSxTcQualiCheck").checked,
+            proSxTcQualifying: document.querySelector(".proSxTcQualifying").value,
+            proSxTcLCQ_250: document.querySelector(".proSxTcLCQ_250").value,
+            proSxTcLCQ_250Check: document.querySelector('.proSxTcLCQ_250Check').checked,
+            proSxTcLCQ_450: document.querySelector(".proSxTcLCQ_450").value,
+            proSxTcLCQ_450Check: document.querySelector('.proSxTcLCQ_450Check').checked,
+            proSxTcMain1_250: document.querySelector('.proSxTcMain1_250').value,
+            proSxTcMain2_250: document.querySelector('.proSxTcMain2_250').value,
+            proSxTcMain3_250: document.querySelector('.proSxTcMain3_250').value,
+            proSxTcMain1_450: document.querySelector('.proSxTcMain1_450').value,
+            proSxTcMain2_450: document.querySelector('.proSxTcMain2_450').value,
+            proSxTcMain3_450: document.querySelector('.proSxTcMain3_450').value,
+            coast: document.querySelector('.coast').value
+        },
+        document.querySelector(".proSxTcQualiCheck").checked,
+        document.querySelector(".proSxTcQualifying").value,
+        document.querySelector(".proSxTcLCQ_250").value,
+        document.querySelector('.proSxTcLCQ_250Check').checked,
+        document.querySelector(".proSxTcLCQ_450").value,
+        document.querySelector('.proSxTcLCQ_450Check').checked,
+        document.querySelector('.proSxTcMain1_250').value,
+        document.querySelector('.proSxTcMain2_250').value,
+        document.querySelector('.proSxTcMain3_250').value,
+        document.querySelector('.proSxTcMain1_450').value,
+        document.querySelector('.proSxTcMain2_450').value,
+        document.querySelector('.proSxTcMain3_450').value,
+        document.querySelector('.coast').value
+    );
+}
+
 const generateAmSxStats = () => {
     ipcRenderer.send(
         "generateAmSxStats",
@@ -73,6 +107,36 @@ const generateAmSxStats = () => {
         document.querySelector('.amSxMain_nov').value,
         document.querySelector('.amSxMain_250').value,
         document.querySelector('.amSxMain_450').value
+    );
+}
+
+const generateAmSxTCStats = () => {
+    ipcRenderer.send(
+        "generateAmSxStats",
+        {
+            amSxQualiCheck: document.querySelector(".amSxQualiCheck").checked,
+            amSxQualifying: document.querySelector(".amSxQualifying").value,
+            amSxTcMain1_Nov: document.querySelector('.amSxTcMain1_Nov').value,
+            amSxTcMain2_Nov: document.querySelector('.amSxTcMain2_Nov').value,
+            amSxTcMain3_Nov: document.querySelector('.amSxTcMain3_Nov').value,
+            amSxTcMain1_250: document.querySelector('.amSxTcMain1_250').value,
+            amSxTcMain2_250: document.querySelector('.amSxTcMain2_250').value,
+            amSxTcMain3_250: document.querySelector('.amSxTcMain3_250').value,
+            amSxTcMain1_450: document.querySelector('.amSxTcMain1_450').value,
+            amSxTcMain2_450: document.querySelector('.amSxTcMain2_450').value,
+            amSxTcMain3_450: document.querySelector('.amSxTcMain3_450').value,
+        },
+        document.querySelector(".amSxQualiCheck").checked,
+        document.querySelector(".amSxQualifying").value,
+        document.querySelector('.amSxTcMain1_Nov').value,
+        document.querySelector('.amSxTcMain2_Nov').value,
+        document.querySelector('.amSxTcMain3_Nov').value,
+        document.querySelector('.amSxTcMain1_250').value,
+        document.querySelector('.amSxTcMain2_250').value,
+        document.querySelector('.amSxTcMain3_250').value,
+        document.querySelector('.amSxTcMain1_450').value,
+        document.querySelector('.amSxTcMain2_450').value,
+        document.querySelector('.amSxTcMain3_450').value,
     );
 }
 

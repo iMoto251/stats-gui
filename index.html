@@ -12,7 +12,9 @@
 <h1>MX Simulator Auto Statistics Generator</h1>
 <p class="buttons">
     <button onclick="showSxPro()">Pro Supercross</button>
+    <button onclick="showSxProTC()">Pro Sx Triple Crown</button>
     <button onclick="showSxAm()">Am Supercross</button>
+    <button onclick="showSxAmTC()">Am Sx Triple Crown</button>
     <button onclick="showMxPro()">Pro Motocross</button>
     <button onclick="showMxAm()">Am Motocross</button>
 </p>
@@ -53,6 +55,42 @@
     <button class="generateButton" onclick="generateProSxStats()">Generate Pro SX Stats</button>
 </div>
 
+<div id="sxProTC">
+    <p class="inputs">
+        <label>No Qualifying</label>
+        <input type="checkbox" class="proSxTcQualiCheck"/>
+        <label>Qualifying</label>
+        <input type="text" class="proSxTcQualifying" placeholder="Qualifying URL">
+        <label>250 Coast</label>
+        <select class="coast">
+            <option value="West">West</option>
+            <option value="East">East</option>
+            <option value="None">None</option>
+        </select>
+        <label>No 250 LCQ</label>
+        <input type="checkbox" class="proSxTcLCQ_250Check"/>
+        <label>250 LCQ</label>
+        <input type="text" class="proSxTcLCQ_250" placeholder="250 LCQ">
+        <label>No 450 LCQ</label>
+        <input type="checkbox" class="proSxTcLCQ_450Check"/>
+        <label>450 LCQ</label>
+        <input type="text" class="proSxTcLCQ_450" placeholder="450 LCQ">
+        <label>250 Main 1</label>
+        <input type="text" class="proSxTcMain1_250" placeholder="250 Main 1">
+        <label>250 Main 2</label>
+        <input type="text" class="proSxTcMain2_250" placeholder="250 Main 2">
+        <label>250 Main 3</label>
+        <input type="text" class="proSxTcMain3_250" placeholder="250 Main 3">
+        <label>450 Main 1</label>
+        <input type="text" class="proSxTcMain1_450" placeholder="450 Main 1">
+        <label>450 Main 2</label>
+        <input type="text" class="proSxTcMain2_450" placeholder="450 Main 2">
+        <label>450 Main 3</label>
+        <input type="text" class="proSxTcMain3_450" placeholder="450 Main 3">
+    </p>
+    <button class="generateButton" onclick="generateProSxTCStats()">Generate Pro SX Triple Crown Stats</button>
+</div>
+
 <div id="sxAm">
     <p class="inputs">
         <label>No Qualifying</label>
@@ -91,6 +129,34 @@
         <input type="text" class="amSxMain_450" placeholder="450 Am Main">
     </p>
     <button class="generateButton" onclick="generateAmSxStats()">Generate Am SX Stats</button>
+</div>
+
+<div id="sxAmTC">
+    <p class="inputs">
+        <label>No Qualifying</label>
+        <input type="checkbox" class="amSxQualiCheck"/>
+        <label>Qualifying</label>
+        <input type="text" class="amSxQualifying" placeholder="Qualifying URL">
+        <label>250 Novice Main 1</label>
+        <input type="text" class="amSxTcMain1_Nov" placeholder="Novice Main 1">
+        <label>250 Novice Main 2</label>
+        <input type="text" class="amSxTcMain2_Nov" placeholder="Novice Main 2">
+        <label>250 Novice Main 3</label>
+        <input type="text" class="amSxTcMain3_Nov" placeholder="Novice Main 3">
+        <label>250 Am Main 1</label>
+        <input type="text" class="amSxTcMain1_250" placeholder="250 Main 1">
+        <label>250 Am Main 2</label>
+        <input type="text" class="amSxTcMain2_250" placeholder="250 Main 2">
+        <label>250 Am Main 3</label>
+        <input type="text" class="amSxTcMain3_250" placeholder="250 Main 3">
+        <label>450 Am Main 1</label>
+        <input type="text" class="amSxTcMain1_450" placeholder="450 Main 1">
+        <label>450 Am Main 2</label>
+        <input type="text" class="amSxTcMain2_450" placeholder="450 Main 2">
+        <label>450 Am Main 3</label>
+        <input type="text" class="amSxTcMain3_450" placeholder="450 Main 3">
+    </p>
+    <button class="generateButton" onclick="generateAmSxTCStats()">Generate Am SX Triple Crown Stats</button>
 </div>
 
 <div id="mxPro">
@@ -157,6 +223,8 @@
     <button class="generateButton" onclick="generateAmMxStats()">Generate Am MX Stats</button>
 </div>
 
+
+
 <h1 id="finished"></h1>
 <h1 id="error"></h1>
 
@@ -166,17 +234,35 @@
         const sxAm = document.getElementById("sxAm");
         const mxPro = document.getElementById("mxPro");
         const mxAm = document.getElementById("mxAm");
-        const sxRace = document.getElementById("sxRace");
-        const mxRace = document.getElementById("mxRace");
+        const sxProTC = document.getElementById("sxProTC");
+        const sxAmTC = document.getElementById("sxAmTC");
         if(sxPro.style.display === "none"){
             sxPro.style.display = "block";
             sxAm.style.display = "none";
             mxPro.style.display = "none";
             mxAm.style.display = "none";
-            sxRace.style.display = "none";
-            mxRace.style.display = "none";
+            sxProTC.style.display = "none";
+            sxAmTC.style.display = "none";
         } else {
             sxPro.style.display = "none";
+        }
+    }
+    function showSxProTC(){
+        const sxPro = document.getElementById("sxPro");
+        const sxAm = document.getElementById("sxAm");
+        const mxPro = document.getElementById("mxPro");
+        const mxAm = document.getElementById("mxAm");
+        const sxProTC = document.getElementById("sxProTC");
+        const sxAmTC = document.getElementById("sxAmTC");
+        if(sxProTC.style.display === "none"){
+            sxProTC.style.display = "block";
+            sxAm.style.display = "none";
+            mxPro.style.display = "none";
+            mxAm.style.display = "none";
+            sxPro.style.display = "none";
+            sxAmTC.style.display = "none";
+        } else {
+            sxProTC.style.display = "none";
         }
     }
     function showSxAm(){
@@ -184,13 +270,35 @@
         const sxAm = document.getElementById("sxAm");
         const mxPro = document.getElementById("mxPro");
         const mxAm = document.getElementById("mxAm");
+        const sxProTC = document.getElementById("sxProTC");
+        const sxAmTC = document.getElementById("sxAmTC");
         if(sxAm.style.display === "none"){
             sxAm.style.display = "block";
             sxPro.style.display = "none";
             mxPro.style.display = "none";
             mxAm.style.display = "none";
+            sxProTC.style.display = "none";
+            sxAmTC.style.display = "none";
         } else {
             sxAm.style.display = "none";
+        }
+    }
+    function showSxAmTC(){
+        const sxPro = document.getElementById("sxPro");
+        const sxAm = document.getElementById("sxAm");
+        const mxPro = document.getElementById("mxPro");
+        const mxAm = document.getElementById("mxAm");
+        const sxProTC = document.getElementById("sxProTC");
+        const sxAmTC = document.getElementById("sxAmTC");
+        if(sxAmTC.style.display === "none"){
+            sxAmTC.style.display = "block";
+            sxAm.style.display = "none";
+            sxPro.style.display = "none";
+            mxPro.style.display = "none";
+            mxAm.style.display = "none";
+            sxProTC.style.display = "none";
+        } else {
+            sxAmTC.style.display = "none";
         }
     }
     function showMxPro(){
@@ -198,11 +306,15 @@
         const sxAm = document.getElementById("sxAm");
         const mxPro = document.getElementById("mxPro");
         const mxAm = document.getElementById("mxAm");
+        const sxProTC = document.getElementById("sxProTC");
+        const sxAmTC = document.getElementById("sxAmTC");
         if(mxPro.style.display === "none"){
             mxPro.style.display = "block";
             sxPro.style.display = "none";
             sxAm.style.display = "none";
             mxAm.style.display = "none";
+            sxProTC.style.display = "none";
+            sxAmTC.style.display = "none";
         } else {
             mxPro.style.display = "none";
         }
@@ -212,15 +324,18 @@
         const sxAm = document.getElementById("sxAm");
         const mxPro = document.getElementById("mxPro");
         const mxAm = document.getElementById("mxAm");
+        const sxProTC = document.getElementById("sxProTC");
+        const sxAmTC = document.getElementById("sxAmTC");
         if(mxAm.style.display === "none"){
             mxAm.style.display = "block";
             mxPro.style.display = "none";
             sxPro.style.display = "none";
             sxAm.style.display = "none";
+            sxProTC.style.display = "none";
+            sxAmTC.style.display = "none";
         } else {
             mxAm.style.display = "none";
-        }
-    
+        } 
     }
 </script>
 </body>

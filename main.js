@@ -95,9 +95,87 @@ ipcMain.on("generateProSxStats", async (event, data) => {
                 await pointsSX250wPro(data.proSxQualifying);
                 await pointsSX250ePro(data.proSxQualifying);
             }
-            
-            
             await pointsSX450Pro(data.proSxQualifying);
+        }
+        await win.webContents.send("statsUpdates", 'Finished!')
+    } catch (e){
+        await win.webContents.send("statsUpdates", 'Error in Points')
+        await win.webContents.send("sendError", e)
+    }
+
+});
+
+ipcMain.on("generateProSxTCStats", async (event, data) => {
+    try{
+        await win.webContents.send("statsUpdates", 'Starting')
+        await win.webContents.send("sendError", "")
+        if(data.proSxTcQualiCheck === false){
+            await qualSX250Pro(data.proSxTcQualifying);
+            await qualSX450Pro(data.proSxTcQualifying);
+            await win.webContents.send("statsUpdates", 'Qualifying Done')
+        } else {
+            fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
+            await win.webContents.send("statsUpdates", 'Qualifying Skipped')
+        }
+    } catch(e) {
+        await win.webContents.send("statsUpdates", 'Error in Qualifying')
+        await win.webContents.send("sendError", e)
+    }
+
+    try{
+        if(data.proSxTcLCQ_250Check === false || data.proSxTcLCQ_450Check === false){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]LCQ Results[/b][/u][/color]\n`)
+        }
+        if(data.proSxTcLCQ_250Check === false){
+            await lcq("250", data.proSxTcLCQ_250, "Supercross", "LCQ");
+        }
+        if(data.proSxTcLCQ_450Check === false){
+            await lcq("450", data.proSxTcLCQ_450, "Supercross", "LCQ");
+        }
+        await win.webContents.send("statsUpdates", 'LCQs Done')
+    } catch(e) {
+        await win.webContents.send("statsUpdates", 'Error in LCQs')
+        await win.webContents.send("sendError", e)
+    }
+
+
+    try{
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Main Results[/b][/u][/color]\n`)
+        await mains("250", data.proSxTcMain1_250, "Supercross Triple Crown", "Main Event 1");
+        await mains("250", data.proSxTcMain2_250, "Supercross Triple Crown", "Main Event 2");
+        await mains("250", data.proSxTcMain3_250, "Supercross Triple Crown", "Main Event 3");
+        await mains("450", data.proSxTcMain1_450, "Supercross Triple Crown", "Main Event 1");
+        await mains("450", data.proSxTcMain1_450, "Supercross Triple Crown", "Main Event 2");
+        await mains("450", data.proSxTcMain1_450, "Supercross Triple Crown", "Main Event 3");
+        await win.webContents.send("statsUpdates", 'Mains Done')
+    } catch(e) {
+        await win.webContents.send("statsUpdates", 'Error in Mains')
+        await win.webContents.send("sendError", e)
+    }
+
+    try{
+        let coast = data.coast;
+        await tripleCrown(`250 ${coast}`, "Supercross Triple Crown", "Overall", data.proSxTcMain1_250, data.proSxTcMain2_250, data.proSxTcMain3_250)
+        await tripleCrown(`450`, "Supercross Triple Crown", "Overall", data.proSxTcMain1_450, data.proSxTcMain2_450, data.proSxTcMain3_450)
+
+        await win.webContents.send("statsUpdates", 'Triple Crown Overall Done')
+    } catch(e) {
+        await win.webContents.send("statsUpdates", 'Error in Triple Crown Overalls')
+        await win.webContents.send("sendError", e)
+    }
+
+    try{
+        if(data.proSxTcQualiCheck === false){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
+            if(data.coast === "West"){
+                await pointsSX250wPro(data.proSxTcQualifying);
+            } else if(data.coast === "East"){
+                await pointsSX250ePro(data.proSxTcQualifying);
+            } else {
+                await pointsSX250wPro(data.proSxTcQualifying);
+                await pointsSX250ePro(data.proSxTcQualifying);
+            }
+            await pointsSX450Pro(data.proSxTcQualifying);
         }
         await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e){
@@ -2093,5 +2171,166 @@ async function diffOAQuali(title, quali, urlm1, urlm2, series, race){
 
     }
 
+    await browser.close();
+}
+
+async function tripleCrown(title, series, race, urlm1, urlm2, urlm3){
+    let browser = await puppeteer.launch({headless: true});
+    let page = await browser.newPage();
+    await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
+    await page.goto(urlm1);
+    await page.waitForTimeout(2000);
+    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${title} ${series} ${race}[/b][/u]\n`);
+
+    let resultsm1 = await page.evaluate(() =>{
+        function capitalize(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1);
+                }
+            );
+        }
+
+        let position = document.querySelectorAll(`td.pos`);
+        let main1 = [];
+        let posNum = position.length;
+        for(let i=0;i<position.length;i++){
+            main1[i]={
+                position: parseInt(document.querySelector(`body > div.main > table:nth-child(5) > tbody > tr:nth-child(${i+2}) > td.pos`).innerHTML),
+                number: document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(2)`).innerHTML,
+                name: capitalize(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(3) > a:nth-child(1)`).innerHTML),
+                uid: parseInt(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(9)`).innerHTML),
+                points: i+1
+            }
+        }
+        return {posNum, main1};
+    })
+
+    await page.goto(urlm2);
+    await page.waitForTimeout(2000);
+
+    let resultsm2 = await page.evaluate(() =>{
+        function capitalize(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1);
+                }
+            );
+        }
+
+        let position = document.querySelectorAll(`td.pos`);
+        let main2 = [];
+        let posNum = position.length;
+        for(let i=0;i<position.length;i++){
+            main2[i]={
+                position: parseInt(document.querySelector(`body > div.main > table:nth-child(5) > tbody > tr:nth-child(${i+2}) > td.pos`).innerHTML),
+                number: document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(2)`).innerHTML,
+                name: capitalize(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(3) > a:nth-child(1)`).innerHTML),
+                uid: parseInt(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(9)`).innerHTML),
+                points: i+1
+            }
+        }
+        return {posNum, main2};
+    })
+
+    await page.goto(urlm3);
+    await page.waitForTimeout(2000);
+
+    let resultsm3 = await page.evaluate(() =>{
+        function capitalize(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1);
+                }
+            );
+        }
+
+        let position = document.querySelectorAll(`td.pos`);
+        let main3 = [];
+        let posNum = position.length;
+        for(let i=0;i<position.length;i++){
+            main3[i]={
+                position: parseInt(document.querySelector(`body > div.main > table:nth-child(5) > tbody > tr:nth-child(${i+2}) > td.pos`).innerHTML),
+                number: document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(2)`).innerHTML,
+                name: capitalize(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(3) > a:nth-child(1)`).innerHTML),
+                uid: parseInt(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(9)`).innerHTML),
+                points: i+1
+            }
+        }
+        return {posNum, main3};
+    })
+
+    let overall = [];
+    for(let i=0; i<resultsm1.posNum; i++){
+        overall[i] = {
+            name: resultsm1.main1[i].name,
+            uid: resultsm1.main1[i].uid,
+            number: resultsm1.main1[i].number,
+            main1: resultsm1.main1[i].position,
+            main2: "DNS",
+            main3: "DNS",
+            points: null,
+            overallPos: null
+        }
+        for(let j=0; j<resultsm2.posNum; j++){
+            if(resultsm2.main2[j].uid === resultsm1.main1[i].uid){
+                overall[i] = {
+                    name: resultsm1.main1[i].name,
+                    uid: resultsm1.main1[i].uid,
+                    number: resultsm1.main1[i].number,
+                    main1: resultsm1.main1[i].position,
+                    main2: resultsm2.main2[j].position,
+                    main3: "DNS",
+                    points: null,
+                    overallPos: null
+                }
+            }
+            for(let k=0;k<resultsm3.posNum;k++){
+                if(resultsm3.main3[k].uid === resultsm1.main1[i].uid){
+                    overall[i].main3 = resultsm3.main3[k].position;
+                }
+            }
+        }        
+    }
+
+    for(let i=0; i<overall.length;i++){ 
+        overall[i].points = (parseInt(overall[i].main1) + parseInt(overall[i].main2) + parseInt(overall[i].main3) + (parseInt(overall[i].main3)*.01)) 
+    }
+
+    overall.sort((a,b)=>(a.points - b.points))
+
+    for(let i=0; i<overall.length;i++){ 
+        overall[i].overallPos = (i+1)
+    }
+
+    for(let a = 0;a<overall.length;a++){
+        let helper = overall[a].name;
+        let n = helper.includes("|");
+
+        if(!n){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${a+1}. [i][size=85]#${overall[a].number}[/size][/i] - ${helper} [i][size=85](${overall[a].main1} - ${overall[a].main2} - ${overall[a].main3})[/size][/i]\n`)
+        } else{
+            let name = '';
+            name = helper.substring(0,helper.indexOf("|")).trim();
+            let team = '';
+            team = helper.substring(helper.indexOf("|")+1).trim();
+            let bikeColor = '000000';
+            for(let b=0;b<teams.length;b++){
+                if(overall[a].uid === teams[b].uid){
+                    bikeColor = teams[b].bike;
+                    team = teams[b].team;
+                    name = teams[b].name;
+                } else {
+                    //do nothing
+                }
+            }
+            if(team === "Privateer"){bikeColor='000000'}
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${a+1}. [i][size=85]#${overall[a].number}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size] [i][size=85](${overall[a].main1} - ${overall[a].main2} - ${overall[a].main3})[/size][/i]\n`)
+        }
+    }
     await browser.close();
 }
