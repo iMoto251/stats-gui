@@ -1,0 +1,18 @@
+Qualifying
+https://racefactorygaming.com/Events/Event?event=707
+250 H1
+http://mxsimulator.com/servers/official.mxslobby.com:19801/races/8177.html
+250 H2
+http://mxsimulator.com/servers/official.mxslobby.com:19801/races/8178.html
+450 H1
+http://mxsimulator.com/servers/official.mxslobby.com:19801/races/8179.html
+450 H2
+http://mxsimulator.com/servers/official.mxslobby.com:19801/races/8180.html
+250 LCQ
+http://mxsimulator.com/servers/official.mxslobby.com:19801/races/8181.html
+450 LCQ
+http://mxsimulator.com/servers/official.mxslobby.com:19801/races/8182.html
+250 Main
+http://mxsimulator.com/servers/official.mxslobby.com:19801/races/8183.html
+450 Main
+http://mxsimulator.com/servers/official.mxslobby.com:19801/races/8184.html
