@@ -29,7 +29,7 @@ The GUI is in HTML and CSS packed by electron.
 ## FAQ
 > How do I use this thing?
 
-- [Here](https://i.gyazo.com/499bb0e46dbb63a50bdfb4488c4014da.png) is an example picture of how it should look when it is filled out. [Here](https://raw.githubusercontent.com/iMoto251/stats-gui/main/example.txt) is some example data to use that should give an accurate representation of what the data should look like.
+- [Here](https://i.gyazo.com/499bb0e46dbb63a50bdfb4488c4014da.png) is an example picture of how it should look when it is filled out. The easiest way to get the results, is to go to the rF page and click the links there. If they aren't on rF yet, you can always go to the [server page](https://mxsimulator.com/servers/), navigate to the race server, and find the results manually from there. They're *usually* in incrementing order, but not always. [Here](https://raw.githubusercontent.com/iMoto251/stats-gui/main/example.txt) is some example data to use that should give an accurate representation of what the data should look like.
 
 > What if there isn't a coast, like it's an east/west shootout?
 
