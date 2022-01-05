@@ -5,7 +5,6 @@ body {
     flex-direction: column;
     height: 100vh;
     font-family: Arial, Helvetica, sans-serif;
-    overflow: hidden;
     background-color: lightgray;
 }
 
@@ -22,6 +21,18 @@ input {
 }
 
 .coast{
+    width: 762px;
+    height: 30px;
+    border: none;
+    border-radius: 7px;
+    background-color: rgba(0,0,0,0.7);
+    color: white;
+    font-size: 18px;
+    padding-left: 10px;
+    margin: 5px;
+}
+
+.nation{
     width: 762px;
     height: 30px;
     border: none;
@@ -118,6 +129,22 @@ input {
 }
 
 .proSxTcLCQ_450Check{
+    width: 30px;
+}
+
+.amSxTcQualiCheck{
+    width: 30px;
+}
+
+.amSxTcLCQ_NovCheck{
+    width: 30px;
+}
+
+.amSxTcLCQ_250Check{
+    width: 30px;
+}
+
+.amSxTcLCQ_450Check{
     width: 30px;
 }
 

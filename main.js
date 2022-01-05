@@ -262,6 +262,88 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
 
 });
 
+ipcMain.on("generateAmSxTCStats", async (event, data) => {
+    try{
+        await win.webContents.send("statsUpdates", 'Starting')
+        await win.webContents.send("sendError", "")
+        if(data.amSxTcQualiCheck === false){
+            await qualSX250Novice(data.amSxTcQualifying);
+            await qualSX250Am(data.amSxTcQualifying);
+            await qualSX450Am(data.amSxTcQualifying);
+            await win.webContents.send("statsUpdates", 'Qualifying Done')
+        } else {
+            fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
+            await win.webContents.send("statsUpdates", 'Qualifying Skipped')
+        }
+    } catch(e) {
+        await win.webContents.send("statsUpdates", 'Error in Qualifying')
+        await win.webContents.send("sendError", e)
+    }
+
+    try{
+        if(data.amSxTcLCQ_250Check === false || data.amSxTcLCQ_450Check === false || data.amSxTcLCQ_NovCheck === false){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]LCQ Results[/b][/u][/color]\n`)
+        }
+		if(data.amSxTcLCQ_NovCheck === false){
+            await lcq("Novice", data.amSxTcLCQ_Nov, "Supercross", "LCQ");
+        }
+        if(data.amSxTcLCQ_250Check === false){
+            await lcq("250", data.amSxTcLCQ_250, "Supercross", "LCQ");
+        }
+        if(data.amSxTcLCQ_450Check === false){
+            await lcq("450", data.amSxTcLCQ_450, "Supercross", "LCQ");
+        }
+        await win.webContents.send("statsUpdates", 'LCQs Done')
+    } catch(e) {
+        await win.webContents.send("statsUpdates", 'Error in LCQs')
+        await win.webContents.send("sendError", e)
+    }
+
+
+    try{
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Main Results[/b][/u][/color]\n`)
+        await mains("Novice", data.amSxTcMain1_Nov, "Supercross Triple Crown", "Main Event 1");
+        await mains("Novice", data.amSxTcMain2_Nov, "Supercross Triple Crown", "Main Event 2");
+        await mains("Novice", data.amSxTcMain3_Nov, "Supercross Triple Crown", "Main Event 3");
+		await mains("250", data.amSxTcMain1_250, "Supercross Triple Crown", "Main Event 1");
+        await mains("250", data.amSxTcMain2_250, "Supercross Triple Crown", "Main Event 2");
+        await mains("250", data.amSxTcMain3_250, "Supercross Triple Crown", "Main Event 3");
+        await mains("450", data.amSxTcMain1_450, "Supercross Triple Crown", "Main Event 1");
+        await mains("450", data.amSxTcMain1_450, "Supercross Triple Crown", "Main Event 2");
+        await mains("450", data.amSxTcMain1_450, "Supercross Triple Crown", "Main Event 3");
+        await win.webContents.send("statsUpdates", 'Mains Done')
+    } catch(e) {
+        await win.webContents.send("statsUpdates", 'Error in Mains')
+        await win.webContents.send("sendError", e)
+    }
+
+    try{
+        let coast = data.coast;
+		await tripleCrown(`Novice`, "Supercross Triple Crown", "Overall", data.amSxTcMain1_Nov, data.amSxTcMain2_Nov, data.amSxTcMain3_Nov)
+        await tripleCrown(`250`, "Supercross Triple Crown", "Overall", data.amSxTcMain1_250, data.amSxTcMain2_250, data.amSxTcMain3_250)
+        await tripleCrown(`450`, "Supercross Triple Crown", "Overall", data.amSxTcMain1_450, data.amSxTcMain2_450, data.amSxTcMain3_450)
+
+        await win.webContents.send("statsUpdates", 'Triple Crown Overall Done')
+    } catch(e) {
+        await win.webContents.send("statsUpdates", 'Error in Triple Crown Overalls')
+        await win.webContents.send("sendError", e)
+    }
+
+    try{
+        if(data.amSxTcQualiCheck === false){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
+            await pointsSX250Novice(data.amSxTcQualifying);
+            await pointsSX250Am(data.amSxTcQualifying);
+            await pointsSX450Am(data.amSxTcQualifying);
+        }
+        await win.webContents.send("statsUpdates", 'Finished!')
+    } catch (e){
+        await win.webContents.send("statsUpdates", 'Error in Points')
+        await win.webContents.send("sendError", e)
+    }
+
+});
+
 ipcMain.on("generateProMxStats", async (event, data) => {
     try{
         await win.webContents.send("statsUpdates", 'Starting')
