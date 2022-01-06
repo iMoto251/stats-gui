@@ -811,8 +811,12 @@ async function heats(title, num, url){
                         //do nothing
                     }
                 }
-                if(team === "Privateer"){bikeColor='000000'}
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
+                if(team === "Privateer"){
+                    bikeColor='000000';
+                    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name}\n`)
+                } else {
+                    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
+                }
             }
         } else {
             let helper = results.nameArray[j];
@@ -834,8 +838,12 @@ async function heats(title, num, url){
                         //do nothing
                     }
                 }
-                if(team === "Privateer"){bikeColor='000000'}
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
+                if(team === "Privateer"){
+                    bikeColor='000000';
+                    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name}\n`)
+                } else {
+                    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
+                }
             }
         }
     }
@@ -895,8 +903,12 @@ async function lcq(title, url, series, race){
                         //do nothing
                     }
                 }
-                if(team === "Privateer"){bikeColor='000000'}
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
+                if(team === "Privateer"){
+                    bikeColor='000000';
+                    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name}\n`)
+                } else {
+                    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
+                }
             }
         } else {
             let helper = results.nameArray[j];
@@ -918,8 +930,12 @@ async function lcq(title, url, series, race){
                         //do nothing
                     }
                 }
-                if(team === "Privateer"){bikeColor='000000'}
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
+                if(team === "Privateer"){
+                    bikeColor='000000';
+                    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name}\n`)
+                } else {
+                    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
+                }
             }
         }
     }
@@ -1024,8 +1040,12 @@ async function mains(title, url, series, race){
                     //do nothing
                 }
             }
-            if(team === "Privateer"){bikeColor='000000'}
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color] - ${timeBehind[j]}[/size]\n`)
+            if(team === "Privateer"){
+                bikeColor='000000';
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name}\n`)
+            } else {
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
+            }
         }
     }
     await browser.close();
