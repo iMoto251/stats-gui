@@ -9,7 +9,7 @@ let win = null;
 
 
 async function getTeams(){
-    const teamsURL = 'https://rawcdn.githack.com/iMoto251/stats-gui/72749074be9bc7a8ae9cc51a393f5ade5fd59d7d/teams.json'
+    const teamsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/Teams'
     const response = await fetch(teamsURL);
     teams = await response.json();
 }
