@@ -1041,7 +1041,7 @@ async function pointsSX250wPro(qualurl){
     fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 West Supercross[/b][/u]\n`);
     await page.click('#nav-standings-tab')
     await page.select('#standingsClassSelector', "2")
-    await page.select(`#DataTables_Table_14_length > label:nth-child(1) > select:nth-child(1)`, '100')
+    await page.select(`#DataTables_Table_13_length > label:nth-child(1) > select:nth-child(1)`, '100')
     await page.waitForTimeout(5000)
 
     let points = await page.evaluate(() =>{
@@ -1058,10 +1058,11 @@ async function pointsSX250wPro(qualurl){
         let pointArray = [];
         let uidArray = [];
         for(let i=0;i<20;i++){
-            numberArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
-            pointArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            //#DataTables_Table_13 > tbody > tr:nth-child(7) > td:nth-child(2)
+            numberArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
+            pointArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
         }
         return {numberArray, nameArray, pointArray, uidArray};
     });
@@ -1149,7 +1150,7 @@ async function pointsSX450Pro(qualurl){
     fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Supercross[/b][/u]\n`);
     await page.click('#nav-standings-tab')
     await page.select('#standingsClassSelector', "1")
-    await page.select(`#DataTables_Table_13_length > label:nth-child(1) > select:nth-child(1)`, '100')
+    await page.select(`#DataTables_Table_14_length > label:nth-child(1) > select:nth-child(1)`, '100')
     await page.waitForTimeout(5000)
 
 
@@ -1167,10 +1168,11 @@ async function pointsSX450Pro(qualurl){
         let pointArray = [];
         let uidArray = [];
         for(let i=0;i<20;i++){
-            numberArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
-            pointArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            //#DataTables_Table_14 > tbody > tr:nth-child(1) > td:nth-child(2)
+            numberArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
+            pointArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
         }
         return {numberArray, nameArray, pointArray, uidArray};
     });
