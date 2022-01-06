@@ -3,17 +3,25 @@ const puppeteer = require('puppeteer');
 const fetch = require('node-fetch');
 const fs = require('fs');
 const path = require('path');
-let teams;
+const teams = require('./teams.json');
+let stats = [];
 
 let win = null;
 
 
-async function getTeams(){
-    const teamsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/Teams'
-    const response = await fetch(teamsURL);
-    teams = await response.json();
+// async function getTeams(){
+//     const teamsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/Teams'
+//     const response = await fetch(teamsURL);
+//     teams = await response.json();
+// }
+// getTeams();
+
+async function getNAStats(){
+    const statsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/NA%20Output'
+    const response = await fetch(statsURL);
+    stats = await response.json();
 }
-getTeams();
+getNAStats();
 
 
 const createWindow = () => {
@@ -33,7 +41,6 @@ const createWindow = () => {
 app.whenReady().then(createWindow);
 
 ipcMain.on("generateProSxStats", async (event, data) => {
-    getTeams();
     try{
         await win.webContents.send("statsUpdates", 'Starting')
         await win.webContents.send("sendError", "")
@@ -107,6 +114,8 @@ ipcMain.on("generateProSxStats", async (event, data) => {
                 await pointsSX250ePro(data.proSxQualifying);
             }
             await pointsSX450Pro(data.proSxQualifying);
+            await getNAStats();
+            await doStats();
         }
         await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e){
@@ -851,9 +860,9 @@ async function heats(title, num, url){
                 }
                 if(team === "Privateer"){
                     bikeColor='000000';
-                    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name}\n`)
+                    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name}\n`)
                 } else {
-                    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
+                    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
                 }
             }
         }
@@ -943,9 +952,9 @@ async function lcq(title, url, series, race){
                 }
                 if(team === "Privateer"){
                     bikeColor='000000';
-                    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name}\n`)
+                    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name}\n`)
                 } else {
-                    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
+                    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
                 }
             }
         }
@@ -1053,9 +1062,9 @@ async function mains(title, url, series, race){
             }
             if(team === "Privateer"){
                 bikeColor='000000';
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name}\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} [size=85]- ${timeBehind[j]}[/size]\n`)
             } else {
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#00BF00]${j+1}.[/color] [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${results.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color]- ${timeBehind[j]}[/size]\n`)
             }
         }
     }
@@ -2448,4 +2457,18 @@ async function tripleCrown(title, series, race, urlm1, urlm2, urlm3){
         }
     }
     await browser.close();
+}
+
+async function doStats(){
+    var count = Object.keys(stats).length;
+
+    for(let i =0;i<count;i++){
+        if(stats[i].Filters === undefined){
+            //do nothing
+        } else if(stats[i].Filters === "LineBreak"){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n`);
+        } else {
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n${stats[i].Filters}`);
+        }  
+    }
 }
