@@ -1,10 +1,20 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const puppeteer = require('puppeteer');
+const fetch = require('node-fetch');
 const fs = require('fs');
-const teams = require('./teams.json');
 const path = require('path');
+let teams;
 
 let win = null;
+
+
+async function getTeams(){
+    const teamsURL = 'https://rawcdn.githack.com/iMoto251/stats-gui/bdf824523f3a93f1a22231b3a8f329d210b1a3f4/teams.json'
+    const response = await fetch(teamsURL);
+    teams = await response.json();
+}
+getTeams();
+
 
 const createWindow = () => {
     win = new BrowserWindow({
@@ -23,6 +33,7 @@ const createWindow = () => {
 app.whenReady().then(createWindow);
 
 ipcMain.on("generateProSxStats", async (event, data) => {
+    getTeams();
     try{
         await win.webContents.send("statsUpdates", 'Starting')
         await win.webContents.send("sendError", "")
