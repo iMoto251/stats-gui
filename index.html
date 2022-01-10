@@ -21,8 +21,11 @@
 
 <div id="sxPro">
     <p class="inputs">
-        <label>No Qualifying</label>
-        <input type="checkbox" class="proSxQualiCheck"/>
+        <label>NA/EU</label>
+        <select class="proNation">
+            <option value="NA">NA</option>
+            <option value="EU">EU</option>
+        </select>
         <label>Qualifying</label>
         <input type="text" class="proSxQualifying" placeholder="Qualifying URL">
         <label>250 Coast</label>
@@ -39,12 +42,8 @@
         <input type="text" class="proSxHeat1_450" placeholder="450 Heat 1">
         <label>450 Heat 2</label>
         <input type="text" class="proSxHeat2_450" placeholder="450 Heat 2">
-        <label>No 250 LCQ</label>
-        <input type="checkbox" class="proSxLCQ_250Check"/>
         <label>250 LCQ</label>
         <input type="text" class="proSxLCQ_250" placeholder="250 LCQ">
-        <label>No 450 LCQ</label>
-        <input type="checkbox" class="proSxLCQ_450Check"/>
         <label>450 LCQ</label>
         <input type="text" class="proSxLCQ_450" placeholder="450 LCQ">
         <label>250 Main</label>
@@ -93,14 +92,16 @@
 
 <div id="sxAm">
     <p class="inputs">
-        <label>No Qualifying</label>
-        <input type="checkbox" class="amSxQualiCheck"/>
         <label>Qualifying</label>
         <input type="text" class="amSxQualifying" placeholder="Qualifying URL">
         <label>Novice Heat 1</label>
         <input type="text" class="amSxHeat1_nov" placeholder="Novice Heat 1">
         <label>Novice Heat 2</label>
         <input type="text" class="amSxHeat2_nov" placeholder="Novice Heat 2">
+        <label>Novice LCQ</label>
+        <input type="text" class="amSxLCQ_nov" placeholder="Novice LCQ">
+        <label>Novice Main</label>
+        <input type="text" class="amSxMain_nov" placeholder="Novice Main">
         <label>250 Am Heat 1</label>
         <input type="text" class="amSxHeat1_250" placeholder="250 Heat 1">
         <label>250 Am Heat 2</label>
@@ -109,20 +110,10 @@
         <input type="text" class="amSxHeat1_450" placeholder="450 Heat 1">
         <label>450 Am Heat 2</label>
         <input type="text" class="amSxHeat2_450" placeholder="450 Heat 2">
-        <label>No Novice LCQ</label>
-        <input type="checkbox" class="amSxLCQ_NovCheck"/>
-        <label>Novice LCQ</label>
-        <input type="text" class="amSxLCQ_nov" placeholder="Novice LCQ">
-        <label>No 250 LCQ</label>
-        <input type="checkbox" class="amSxLCQ_250Check"/>
         <label>250 Am LCQ</label>
         <input type="text" class="amSxLCQ_250" placeholder="250 LCQ">
-        <label>No 450 LCQ</label>
-        <input type="checkbox" class="amSxLCQ_450Check"/>
         <label>450 Am LCQ</label>
         <input type="text" class="amSxLCQ_450" placeholder="450 LCQ">
-        <label>Novice Main</label>
-        <input type="text" class="amSxMain_nov" placeholder="Novice Main">
         <label>250 Am Main</label>
         <input type="text" class="amSxMain_250" placeholder="250 Am Main">
         <label>450 Am Main</label>
