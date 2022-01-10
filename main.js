@@ -5,6 +5,9 @@ const fs = require('fs');
 const path = require('path');
 const teams = require('./teams.json');
 let stats = [];
+let naStatsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/NA%20Output';
+let euStatsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/EU%20Output';
+let amStatsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/AM%20Output';
 
 let win = null;
 
@@ -16,12 +19,16 @@ let win = null;
 // }
 // getTeams();
 
-async function getNAStats(){
-    const statsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/NA%20Output'
-    const response = await fetch(statsURL);
-    stats = await response.json();
+async function getStats(url){
+    const statsURL = url;
+    try{
+        const response = await fetch(statsURL);
+        stats = await response.json();
+    } catch (e){
+    }
+    
 }
-getNAStats();
+getStats();
 
 
 const createWindow = () => {
@@ -44,7 +51,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
     try{
         await win.webContents.send("statsUpdates", 'Starting')
         await win.webContents.send("sendError", "")
-        if(data.proSxQualiCheck === false){
+        if(data.proSxQualifying !== ""){
             await qualSX250Pro(data.proSxQualifying);
             await qualSX450Pro(data.proSxQualifying);
             await win.webContents.send("statsUpdates", 'Qualifying Done')
@@ -77,13 +84,13 @@ ipcMain.on("generateProSxStats", async (event, data) => {
     }
 
     try{
-        if(data.proSxLCQ_250Check === false || data.proSxLCQ_450Check === false){
+        if(data.proSxLCQ_250 !== "" || data.proSxLCQ_450 !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]LCQ Results[/b][/u][/color]\n`)
         }
-        if(data.proSxLCQ_250Check === false){
+        if(data.proSxLCQ_250 !== ""){
             await lcq("250", data.proSxLCQ_250, "Supercross", "LCQ");
         }
-        if(data.proSxLCQ_450Check === false){
+        if(data.proSxLCQ_450 !== ""){
             await lcq("450", data.proSxLCQ_450, "Supercross", "LCQ");
         }
         await win.webContents.send("statsUpdates", 'LCQs Done')
@@ -103,19 +110,27 @@ ipcMain.on("generateProSxStats", async (event, data) => {
     }
 
     try{
-        if(data.proSxQualiCheck === false){
+        if(data.proSxQualifying !== ""){
+            let nation = data.proNation;
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
-            if(data.coast === "West"){
+            if(nation === "NA"){
+                if(data.coast === "West"){
+                    await pointsSX250wPro(data.proSxQualifying);
+                } else if(data.coast === "East"){
+                    await pointsSX250ePro(data.proSxQualifying);
+                } else {
+                    await pointsSX250wPro(data.proSxQualifying);
+                    await pointsSX250ePro(data.proSxQualifying);
+                }
+                await pointsSX450Pro(data.proSxQualifying);
+                await getStats(naStatsURL);
+                await doStats();
+            } else if(nation === "EU"){
                 await pointsSX250wPro(data.proSxQualifying);
-            } else if(data.coast === "East"){
-                await pointsSX250ePro(data.proSxQualifying);
-            } else {
-                await pointsSX250wPro(data.proSxQualifying);
-                await pointsSX250ePro(data.proSxQualifying);
-            }
-            await pointsSX450Pro(data.proSxQualifying);
-            await getNAStats();
-            await doStats();
+                await pointsSX450Pro(data.proSxQualifying);
+                await getStats(euStatsURL);
+                await doStats();
+            }  
         }
         await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e){
@@ -209,7 +224,7 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
     try{
         await win.webContents.send("statsUpdates", 'Starting')
         await win.webContents.send("sendError", "")
-        if(data.amSxQualiCheck === false){
+        if(data.amSxQualifying !== ""){
             await qualSX250Novice(data.amSxQualifying);
             await qualSX250Am(data.amSxQualifying);
             await qualSX450Am(data.amSxQualifying);
@@ -238,16 +253,16 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
     }
 
     try{
-        if(data.amSxLCQ_NovCheck === false || data.amSxLCQ_250Check === false || data.amSxLCQ_450Check === false){
+        if(data.amSxLCQ_Nov !== "" || data.amSxLCQ_250 !== "" || data.amSxLCQ_450 !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]LCQ Results[/b][/u][/color]\n`)
         }
-        if(data.amSxLCQ_NovCheck === false){
+        if(data.amSxLCQ_Nov !== ""){
             await lcq("250 Novice", data.amSxLCQ_nov, "Supercross", "LCQ");
         }
-        if(data.amSxLCQ_250Check === false){
+        if(data.amSxLCQ_250 !== ""){
             await lcq("250 Am", data.amSxLCQ_250, "Supercross", "LCQ");
         }
-        if(data.amSxLCQ_450Check === false){
+        if(data.amSxLCQ_450 !== ""){
             await lcq("450 Am", data.amSxLCQ_450, "Supercross", "LCQ");
         }
         await win.webContents.send("statsUpdates", 'LCQs Done')
@@ -268,12 +283,14 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
     }
 
     try{
-        if(data.amSxQualiCheck === false){
+        if(data.amSxQualifying !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
             await pointsSX250Novice(data.amSxQualifying);
             await pointsSX250Am(data.amSxQualifying);
             await pointsSX450Am(data.amSxQualifying);
         }
+        await getStats(amStatsURL);
+        await doStats();
         await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e){
         await win.webContents.send("statsUpdates", 'Error in Points')
