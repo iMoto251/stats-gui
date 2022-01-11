@@ -553,16 +553,16 @@
         "bike": "0000FF"
     },
     {
-        "timestamp": "2022-01-04T19:08:59.000Z",
-        "uid": 48951,
-        "name": "Cody Cooper",
+        "timestamp": "2022-01-04T19:14:19.000Z",
+        "uid": 28535,
+        "name": "Blake Cox",
         "team": "Eyespec",
         "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:14:19.000Z",
-        "uid": 28535,
-        "name": "Blake Cox",
+        "timestamp": "2022-01-04T19:08:59.000Z",
+        "uid": 48951,
+        "name": "Cody Cooper",
         "team": "Eyespec",
         "bike": "FF0000"
     },
@@ -871,6 +871,13 @@
         "timestamp": "2022-01-04T19:14:30.000Z",
         "uid": 30022,
         "name": "Noah McLaughlin",
+        "team": "Limited Decal",
+        "bike": "BFBFBF"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:58.000Z",
+        "uid": 45996,
+        "name": "Tanner Scott",
         "team": "Limited Decal",
         "bike": "BFBFBF"
     },
@@ -1564,13 +1571,6 @@
         "timestamp": "2022-01-04T19:14:57.000Z",
         "uid": 30368,
         "name": "Sebastien Racine",
-        "team": "Tokyo Mods",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:58.000Z",
-        "uid": 45996,
-        "name": "Tanner Scott",
         "team": "Tokyo Mods",
         "bike": "FF8000"
     },
