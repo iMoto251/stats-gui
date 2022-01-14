@@ -3,7 +3,8 @@ const puppeteer = require('puppeteer');
 const fetch = require('node-fetch');
 const fs = require('fs');
 const path = require('path');
-const teams = require('./teams.json');
+//const teams = require('./teams.json');
+let teams = [];
 let stats = [];
 let naStatsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/NA%20Output';
 let euStatsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/EU%20Output';
@@ -12,12 +13,12 @@ let amStatsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GG
 let win = null;
 
 
-// async function getTeams(){
-//     const teamsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/Teams'
-//     const response = await fetch(teamsURL);
-//     teams = await response.json();
-// }
-// getTeams();
+async function getTeams(){
+    const teamsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/Teams'
+    const response = await fetch(teamsURL);
+    teams = await response.json();
+}
+getTeams();
 
 async function getStats(url){
     const statsURL = url;
@@ -48,6 +49,7 @@ const createWindow = () => {
 app.whenReady().then(createWindow);
 
 ipcMain.on("generateProSxStats", async (event, data) => {
+
     try{
         await win.webContents.send("statsUpdates", 'Starting')
         await win.webContents.send("sendError", "")
@@ -123,13 +125,13 @@ ipcMain.on("generateProSxStats", async (event, data) => {
                     await pointsSX250ePro(data.proSxQualifying);
                 }
                 await pointsSX450Pro(data.proSxQualifying);
-                //await getStats(naStatsURL);
-                //await doStats();
+                await getStats(naStatsURL);
+                await doStats();
             } else if(nation === "EU"){
                 await pointsSX250wPro(data.proSxQualifying);
                 await pointsSX450Pro(data.proSxQualifying);
-                //await getStats(euStatsURL);
-                //await doStats();
+                await getStats(euStatsURL);
+                await doStats();
             }  
         }
         await win.webContents.send("statsUpdates", 'Finished!')
@@ -576,7 +578,7 @@ async function qualSX250Pro(qualurl){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(qualifying.uidArray[j] === teams[k].uid){
+            if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
@@ -626,7 +628,7 @@ async function qualSX450Pro(qualurl){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(qualifying.uidArray[j] === teams[k].uid){
+            if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
@@ -676,7 +678,7 @@ async function qualSX250Novice(qualurl){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(qualifying.uidArray[j] === teams[k].uid){
+            if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
@@ -727,7 +729,7 @@ async function qualSX250Am(qualurl){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(qualifying.uidArray[j] === teams[k].uid){
+            if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
@@ -778,7 +780,7 @@ async function qualSX450Am(qualurl){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(qualifying.uidArray[j] === teams[k].uid){
+            if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
@@ -840,7 +842,7 @@ async function heats(title, num, url){
                 team = helper.substring(helper.indexOf("|")+1).trim();
                 let bikeColor = '000000';
                 for(let k=0; k<teams.length; k++){
-                    if(results.uidArray[j] === teams[k].uid){
+                    if(results.uidArray[j] === parseInt(teams[k].uid)){
                         bikeColor = teams[k].bike;
                         team = teams[k].team;
                         name = teams[k].name;
@@ -867,7 +869,7 @@ async function heats(title, num, url){
                 team = helper.substring(helper.indexOf("|")+1).trim();
                 let bikeColor = '000000';
                 for(let k=0; k<teams.length; k++){
-                    if(results.uidArray[j] === teams[k].uid){
+                    if(results.uidArray[j] === parseInt(teams[k].uid)){
                         bikeColor = teams[k].bike;
                         team = teams[k].team;
                         name = teams[k].name;
@@ -932,7 +934,7 @@ async function lcq(title, url, series, race){
                 team = helper.substring(helper.indexOf("|")+1).trim();
                 let bikeColor = '000000';
                 for(let k=0; k<teams.length; k++){
-                    if(results.uidArray[j] === teams[k].uid){
+                    if(results.uidArray[j] === parseInt(teams[k].uid)){
                         bikeColor = teams[k].bike;
                         team = teams[k].team;
                         name = teams[k].name;
@@ -959,7 +961,7 @@ async function lcq(title, url, series, race){
                 team = helper.substring(helper.indexOf("|")+1).trim();
                 let bikeColor = '000000';
                 for(let k=0; k<teams.length; k++){
-                    if(results.uidArray[j] === teams[k].uid){
+                    if(results.uidArray[j] === parseInt(teams[k].uid)){
                         bikeColor = teams[k].bike;
                         team = teams[k].team;
                         name = teams[k].name;
@@ -1069,7 +1071,7 @@ async function mains(title, url, series, race){
             team = helper.substring(helper.indexOf("|")+1).trim();
             let bikeColor = '000000';
             for(let k=0; k<teams.length; k++){
-                if(results.uidArray[j] === teams[k].uid){
+                if(results.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     team = teams[k].team;
                     name = teams[k].name;
@@ -1098,7 +1100,7 @@ async function pointsSX250wPro(qualurl){
     fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 West Supercross[/b][/u]\n`);
     await page.click('#nav-standings-tab')
     await page.select('#standingsClassSelector', "2")
-    await page.select(`#DataTables_Table_13_length > label:nth-child(1) > select:nth-child(1)`, '100')
+    await page.select(`#DataTables_Table_14_length > label:nth-child(1) > select:nth-child(1)`, '100')
     await page.waitForTimeout(5000)
 
     let points = await page.evaluate(() =>{
@@ -1116,10 +1118,11 @@ async function pointsSX250wPro(qualurl){
         let uidArray = [];
         for(let i=0;i<20;i++){
             //#DataTables_Table_13 > tbody > tr:nth-child(7) > td:nth-child(2)
-            numberArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
-            pointArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            //#DataTables_Table_14 > tbody > tr:nth-child(1) > td:nth-child(2)
+            numberArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
+            pointArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
         }
         return {numberArray, nameArray, pointArray, uidArray};
     });
@@ -1127,7 +1130,7 @@ async function pointsSX250wPro(qualurl){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(points.uidArray[j] === teams[k].uid){
+            if(points.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
@@ -1181,7 +1184,7 @@ async function pointsSX250ePro(qualurl){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(points.uidArray[j] === teams[k].uid){
+            if(points.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
@@ -1207,7 +1210,7 @@ async function pointsSX450Pro(qualurl){
     fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Supercross[/b][/u]\n`);
     await page.click('#nav-standings-tab')
     await page.select('#standingsClassSelector', "1")
-    await page.select(`#DataTables_Table_14_length > label:nth-child(1) > select:nth-child(1)`, '100')
+    await page.select(`#DataTables_Table_13_length > label:nth-child(1) > select:nth-child(1)`, '100')
     await page.waitForTimeout(5000)
 
 
@@ -1225,11 +1228,10 @@ async function pointsSX450Pro(qualurl){
         let pointArray = [];
         let uidArray = [];
         for(let i=0;i<20;i++){
-            //#DataTables_Table_14 > tbody > tr:nth-child(1) > td:nth-child(2)
-            numberArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
-            pointArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            numberArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
+            pointArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
         }
         return {numberArray, nameArray, pointArray, uidArray};
     });
@@ -1237,7 +1239,7 @@ async function pointsSX450Pro(qualurl){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(points.uidArray[j] === teams[k].uid){
+            if(points.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
@@ -1291,7 +1293,7 @@ async function pointsSX250Novice(qualurl){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(points.uidArray[j] === teams[k].uid){
+            if(points.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
@@ -1345,7 +1347,7 @@ async function pointsSX250Am(qualurl){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(points.uidArray[j] === teams[k].uid){
+            if(points.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
@@ -1399,7 +1401,7 @@ async function pointsSX450Am(qualurl){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(points.uidArray[j] === teams[k].uid){
+            if(points.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
@@ -1449,7 +1451,7 @@ async function qualMX250Pro(qualurl){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(qualifying.uidArray[j] === teams[k].uid){
+            if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
@@ -1500,7 +1502,7 @@ async function qualMX450Pro(qualurl){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(qualifying.uidArray[j] === teams[k].uid){
+            if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
@@ -1550,7 +1552,7 @@ async function qualMX250Am(qualurl){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(qualifying.uidArray[j] === teams[k].uid){
+            if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
@@ -1600,7 +1602,7 @@ async function qualMX450Am(qualurl){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(qualifying.uidArray[j] === teams[k].uid){
+            if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
@@ -1682,7 +1684,7 @@ async function pointsMXPro(qualurl, stand, race){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(points.uidArray[j] === teams[k].uid){
+            if(points.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
@@ -1737,7 +1739,7 @@ async function pointsMX250Am(qualurl){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(points.uidArray[j] === teams[k].uid){
+            if(points.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
@@ -1791,7 +1793,7 @@ async function pointsMX450Am(qualurl){
         let bikeColor = '000000';
         let teamStr = '';
         for(let k=0; k<teams.length; k++){
-            if(points.uidArray[j] === teams[k].uid){
+            if(points.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
             } else{
