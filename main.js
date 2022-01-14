@@ -123,8 +123,8 @@ ipcMain.on("generateProSxStats", async (event, data) => {
                     await pointsSX250ePro(data.proSxQualifying);
                 }
                 await pointsSX450Pro(data.proSxQualifying);
-                await getStats(naStatsURL);
-                await doStats();
+                //await getStats(naStatsURL);
+                //await doStats();
             } else if(nation === "EU"){
                 await pointsSX250wPro(data.proSxQualifying);
                 await pointsSX450Pro(data.proSxQualifying);
