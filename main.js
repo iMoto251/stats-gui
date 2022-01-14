@@ -51,11 +51,12 @@ app.whenReady().then(createWindow);
 ipcMain.on("generateProSxStats", async (event, data) => {
 
     try{
+        let nation = data.proNation;
         await win.webContents.send("statsUpdates", 'Starting')
         await win.webContents.send("sendError", "")
         if(data.proSxQualifying !== ""){
-            await qualSX250Pro(data.proSxQualifying);
-            await qualSX450Pro(data.proSxQualifying);
+            await qualSX250Pro(data.proSxQualifying, nation);
+            await qualSX450Pro(data.proSxQualifying, nation);
             await win.webContents.send("statsUpdates", 'Qualifying Done')
         } else {
             fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
@@ -117,19 +118,19 @@ ipcMain.on("generateProSxStats", async (event, data) => {
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
             if(nation === "NA"){
                 if(data.coast === "West"){
-                    await pointsSX250wPro(data.proSxQualifying);
+                    await pointsSX250wPro(data.proSxQualifying, nation);
                 } else if(data.coast === "East"){
                     await pointsSX250ePro(data.proSxQualifying);
                 } else {
-                    await pointsSX250wPro(data.proSxQualifying);
-                    await pointsSX250ePro(data.proSxQualifying);
+                    await pointsSX250wPro(data.proSxQualifying, nation);
+                    await pointsSX250ePro(data.proSxQualifying, nation);
                 }
-                await pointsSX450Pro(data.proSxQualifying);
+                await pointsSX450Pro(data.proSxQualifying, nation);
                 await getStats(naStatsURL);
                 await doStats();
             } else if(nation === "EU"){
-                await pointsSX250wPro(data.proSxQualifying);
-                await pointsSX450Pro(data.proSxQualifying);
+                await pointsSX250wPro(data.proSxQualifying, nation);
+                await pointsSX450Pro(data.proSxQualifying, nation);
                 await getStats(euStatsURL);
                 await doStats();
             }  
@@ -544,104 +545,304 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
 
 });
 
-async function qualSX250Pro(qualurl){
-    let browser = await puppeteer.launch({headless: true});
-    let page = await browser.newPage();
-    await page.setViewport({width: 1920, height: 1080})
-    await page.setDefaultNavigationTimeout(120000);
-    await page.goto(qualurl);
-    await page.waitForTimeout(2000);
-    fs.writeFile(`${path.join(__dirname, "stats.txt")}`, `[url=${qualurl}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n[b][u]250 Supercross[/b][/u]\n`, 'utf8', () =>{});
-
-    let qualifying = await page.evaluate(() =>{
-        function capitalize(str) {
-            return str.replace(
-                /\w\S*/g,
-                function(txt) {
-                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+async function qualSX250Pro(qualurl, nation){
+    if(nation === "NA"){
+        let browser = await puppeteer.launch({headless: true});
+        let page = await browser.newPage();
+        await page.setViewport({width: 1920, height: 1080})
+        await page.setDefaultNavigationTimeout(120000);
+        await page.goto(qualurl);
+        await page.waitForTimeout(2000);
+        fs.writeFile(`${path.join(__dirname, "stats.txt")}`, `[url=${qualurl}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n[b][u]250 Supercross[/b][/u]\n`, 'utf8', () =>{});
+        
+        let qualifying = await page.evaluate(() =>{
+            function capitalize(str) {
+                return str.replace(
+                    /\w\S*/g,
+                    function(txt) {
+                        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                    }
+                );
+            }
+            let numberArray = [];
+            let nameArray = [];
+            let timeArray = [];
+            let uidArray = [];
+            for(let i=0;i<10;i++){
+                numberArray[i] = document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+                nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+                timeArray[i] = document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+                uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML)
+            }
+            return {numberArray, nameArray, timeArray, uidArray};
+        });
+        for(let j = 0; j<10; j++){
+            let bikeColor = '000000';
+            let teamStr = '';
+            for(let k=0; k<teams.length; k++){
+                if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
+                    bikeColor = teams[k].bike;
+                    teamStr = teams[k].team;
+                } else{
+                    //do nothing
                 }
-            );
-        }
-        let numberArray = [];
-        let nameArray = [];
-        let timeArray = [];
-        let uidArray = [];
-        for(let i=0;i<10;i++){
-            numberArray[i] = document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
-            timeArray[i] = document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_4 > tbody > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML)
-        }
-        return {numberArray, nameArray, timeArray, uidArray};
-    });
-    for(let j = 0; j<10; j++){
-        let bikeColor = '000000';
-        let teamStr = '';
-        for(let k=0; k<teams.length; k++){
-            if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
-                bikeColor = teams[k].bike;
-                teamStr = teams[k].team;
+            }
+            if(teamStr !== ''){
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
             } else{
-                //do nothing
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
             }
         }
-        if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
-        } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+        await browser.close();
+    } else if(nation === "EU"){
+        let browser = await puppeteer.launch({headless: true});
+        let page = await browser.newPage();
+        await page.setViewport({width: 1920, height: 1080})
+        await page.setDefaultNavigationTimeout(120000);
+        await page.goto(qualurl);
+        await page.waitForTimeout(2000);
+        fs.writeFile(`${path.join(__dirname, "stats.txt")}`, `[url=${qualurl}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n[b][u]250 Supercross[/b][/u]\n`, 'utf8', () =>{});
+        
+        let qualifying = await page.evaluate(() =>{
+            function capitalize(str) {
+                return str.replace(
+                    /\w\S*/g,
+                    function(txt) {
+                        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                    }
+                );
+            }
+            let numberArray = [];
+            let nameArray = [];
+            let timeArray = [];
+            let uidArray = [];
+            for(let i=0;i<10;i++){
+                //#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(2)
+                numberArray[i] = document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+                nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+                timeArray[i] = document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+                uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML)
+            }
+            return {numberArray, nameArray, timeArray, uidArray};
+        });
+        for(let j = 0; j<10; j++){
+            let bikeColor = '000000';
+            let teamStr = '';
+            for(let k=0; k<teams.length; k++){
+                if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
+                    bikeColor = teams[k].bike;
+                    teamStr = teams[k].team;
+                } else{
+                    //do nothing
+                }
+            }
+            if(teamStr !== ''){
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            } else{
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            }
         }
+        await browser.close();
+    } else{
+        let browser = await puppeteer.launch({headless: true});
+        let page = await browser.newPage();
+        await page.setViewport({width: 1920, height: 1080})
+        await page.setDefaultNavigationTimeout(120000);
+        await page.goto(qualurl);
+        await page.waitForTimeout(2000);
+        fs.writeFile(`${path.join(__dirname, "stats.txt")}`, `[url=${qualurl}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n[b][u]250 Supercross[/b][/u]\n`, 'utf8', () =>{});
+        
+        let qualifying = await page.evaluate(() =>{
+            function capitalize(str) {
+                return str.replace(
+                    /\w\S*/g,
+                    function(txt) {
+                        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                    }
+                );
+            }
+            let numberArray = [];
+            let nameArray = [];
+            let timeArray = [];
+            let uidArray = [];
+            for(let i=0;i<10;i++){
+                //#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(2)
+                numberArray[i] = document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+                nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+                timeArray[i] = document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+                uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML)
+            }
+            return {numberArray, nameArray, timeArray, uidArray};
+        });
+        for(let j = 0; j<10; j++){
+            let bikeColor = '000000';
+            let teamStr = '';
+            for(let k=0; k<teams.length; k++){
+                if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
+                    bikeColor = teams[k].bike;
+                    teamStr = teams[k].team;
+                } else{
+                    //do nothing
+                }
+            }
+            if(teamStr !== ''){
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            } else{
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            }
+        }
+        await browser.close();
     }
-    await browser.close();
+    
 }
 
-async function qualSX450Pro(qualurl){
-    let browser = await puppeteer.launch({headless: true});
-    let page = await browser.newPage();
-    await page.setViewport({width: 1920, height: 1080})
-    await page.setDefaultNavigationTimeout(120000);
-    await page.goto(qualurl);
-    await page.waitForTimeout(2000);
-    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Supercross[/b][/u]\n`);
-
-    let qualifying = await page.evaluate(() =>{
-        function capitalize(str) {
-            return str.replace(
-                /\w\S*/g,
-                function(txt) {
-                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+async function qualSX450Pro(qualurl, nation){
+    if(nation === "NA"){
+        let browser = await puppeteer.launch({headless: true});
+        let page = await browser.newPage();
+        await page.setViewport({width: 1920, height: 1080})
+        await page.setDefaultNavigationTimeout(120000);
+        await page.goto(qualurl);
+        await page.waitForTimeout(2000);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Supercross[/b][/u]\n`);
+    
+        let qualifying = await page.evaluate((table) =>{
+            function capitalize(str) {
+                return str.replace(
+                    /\w\S*/g,
+                    function(txt) {
+                        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                    }
+                );
+            }
+            let numberArray = [];
+            let nameArray = [];
+            let timeArray = [];
+            let uidArray = [];
+            for(let i=0;i<10;i++){
+                numberArray[i] = document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+                nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+                timeArray[i] = document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+                uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_3 > tbody > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML)
+            }
+            return {numberArray, nameArray, timeArray, uidArray};
+        });
+        for(let j = 0; j<10; j++){
+            let bikeColor = '000000';
+            let teamStr = '';
+            for(let k=0; k<teams.length; k++){
+                if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
+                    bikeColor = teams[k].bike;
+                    teamStr = teams[k].team;
+                } else{
+                    //do nothing
                 }
-            );
-        }
-        let numberArray = [];
-        let nameArray = [];
-        let timeArray = [];
-        let uidArray = [];
-        for(let i=0;i<10;i++){
-            numberArray[i] = document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
-            timeArray[i] = document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_3 > tbody > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML)
-        }
-        return {numberArray, nameArray, timeArray, uidArray};
-    });
-    for(let j = 0; j<10; j++){
-        let bikeColor = '000000';
-        let teamStr = '';
-        for(let k=0; k<teams.length; k++){
-            if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
-                bikeColor = teams[k].bike;
-                teamStr = teams[k].team;
+            }
+            if(teamStr !== ''){
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
             } else{
-                //do nothing
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
             }
         }
-        if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
-        } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+        await browser.close();
+    } else if(nation === "EU"){
+        let browser = await puppeteer.launch({headless: true});
+        let page = await browser.newPage();
+        await page.setViewport({width: 1920, height: 1080})
+        await page.setDefaultNavigationTimeout(120000);
+        await page.goto(qualurl);
+        await page.waitForTimeout(2000);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Supercross[/b][/u]\n`);
+
+        let qualifying = await page.evaluate((table) =>{
+            function capitalize(str) {
+                return str.replace(
+                    /\w\S*/g,
+                    function(txt) {
+                        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                    }
+                );
+            }
+            let numberArray = [];
+            let nameArray = [];
+            let timeArray = [];
+            let uidArray = [];
+            for(let i=0;i<10;i++){
+                numberArray[i] = document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+                nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+                timeArray[i] = document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+                uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_4 > tbody > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML)
+            }
+            return {numberArray, nameArray, timeArray, uidArray};
+        });
+        for(let j = 0; j<10; j++){
+            let bikeColor = '000000';
+            let teamStr = '';
+            for(let k=0; k<teams.length; k++){
+                if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
+                    bikeColor = teams[k].bike;
+                    teamStr = teams[k].team;
+                } else{
+                    //do nothing
+                }
+            }
+            if(teamStr !== ''){
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            } else{
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            }
         }
+        await browser.close();
+    } else{
+        let browser = await puppeteer.launch({headless: true});
+        let page = await browser.newPage();
+        await page.setViewport({width: 1920, height: 1080})
+        await page.setDefaultNavigationTimeout(120000);
+        await page.goto(qualurl);
+        await page.waitForTimeout(2000);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Supercross[/b][/u]\n`);
+
+        let qualifying = await page.evaluate((table) =>{
+            function capitalize(str) {
+                return str.replace(
+                    /\w\S*/g,
+                    function(txt) {
+                        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                    }
+                );
+            }
+            let numberArray = [];
+            let nameArray = [];
+            let timeArray = [];
+            let uidArray = [];
+            for(let i=0;i<10;i++){
+                numberArray[i] = document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+                nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+                timeArray[i] = document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+                uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_3 > tbody > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML)
+            }
+            return {numberArray, nameArray, timeArray, uidArray};
+        });
+        for(let j = 0; j<10; j++){
+            let bikeColor = '000000';
+            let teamStr = '';
+            for(let k=0; k<teams.length; k++){
+                if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
+                    bikeColor = teams[k].bike;
+                    teamStr = teams[k].team;
+                } else{
+                    //do nothing
+                }
+            }
+            if(teamStr !== ''){
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            } else{
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            }
+        }
+        await browser.close();
     }
-    await browser.close();
+    
 }
 
 async function qualSX250Novice(qualurl){
@@ -1090,60 +1291,166 @@ async function mains(title, url, series, race){
     await browser.close();
 }
 
-async function pointsSX250wPro(qualurl){
-    let browser = await puppeteer.launch({headless: true});
-    let page = await browser.newPage();
-    await page.setViewport({width: 1920, height: 1080})
-    await page.setDefaultNavigationTimeout(120000);
-    await page.goto(qualurl);
-    await page.waitForTimeout(2000);
-    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 West Supercross[/b][/u]\n`);
-    await page.click('#nav-standings-tab')
-    await page.select('#standingsClassSelector', "2")
-    await page.select(`#DataTables_Table_14_length > label:nth-child(1) > select:nth-child(1)`, '100')
-    await page.waitForTimeout(5000)
-
-    let points = await page.evaluate(() =>{
-        function capitalize(str) {
-            return str.replace(
-                /\w\S*/g,
-                function(txt) {
-                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+async function pointsSX250wPro(qualurl, nation){
+    if(nation ==="NA"){
+        let browser = await puppeteer.launch({headless: true});
+        let page = await browser.newPage();
+        await page.setViewport({width: 1920, height: 1080})
+        await page.setDefaultNavigationTimeout(120000);
+        await page.goto(qualurl);
+        await page.waitForTimeout(2000);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 West Supercross[/b][/u]\n`);
+        await page.click('#nav-standings-tab')
+        await page.select('#standingsClassSelector', `2`)
+        await page.select(`#DataTables_Table_14_length > label:nth-child(1) > select:nth-child(1)`, '100')
+        await page.waitForTimeout(5000)
+    
+        let points = await page.evaluate(() =>{
+            function capitalize(str) {
+                return str.replace(
+                    /\w\S*/g,
+                    function(txt) {
+                        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                    }
+                );
+            }
+            let numberArray = [];
+            let nameArray = [];
+            let pointArray = [];
+            let uidArray = [];
+            for(let i=0;i<20;i++){
+                numberArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+                nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
+                pointArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+                uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            }
+            return {numberArray, nameArray, pointArray, uidArray};
+        });
+        for(let j = 0; j<20;j++){
+            let bikeColor = '000000';
+            let teamStr = '';
+            for(let k=0; k<teams.length; k++){
+                if(points.uidArray[j] === parseInt(teams[k].uid)){
+                    bikeColor = teams[k].bike;
+                    teamStr = teams[k].team;
+                } else{
+                    //do nothing
                 }
-            );
-        }
-        let numberArray = [];
-        let nameArray = [];
-        let pointArray = [];
-        let uidArray = [];
-        for(let i=0;i<20;i++){
-            //#DataTables_Table_13 > tbody > tr:nth-child(7) > td:nth-child(2)
-            //#DataTables_Table_14 > tbody > tr:nth-child(1) > td:nth-child(2)
-            numberArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
-            pointArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
-        }
-        return {numberArray, nameArray, pointArray, uidArray};
-    });
-    for(let j = 0; j<20;j++){
-        let bikeColor = '000000';
-        let teamStr = '';
-        for(let k=0; k<teams.length; k++){
-            if(points.uidArray[j] === parseInt(teams[k].uid)){
-                bikeColor = teams[k].bike;
-                teamStr = teams[k].team;
+            }
+            if(teamStr !== ''){
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             } else{
-                //do nothing
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             }
         }
-        if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
-        } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+        await browser.close();
+    } else if(nation === "EU"){
+        let browser = await puppeteer.launch({headless: true});
+        let page = await browser.newPage();
+        await page.setViewport({width: 1920, height: 1080})
+        await page.setDefaultNavigationTimeout(120000);
+        await page.goto(qualurl);
+        await page.waitForTimeout(2000);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 West Supercross[/b][/u]\n`);
+        await page.click('#nav-standings-tab')
+        await page.select('#standingsClassSelector', `8`)
+        await page.select(`#DataTables_Table_14_length > label:nth-child(1) > select:nth-child(1)`, '100')
+        await page.waitForTimeout(5000)
+    
+        let points = await page.evaluate(() =>{
+            function capitalize(str) {
+                return str.replace(
+                    /\w\S*/g,
+                    function(txt) {
+                        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                    }
+                );
+            }
+            let numberArray = [];
+            let nameArray = [];
+            let pointArray = [];
+            let uidArray = [];
+            for(let i=0;i<20;i++){
+                numberArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+                nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
+                pointArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+                uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            }
+            return {numberArray, nameArray, pointArray, uidArray};
+        });
+        for(let j = 0; j<20;j++){
+            let bikeColor = '000000';
+            let teamStr = '';
+            for(let k=0; k<teams.length; k++){
+                if(points.uidArray[j] === parseInt(teams[k].uid)){
+                    bikeColor = teams[k].bike;
+                    teamStr = teams[k].team;
+                } else{
+                    //do nothing
+                }
+            }
+            if(teamStr !== ''){
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            } else{
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            }
         }
+        await browser.close();
+    } else{
+        let browser = await puppeteer.launch({headless: true});
+        let page = await browser.newPage();
+        await page.setViewport({width: 1920, height: 1080})
+        await page.setDefaultNavigationTimeout(120000);
+        await page.goto(qualurl);
+        await page.waitForTimeout(2000);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Supercross[/b][/u]\n`);
+        await page.click('#nav-standings-tab')
+        await page.select('#standingsClassSelector', `1`)
+        await page.select(`#DataTables_Table_13_length > label:nth-child(1) > select:nth-child(1)`, '100')
+        await page.waitForTimeout(5000)
+    
+    
+        let points = await page.evaluate(() =>{
+            function capitalize(str) {
+                return str.replace(
+                    /\w\S*/g,
+                    function(txt) {
+                        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                    }
+                );
+            }
+            let numberArray = [];
+            let nameArray = [];
+            let pointArray = [];
+            let uidArray = [];
+            for(let i=0;i<20;i++){
+                numberArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+                nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
+                pointArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+                uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            }
+            return {numberArray, nameArray, pointArray, uidArray};
+        });
+        for(let j = 0; j<20;j++){
+            let bikeColor = '000000';
+            let teamStr = '';
+            for(let k=0; k<teams.length; k++){
+                if(points.uidArray[j] === parseInt(teams[k].uid)){
+                    bikeColor = teams[k].bike;
+                    teamStr = teams[k].team;
+                } else{
+                    //do nothing
+                }
+            }
+            if(teamStr !== ''){
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            } else{
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            }
+        }
+        await browser.close();
     }
-    await browser.close();
+    
 }
 
 async function pointsSX250ePro(qualurl){
@@ -1154,9 +1461,13 @@ async function pointsSX250ePro(qualurl){
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 East Supercross[/b][/u]\n`);
+    if(nation === "NA"){
+        standVal = "3";
+        table = "15";
+    }
     await page.click('#nav-standings-tab')
-    await page.select('#standingsClassSelector', "3")
-    await page.select(`#DataTables_Table_15_length > label:nth-child(1) > select:nth-child(1)`, '100')
+    await page.select('#standingsClassSelector', `${standVal}`)
+    await page.select(`#DataTables_Table_${table}_length > label:nth-child(1) > select:nth-child(1)`, '100')
     await page.waitForTimeout(5000)
 
     let points = await page.evaluate(() =>{
@@ -1173,10 +1484,10 @@ async function pointsSX250ePro(qualurl){
         let pointArray = [];
         let uidArray = [];
         for(let i=0;i<20;i++){
-            numberArray[i] = document.querySelector(`#DataTables_Table_15 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_15 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
-            pointArray[i] = document.querySelector(`#DataTables_Table_15 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_15 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            numberArray[i] = document.querySelector(`#DataTables_Table_${table} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_${table} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
+            pointArray[i] = document.querySelector(`#DataTables_Table_${table} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_${table} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
         }
         return {numberArray, nameArray, pointArray, uidArray};
     });
@@ -1200,59 +1511,168 @@ async function pointsSX250ePro(qualurl){
     await browser.close();
 }
 
-async function pointsSX450Pro(qualurl){
-    let browser = await puppeteer.launch({headless: true});
-    let page = await browser.newPage();
-    await page.setViewport({width: 1920, height: 1080})
-    await page.setDefaultNavigationTimeout(120000);
-    await page.goto(qualurl);
-    await page.waitForTimeout(2000);
-    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Supercross[/b][/u]\n`);
-    await page.click('#nav-standings-tab')
-    await page.select('#standingsClassSelector', "1")
-    await page.select(`#DataTables_Table_13_length > label:nth-child(1) > select:nth-child(1)`, '100')
-    await page.waitForTimeout(5000)
-
-
-    let points = await page.evaluate(() =>{
-        function capitalize(str) {
-            return str.replace(
-                /\w\S*/g,
-                function(txt) {
-                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+async function pointsSX450Pro(qualurl, nation){
+    if(nation === "NA"){
+        let browser = await puppeteer.launch({headless: true});
+        let page = await browser.newPage();
+        await page.setViewport({width: 1920, height: 1080})
+        await page.setDefaultNavigationTimeout(120000);
+        await page.goto(qualurl);
+        await page.waitForTimeout(2000);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Supercross[/b][/u]\n`);
+        await page.click('#nav-standings-tab')
+        await page.select('#standingsClassSelector', `1`)
+        await page.select(`#DataTables_Table_13_length > label:nth-child(1) > select:nth-child(1)`, '100')
+        await page.waitForTimeout(5000)
+    
+    
+        let points = await page.evaluate(() =>{
+            function capitalize(str) {
+                return str.replace(
+                    /\w\S*/g,
+                    function(txt) {
+                        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                    }
+                );
+            }
+            let numberArray = [];
+            let nameArray = [];
+            let pointArray = [];
+            let uidArray = [];
+            for(let i=0;i<20;i++){
+                numberArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+                nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
+                pointArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+                uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            }
+            return {numberArray, nameArray, pointArray, uidArray};
+        });
+        for(let j = 0; j<20;j++){
+            let bikeColor = '000000';
+            let teamStr = '';
+            for(let k=0; k<teams.length; k++){
+                if(points.uidArray[j] === parseInt(teams[k].uid)){
+                    bikeColor = teams[k].bike;
+                    teamStr = teams[k].team;
+                } else{
+                    //do nothing
                 }
-            );
-        }
-        let numberArray = [];
-        let nameArray = [];
-        let pointArray = [];
-        let uidArray = [];
-        for(let i=0;i<20;i++){
-            numberArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
-            pointArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
-        }
-        return {numberArray, nameArray, pointArray, uidArray};
-    });
-    for(let j = 0; j<20;j++){
-        let bikeColor = '000000';
-        let teamStr = '';
-        for(let k=0; k<teams.length; k++){
-            if(points.uidArray[j] === parseInt(teams[k].uid)){
-                bikeColor = teams[k].bike;
-                teamStr = teams[k].team;
+            }
+            if(teamStr !== ''){
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             } else{
-                //do nothing
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             }
         }
-        if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
-        } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+        await browser.close();
+    } else if(nation === "EU"){
+        let browser = await puppeteer.launch({headless: true});
+        let page = await browser.newPage();
+        await page.setViewport({width: 1920, height: 1080})
+        await page.setDefaultNavigationTimeout(120000);
+        await page.goto(qualurl);
+        await page.waitForTimeout(2000);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Supercross[/b][/u]\n`);
+        await page.click('#nav-standings-tab')
+        await page.select('#standingsClassSelector', `37`)
+        await page.select(`#DataTables_Table_13_length > label:nth-child(1) > select:nth-child(1)`, '100')
+        await page.waitForTimeout(5000)
+    
+    
+        let points = await page.evaluate(() =>{
+            function capitalize(str) {
+                return str.replace(
+                    /\w\S*/g,
+                    function(txt) {
+                        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                    }
+                );
+            }
+            let numberArray = [];
+            let nameArray = [];
+            let pointArray = [];
+            let uidArray = [];
+            for(let i=0;i<20;i++){
+                numberArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+                nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
+                pointArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+                uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            }
+            return {numberArray, nameArray, pointArray, uidArray};
+        });
+        for(let j = 0; j<20;j++){
+            let bikeColor = '000000';
+            let teamStr = '';
+            for(let k=0; k<teams.length; k++){
+                if(points.uidArray[j] === parseInt(teams[k].uid)){
+                    bikeColor = teams[k].bike;
+                    teamStr = teams[k].team;
+                } else{
+                    //do nothing
+                }
+            }
+            if(teamStr !== ''){
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            } else{
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            }
         }
+        await browser.close();
+    } else{
+        let browser = await puppeteer.launch({headless: true});
+        let page = await browser.newPage();
+        await page.setViewport({width: 1920, height: 1080})
+        await page.setDefaultNavigationTimeout(120000);
+        await page.goto(qualurl);
+        await page.waitForTimeout(2000);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Supercross[/b][/u]\n`);
+        await page.click('#nav-standings-tab')
+        await page.select('#standingsClassSelector', `1`)
+        await page.select(`#DataTables_Table_13_length > label:nth-child(1) > select:nth-child(1)`, '100')
+        await page.waitForTimeout(5000)
+    
+    
+        let points = await page.evaluate(() =>{
+            function capitalize(str) {
+                return str.replace(
+                    /\w\S*/g,
+                    function(txt) {
+                        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                    }
+                );
+            }
+            let numberArray = [];
+            let nameArray = [];
+            let pointArray = [];
+            let uidArray = [];
+            for(let i=0;i<20;i++){
+                numberArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+                nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
+                pointArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+                uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            }
+            return {numberArray, nameArray, pointArray, uidArray};
+        });
+        for(let j = 0; j<20;j++){
+            let bikeColor = '000000';
+            let teamStr = '';
+            for(let k=0; k<teams.length; k++){
+                if(points.uidArray[j] === parseInt(teams[k].uid)){
+                    bikeColor = teams[k].bike;
+                    teamStr = teams[k].team;
+                } else{
+                    //do nothing
+                }
+            }
+            if(teamStr !== ''){
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            } else{
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            }
+        }
+        await browser.close();
     }
-    await browser.close();
+    
 }
 
 async function pointsSX250Novice(qualurl){
