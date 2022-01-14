@@ -1,5 +1,19 @@
 [
     {
+        "timestamp": "2022-01-04T19:11:37.000Z",
+        "uid": 30696,
+        "name": "Aaron Wills",
+        "team": "Peap.co",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:15:06.000Z",
+        "uid": 2357,
+        "name": "Aj Meadows",
+        "team": "Moto.Fails",
+        "bike": "0000FF"
+    },
+    {
         "timestamp": "2022-01-04T19:09:36.000Z",
         "uid": 19554,
         "name": "Alec Horn",
@@ -7,298 +21,53 @@
         "bike": "FF8000"
     },
     {
-        "timestamp": "2022-01-04T19:09:41.000Z",
-        "uid": 23267,
-        "name": "Austin Ecklund",
-        "team": "1TF",
-        "bike": "FF8000"
+        "timestamp": "2022-01-04T19:12:13.000Z",
+        "uid": 28734,
+        "name": "Alec Zellner",
+        "team": "Vurbmoto",
+        "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:09:48.000Z",
-        "uid": 39599,
-        "name": "Caiden Gross",
-        "team": "1TF",
-        "bike": "FF8000"
+        "timestamp": "2022-01-04T19:13:00.000Z",
+        "uid": 18576,
+        "name": "Alex Heckman",
+        "team": "SYS / Heckman Productions",
+        "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:09:46.000Z",
-        "uid": 32562,
-        "name": "Clement Cogo",
-        "team": "1TF",
-        "bike": "FF8000"
+        "timestamp": "2022-01-04T19:11:58.000Z",
+        "uid": 18915,
+        "name": "Alex Helms",
+        "team": "Proline Designs",
+        "bike": "0000FF"
     },
     {
-        "timestamp": "2022-01-04T19:09:45.000Z",
-        "uid": 30353,
-        "name": "Colton Hansen",
-        "team": "1TF",
-        "bike": "FF8000"
+        "timestamp": "2022-01-04T19:10:57.000Z",
+        "uid": 24454,
+        "name": "Alex Kerr",
+        "team": "Jack Daniel's Racing",
+        "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:09:47.000Z",
-        "uid": 32968,
-        "name": "Dean Tye",
-        "team": "1TF",
-        "bike": "FF8000"
+        "timestamp": "2022-01-04T19:13:28.000Z",
+        "uid": 6454,
+        "name": "Alexis Leclair",
+        "team": "Panini",
+        "bike": "0000FF"
     },
     {
-        "timestamp": "2022-01-04T19:09:40.000Z",
-        "uid": 23100,
-        "name": "Eli Block",
-        "team": "1TF",
-        "bike": "FF8000"
+        "timestamp": "2022-01-04T19:14:34.000Z",
+        "uid": 31521,
+        "name": "Andrew Wascom",
+        "team": "Moto.Fails",
+        "bike": "0000FF"
     },
     {
-        "timestamp": "2022-01-04T19:09:34.315Z",
-        "uid": 13750,
-        "name": "Joe Wagner",
-        "team": "1TF",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:39.000Z",
-        "uid": 22937,
-        "name": "Joseph Pilsner",
-        "team": "1TF",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:38.000Z",
-        "uid": 22447,
-        "name": "Luke Sullivan",
-        "team": "1TF",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:42.000Z",
-        "uid": 27130,
-        "name": "Nicklas Langstrup",
-        "team": "1TF",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:44.000Z",
-        "uid": 28509,
-        "name": "Rogan McIntosh",
-        "team": "1TF",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:43.000Z",
-        "uid": 27574,
-        "name": "Ryder Plouffe",
-        "team": "1TF",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:35.000Z",
-        "uid": 18588,
-        "name": "Seth Garrett",
-        "team": "1TF",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:37.000Z",
-        "uid": 20274,
-        "name": "Trent Adams",
-        "team": "1TF",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:13:58.000Z",
-        "uid": 31340,
-        "name": "Cody McMurray",
-        "team": "7Fiveone Apparel",
+        "timestamp": "2022-01-04T19:12:39.000Z",
+        "uid": 26568,
+        "name": "Antoine Mouqueron",
+        "team": "Wiseco Products",
         "bike": "000000"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:51.000Z",
-        "uid": 10651,
-        "name": "Austin Bear",
-        "team": "Adept Creative Co.",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:54.000Z",
-        "uid": 20728,
-        "name": "Brandon Wolfe",
-        "team": "Adept Creative Co.",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:58.000Z",
-        "uid": 26349,
-        "name": "Brayden Tharp",
-        "team": "Adept Creative Co.",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:52.000Z",
-        "uid": 17074,
-        "name": "Caden Speck",
-        "team": "Adept Creative Co.",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:55.000Z",
-        "uid": 22060,
-        "name": "Casey Cochran",
-        "team": "Adept Creative Co.",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:59.000Z",
-        "uid": 27952,
-        "name": "Cole Gress",
-        "team": "Adept Creative Co.",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:49.000Z",
-        "uid": 4275,
-        "name": "Devin Davis",
-        "team": "Adept Creative Co.",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:50.000Z",
-        "uid": 8855,
-        "name": "Erik Haugness",
-        "team": "Adept Creative Co.",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:57.000Z",
-        "uid": 23185,
-        "name": "Kevin Gonzalez",
-        "team": "Adept Creative Co.",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:53.000Z",
-        "uid": 19661,
-        "name": "Logan Leitzel",
-        "team": "Adept Creative Co.",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:56.000Z",
-        "uid": 22324,
-        "name": "Luke Magnetti",
-        "team": "Adept Creative Co.",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:01.000Z",
-        "uid": 36809,
-        "name": "Ryan Pinkerton",
-        "team": "Adept Creative Co.",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:00.000Z",
-        "uid": 32029,
-        "name": "Trevor Burns",
-        "team": "Adept Creative Co.",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:13:59.000Z",
-        "uid": 23379,
-        "name": "Hayden Stevenson",
-        "team": "AEO",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:00.000Z",
-        "uid": 46468,
-        "name": "Matthew Cruz",
-        "team": "Altus Motorsports",
-        "bike": "000000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:01.000Z",
-        "uid": 49261,
-        "name": "Robbie Good",
-        "team": "AOSX",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:03.000Z",
-        "uid": 9437,
-        "name": "Atom Holm",
-        "team": "Ayetom.com",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:04.000Z",
-        "uid": 22612,
-        "name": "Brandon Nigrin",
-        "team": "Ayetom.com",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:02.000Z",
-        "uid": 7108,
-        "name": "Daniel Irvine",
-        "team": "Ayetom.com",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:05.000Z",
-        "uid": 31547,
-        "name": "Seth Shirley",
-        "team": "Ayetom.com",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:02.000Z",
-        "uid": 22178,
-        "name": "Ryan Crow",
-        "team": "Baguette Racing",
-        "bike": "000000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:03.000Z",
-        "uid": 45543,
-        "name": "Gunnar Ortiz",
-        "team": "BC Racing",
-        "bike": "000000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:07.000Z",
-        "uid": 31857,
-        "name": "Christopher McPherson",
-        "team": "Boots House",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:08.000Z",
-        "uid": 32021,
-        "name": "Chuckie Nigrin",
-        "team": "Boots House",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:06.000Z",
-        "uid": 22903,
-        "name": "Dominic Paolini",
-        "team": "Boots House",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:09.000Z",
-        "uid": 32983,
-        "name": "Layne Wafford",
-        "team": "Boots House",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:10.000Z",
-        "uid": 42833,
-        "name": "Will Clark",
-        "team": "Boots House",
-        "bike": "0000FF"
     },
     {
         "timestamp": "2022-01-04T19:13:14.000Z",
@@ -308,67 +77,60 @@
         "bike": "00BF00"
     },
     {
-        "timestamp": "2022-01-04T19:10:12.000Z",
-        "uid": 10410,
-        "name": "Chase Blakely",
-        "team": "BPC",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:13.000Z",
-        "uid": 11337,
-        "name": "Jack Gatland",
-        "team": "BPC",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:17.000Z",
-        "uid": 32889,
-        "name": "Jett Wisdom",
-        "team": "BPC",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:15.000Z",
-        "uid": 17299,
-        "name": "Kevin Ferzacca",
-        "team": "BPC",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:11.000Z",
-        "uid": 4547,
-        "name": "Robert Wilson",
-        "team": "BPC",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:16.000Z",
-        "uid": 31221,
-        "name": "Trevor Spencer",
-        "team": "BPC",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:14.000Z",
-        "uid": 16254,
-        "name": "William St. Laurent",
-        "team": "BPC",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:04.000Z",
-        "uid": 31491,
-        "name": "Jimmy Griffin",
-        "team": "buttsnorker.com",
+        "timestamp": "2022-01-04T19:14:41.000Z",
+        "uid": 24566,
+        "name": "Ashton Rakofsky",
+        "team": "Pluto",
         "bike": "000000"
     },
     {
-        "timestamp": "2022-01-04T19:14:05.000Z",
-        "uid": 34141,
-        "name": "Charlie Owen",
-        "team": "CA Designs",
-        "bike": "000000"
+        "timestamp": "2022-01-04T19:10:03.000Z",
+        "uid": 9437,
+        "name": "Atom Holm",
+        "team": "Ayetom.com",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:46.000Z",
+        "uid": 29641,
+        "name": "Aurelien Baillif",
+        "team": "Impact",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:51.000Z",
+        "uid": 10651,
+        "name": "Austin Bear",
+        "team": "Adept Creative Co.",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:22.000Z",
+        "uid": 39269,
+        "name": "Austin Brydges",
+        "team": "FLD",
+        "bike": "00BF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:41.000Z",
+        "uid": 23267,
+        "name": "Austin Ecklund",
+        "team": "1TF",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:35.000Z",
+        "uid": 18517,
+        "name": "Benjamin Miljkovic",
+        "team": "Full Throttle",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:59.000Z",
+        "uid": 47336,
+        "name": "Berre Brands",
+        "team": "DTR Crew",
+        "bike": "CC0000"
     },
     {
         "timestamp": "2022-01-04T19:10:20.000Z",
@@ -378,11 +140,130 @@
         "bike": "CC0000"
     },
     {
+        "timestamp": "2022-01-04T19:14:19.000Z",
+        "uid": 28535,
+        "name": "Blake Cox",
+        "team": "Eyespec",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:56.000Z",
+        "uid": 11594,
+        "name": "Blake Franklin",
+        "team": "Proline Designs",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:54.000Z",
+        "uid": 4791,
+        "name": "Bob Joe",
+        "team": "Jack Daniel's Racing",
+        "bike": "FF0000"
+    },
+    {
         "timestamp": "2022-01-04T19:14:06.000Z",
         "uid": 40886,
         "name": "Bobby Bean",
         "team": "Covenant",
         "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:46.000Z",
+        "uid": 31262,
+        "name": "Bobby BigLines",
+        "team": "Ryno Power",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:49.000Z",
+        "uid": 18235,
+        "name": "Braden Carter",
+        "team": "Phil's",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:12:03.000Z",
+        "uid": 13568,
+        "name": "Braden Castellaneta",
+        "team": "Underground RC",
+        "bike": "FFBF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:52.000Z",
+        "uid": 3452,
+        "name": "Brady Standley",
+        "team": "Jack Daniel's Racing",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:19.000Z",
+        "uid": 25006,
+        "name": "Brandon Eade",
+        "team": "OneFiveDesigns",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:47.000Z",
+        "uid": 10326,
+        "name": "Brandon Hedge",
+        "team": "Ryno Power",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:15:05.000Z",
+        "uid": 16133,
+        "name": "Brandon Ma",
+        "team": "UpperGround Cr",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:04.000Z",
+        "uid": 22612,
+        "name": "Brandon Nigrin",
+        "team": "Ayetom.com",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:54.000Z",
+        "uid": 20728,
+        "name": "Brandon Wolfe",
+        "team": "Adept Creative Co.",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:15.000Z",
+        "uid": 33882,
+        "name": "Braydan Willett",
+        "team": "Elevated Motorsports",
+        "bike": "FFBF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:58.000Z",
+        "uid": 26349,
+        "name": "Brayden Tharp",
+        "team": "Adept Creative Co.",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:27.000Z",
+        "uid": 39610,
+        "name": "Brenden Kelly",
+        "team": "Kelly Racing",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:15:10.000Z",
+        "uid": 2642,
+        "name": "Brett Powers",
+        "team": "Wildside Designs",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:12:09.000Z",
+        "uid": 13211,
+        "name": "Brett Thomas",
+        "team": "Vurbmoto",
+        "bike": "FF0000"
     },
     {
         "timestamp": "2022-01-04T19:10:26.000Z",
@@ -399,388 +280,17 @@
         "bike": "CC0000"
     },
     {
-        "timestamp": "2022-01-04T19:14:08.000Z",
-        "uid": 15804,
-        "name": "Chase McDonald",
-        "team": "Covenant",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:18.000Z",
-        "uid": 6767,
-        "name": "Colton Mitchell",
-        "team": "Covenant",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:24.000Z",
-        "uid": 30293,
-        "name": "Jett Holyhead",
-        "team": "Covenant",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:21.000Z",
-        "uid": 24832,
-        "name": "Kael Braden",
-        "team": "Covenant",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:23.000Z",
-        "uid": 26987,
-        "name": "Lliam Rowella",
-        "team": "Covenant",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:19.000Z",
-        "uid": 22039,
-        "name": "Noah Viney",
-        "team": "Covenant",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:22.000Z",
-        "uid": 26846,
-        "name": "Preston Zollers",
-        "team": "Covenant",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:25.000Z",
-        "uid": 34198,
-        "name": "Talan Zollers",
-        "team": "Covenant",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:09.000Z",
-        "uid": 34695,
-        "name": "Jacob Johnson",
-        "team": "Coyote Racing",
+        "timestamp": "2022-01-04T19:14:37.000Z",
+        "uid": 48865,
+        "name": "Bryce Lizarraga",
+        "team": "One Handit Bandit",
         "bike": "000000"
     },
     {
-        "timestamp": "2022-01-04T19:14:10.000Z",
-        "uid": 38842,
-        "name": "Lucas Arriagada",
-        "team": "CTR",
-        "bike": "000000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:11.000Z",
-        "uid": 25419,
-        "name": "Liam Atkinson",
-        "team": "CV",
-        "bike": "FFBF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:12.000Z",
-        "uid": 36643,
-        "name": "James Newman",
-        "team": "Cyber Dezigns",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:13.000Z",
-        "uid": 39502,
-        "name": "Ezekiel Appelbaum",
-        "team": "Dirt Worx",
-        "bike": "000000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:14.000Z",
-        "uid": 30371,
-        "name": "Jake Spease",
-        "team": "District Designs",
-        "bike": "000000"
-    },
-    {
-        "timestamp": "2022-01-04T19:09:47.000Z",
-        "uid": 37993,
-        "name": "Juan Gomez",
-        "team": "DP26 KTM",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:23.000Z",
-        "uid": 18203,
-        "name": "Oscar Manias",
-        "team": "DP26 KTM",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:59.000Z",
-        "uid": 47336,
-        "name": "Berre Brands",
-        "team": "DTR Crew",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:15.000Z",
-        "uid": 33882,
-        "name": "Braydan Willett",
-        "team": "Elevated Motorsports",
-        "bike": "FFBF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:27.000Z",
-        "uid": 11747,
-        "name": "Lane Burkes",
-        "team": "Elevated Motorsports",
-        "bike": "FFBF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:16.000Z",
-        "uid": 5369,
-        "name": "Chase Odom",
-        "team": "ERA X SCR",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:17.000Z",
-        "uid": 39167,
-        "name": "Christopher Harris",
-        "team": "ERA X SCR",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:18.000Z",
-        "uid": 31898,
-        "name": "Tyler More",
-        "team": "ERA X SCR",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:19.000Z",
-        "uid": 28535,
-        "name": "Blake Cox",
-        "team": "Eyespec",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:08:59.000Z",
-        "uid": 48951,
-        "name": "Cody Cooper",
-        "team": "Eyespec",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:20.000Z",
-        "uid": 29944,
-        "name": "Filip Larsson",
-        "team": "Eyespec",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:21.000Z",
-        "uid": 25134,
-        "name": "Trystan Williams",
-        "team": "Flatchat",
-        "bike": "000000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:22.000Z",
-        "uid": 39269,
-        "name": "Austin Brydges",
-        "team": "FLD",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:33.000Z",
-        "uid": 37021,
-        "name": "Chance Setser",
-        "team": "FourLoko Designs",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:29.000Z",
-        "uid": 21634,
-        "name": "Dustin Chrest",
-        "team": "FourLoko Designs",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:31.000Z",
-        "uid": 29236,
-        "name": "Greed Jay",
-        "team": "FourLoko Designs",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:30.000Z",
-        "uid": 26712,
-        "name": "Logan Wren",
-        "team": "FourLoko Designs",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:34.000Z",
-        "uid": 38509,
-        "name": "Nathan Goman",
-        "team": "FourLoko Designs",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:32.000Z",
-        "uid": 36241,
-        "name": "Shelby Rempel",
-        "team": "FourLoko Designs",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:28.000Z",
-        "uid": 12970,
-        "name": "Will Knau",
-        "team": "FourLoko Designs",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:23.000Z",
-        "uid": 24272,
-        "name": "Collin Allen",
-        "team": "Fuel Graphix",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:24.000Z",
-        "uid": 23829,
-        "name": "Ethan Commodore",
-        "team": "Fuel Graphix",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:35.000Z",
-        "uid": 18517,
-        "name": "Benjamin Miljkovic",
-        "team": "Full Throttle",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:25.000Z",
-        "uid": 28851,
-        "name": "Jason Stubbs",
-        "team": "Full Throttle",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:38.000Z",
-        "uid": 17154,
-        "name": "Clint Martin",
-        "team": "Galaxy",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:37.000Z",
-        "uid": 13366,
-        "name": "Jeremy Denny",
-        "team": "Galaxy",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:39.000Z",
-        "uid": 21415,
-        "name": "Kyle Howard",
-        "team": "Galaxy",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:35.000Z",
-        "uid": 6521,
-        "name": "Logan Heagney",
-        "team": "Galaxy",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:41.000Z",
-        "uid": 39326,
-        "name": "Mack Spokes",
-        "team": "Galaxy",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:36.000Z",
-        "uid": 9752,
-        "name": "Nathan Denny",
-        "team": "Galaxy",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:40.000Z",
-        "uid": 23127,
-        "name": "Riley Hughan",
-        "team": "Galaxy",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:46.000Z",
-        "uid": 29641,
-        "name": "Aurelien Baillif",
-        "team": "Impact",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:42.000Z",
-        "uid": 2233,
-        "name": "Corentin Julian",
-        "team": "Impact",
-        "bike": "FF0000 "
-    },
-    {
-        "timestamp": "2022-01-04T19:10:43.000Z",
-        "uid": 10255,
-        "name": "Enzo Boutigny",
-        "team": "Impact",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:45.000Z",
-        "uid": 17899,
-        "name": "Ryan Turner",
-        "team": "Impact",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:48.000Z",
-        "uid": 32402,
-        "name": "Samuel Renard",
-        "team": "Impact",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:47.000Z",
-        "uid": 31280,
-        "name": "Steve Bonnal",
-        "team": "Impact",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:44.000Z",
-        "uid": 17383,
-        "name": "Thomas Bento",
-        "team": "Impact",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:57.000Z",
-        "uid": 24454,
-        "name": "Alex Kerr",
-        "team": "Jack Daniel's Racing",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:54.000Z",
-        "uid": 4791,
-        "name": "Bob Joe",
-        "team": "Jack Daniel's Racing",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:52.000Z",
-        "uid": 3452,
-        "name": "Brady Standley",
-        "team": "Jack Daniel's Racing",
+        "timestamp": "2022-01-04T19:11:48.000Z",
+        "uid": 11838,
+        "name": "Bryce Whealon",
+        "team": "Phil's",
         "bike": "FF0000"
     },
     {
@@ -791,200 +301,46 @@
         "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:10:49.000Z",
-        "uid": 21,
-        "name": "Daniel Mills",
-        "team": "Jack Daniel's Racing",
-        "bike": "FF0000"
+        "timestamp": "2022-01-04T19:09:52.000Z",
+        "uid": 17074,
+        "name": "Caden Speck",
+        "team": "Adept Creative Co.",
+        "bike": "0000FF"
     },
     {
-        "timestamp": "2022-01-04T19:10:58.000Z",
-        "uid": 25938,
-        "name": "Dylan Smith",
-        "team": "Jack Daniel's Racing",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:50.000Z",
-        "uid": 1486,
-        "name": "Jack Haley",
-        "team": "Jack Daniel's Racing",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:53.000Z",
-        "uid": 4681,
-        "name": "Roy Mitchell",
-        "team": "Jack Daniel's Racing",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:56.000Z",
-        "uid": 17537,
-        "name": "Tim Althaus",
-        "team": "Jack Daniel's Racing",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:55.000Z",
-        "uid": 5560,
-        "name": "Travis Hoffman",
-        "team": "Jack Daniel's Racing",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:12:32.000Z",
-        "uid": 26802,
-        "name": "Luca Schwerdtner",
-        "team": "JIBR",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:26.000Z",
-        "uid": 33606,
-        "name": "Seth Harnishfeger",
-        "team": "JNP",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:27.000Z",
-        "uid": 39610,
-        "name": "Brenden Kelly",
-        "team": "Kelly Racing",
-        "bike": "000000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:28.000Z",
-        "uid": 46003,
-        "name": "Luke Fauser",
-        "team": "Limited Decal",
-        "bike": "BFBFBF"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:29.000Z",
-        "uid": 31541,
-        "name": "Nathan McLaughlin",
-        "team": "Limited Decal",
-        "bike": "BFBFBF"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:30.000Z",
-        "uid": 30022,
-        "name": "Noah McLaughlin",
-        "team": "Limited Decal",
-        "bike": "BFBFBF"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:58.000Z",
-        "uid": 45996,
-        "name": "Tanner Scott",
-        "team": "Limited Decal",
-        "bike": "BFBFBF"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:31.000Z",
-        "uid": 28741,
-        "name": "Trevin Thompson",
-        "team": "Limited Decal",
-        "bike": "BFBFBF"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:32.000Z",
-        "uid": 49109,
-        "name": "Mat Robinson",
-        "team": "MatRob Designs",
-        "bike": "000000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:33.000Z",
-        "uid": 21110,
-        "name": "Tyler Moses",
-        "team": "MonsterMountainMx",
+        "timestamp": "2022-01-04T19:09:48.000Z",
+        "uid": 39599,
+        "name": "Caiden Gross",
+        "team": "1TF",
         "bike": "FF8000"
     },
     {
-        "timestamp": "2022-01-04T19:15:06.000Z",
-        "uid": 2357,
-        "name": "Aj Meadows",
-        "team": "Moto.Fails",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:34.000Z",
-        "uid": 31521,
-        "name": "Andrew Wascom",
-        "team": "Moto.Fails",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:06.000Z",
-        "uid": 34280,
-        "name": "Clement Potensier",
-        "team": "Motosport.com",
-        "bike": "BFBFBF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:07.000Z",
-        "uid": 38003,
-        "name": "Elliot Persson",
-        "team": "Motosport.com",
-        "bike": "BFBFBF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:05.000Z",
-        "uid": 34010,
-        "name": "Guillam Farres",
-        "team": "Motosport.com",
-        "bike": "BFBFBF"
-    },
-    {
-        "timestamp": "2022-01-04T19:10:59.000Z",
-        "uid": 5629,
-        "name": "Holden Cote",
-        "team": "Motosport.com",
-        "bike": "BFBFBF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:03.000Z",
-        "uid": 24448,
-        "name": "Max Chwalik",
-        "team": "Motosport.com",
-        "bike": "BFBFBF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:01.000Z",
-        "uid": 21957,
-        "name": "Sem Wijgman",
-        "team": "Motosport.com",
-        "bike": "BFBFBF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:02.000Z",
-        "uid": 23317,
-        "name": "Theo Sieciechowicz",
-        "team": "Motosport.com",
-        "bike": "BFBFBF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:00.000Z",
-        "uid": 16970,
-        "name": "Tristan Botteram",
-        "team": "Motosport.com",
-        "bike": "BFBFBF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:04.000Z",
-        "uid": 31495,
-        "name": "William Terava",
-        "team": "Motosport.com",
-        "bike": "BFBFBF"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:35.000Z",
-        "uid": 19001,
-        "name": "Timmy Briscoe",
-        "team": "MSK",
+        "timestamp": "2022-01-04T19:14:51.000Z",
+        "uid": 22064,
+        "name": "Caleb Bates",
+        "team": "ShredCo x Stapo MX",
         "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:12:02.000Z",
+        "uid": 10047,
+        "name": "Caleb Hall",
+        "team": "Underground RC",
+        "bike": "FFBF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:12:12.000Z",
+        "uid": 24545,
+        "name": "Carl Novak",
+        "team": "Vurbmoto",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:55.000Z",
+        "uid": 22060,
+        "name": "Casey Cochran",
+        "team": "Adept Creative Co.",
+        "bike": "0000FF"
     },
     {
         "timestamp": "2022-01-04T19:11:10.000Z",
@@ -994,94 +350,73 @@
         "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:11:17.000Z",
-        "uid": 32938,
-        "name": "David Bradley",
-        "team": "MXS Magazine",
+        "timestamp": "2022-01-04T19:10:33.000Z",
+        "uid": 37021,
+        "name": "Chance Setser",
+        "team": "FourLoko Designs",
+        "bike": "00BF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:45.000Z",
+        "uid": 6066,
+        "name": "Chandler Rogers",
+        "team": "Phil's",
         "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:11:15.000Z",
-        "uid": 31126,
-        "name": "Dylan Adams",
-        "team": "MXS Magazine",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:18.000Z",
-        "uid": 34905,
-        "name": "Jacob Kelly",
-        "team": "MXS Magazine",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:09.000Z",
-        "uid": 9249,
-        "name": "Jason Helm",
-        "team": "MXS Magazine",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:16.000Z",
-        "uid": 32400,
-        "name": "Jim Koping",
-        "team": "MXS Magazine",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:11.000Z",
-        "uid": 18628,
-        "name": "Leon Tye",
-        "team": "MXS Magazine",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:12.000Z",
-        "uid": 23106,
-        "name": "Loris Modard",
-        "team": "MXS Magazine",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:08.000Z",
-        "uid": 8686,
-        "name": "Rasmus Eriksson",
-        "team": "MXS Magazine",
-        "bike": "00BFFF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:14.000Z",
-        "uid": 28267,
-        "name": "Sam Hawes",
-        "team": "MXS Magazine",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:13.000Z",
-        "uid": 26443,
-        "name": "Tyler Wren",
-        "team": "MXS Magazine",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:36.000Z",
-        "uid": 19791,
-        "name": "Noah Karassy",
-        "team": "NCK Decals",
+        "timestamp": "2022-01-04T19:14:05.000Z",
+        "uid": 34141,
+        "name": "Charlie Owen",
+        "team": "CA Designs",
         "bike": "000000"
     },
     {
-        "timestamp": "2022-01-04T19:14:37.000Z",
-        "uid": 48865,
-        "name": "Bryce Lizarraga",
-        "team": "One Handit Bandit",
-        "bike": "000000"
+        "timestamp": "2022-01-04T19:10:12.000Z",
+        "uid": 10410,
+        "name": "Chase Blakely",
+        "team": "BPC",
+        "bike": "00BF00"
     },
     {
-        "timestamp": "2022-01-04T19:11:19.000Z",
-        "uid": 25006,
-        "name": "Brandon Eade",
-        "team": "OneFiveDesigns",
+        "timestamp": "2022-01-04T19:11:54.000Z",
+        "uid": 7418,
+        "name": "Chase Dunivant",
+        "team": "Proline Designs",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:08.000Z",
+        "uid": 15804,
+        "name": "Chase McDonald",
+        "team": "Covenant",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:16.000Z",
+        "uid": 5369,
+        "name": "Chase Odom",
+        "team": "ERA X SCR",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:50.000Z",
+        "uid": 22504,
+        "name": "Chris Post",
+        "team": "Phil's",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:17.000Z",
+        "uid": 39167,
+        "name": "Christopher Harris",
+        "team": "ERA X SCR",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:07.000Z",
+        "uid": 31857,
+        "name": "Christopher McPherson",
+        "team": "Boots House",
         "bike": "0000FF"
     },
     {
@@ -1092,46 +427,46 @@
         "bike": "0000FF"
     },
     {
-        "timestamp": "2022-01-04T19:11:20.000Z",
-        "uid": 33887,
-        "name": "Jonathan Hernandez",
-        "team": "OneFiveDesigns",
+        "timestamp": "2022-01-04T19:10:08.000Z",
+        "uid": 32021,
+        "name": "Chuckie Nigrin",
+        "team": "Boots House",
         "bike": "0000FF"
     },
     {
-        "timestamp": "2022-01-04T19:11:22.000Z",
-        "uid": 37339,
-        "name": "Kaden Koepke",
-        "team": "OneFiveDesigns",
+        "timestamp": "2022-01-04T19:09:46.000Z",
+        "uid": 32562,
+        "name": "Clement Cogo",
+        "team": "1TF",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:06.000Z",
+        "uid": 34280,
+        "name": "Clement Potensier",
+        "team": "Motosport.com",
+        "bike": "BFBFBF"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:38.000Z",
+        "uid": 17154,
+        "name": "Clint Martin",
+        "team": "Galaxy",
         "bike": "0000FF"
     },
     {
-        "timestamp": "2022-01-04T19:14:38.000Z",
-        "uid": 46886,
-        "name": "Kai Koepke",
-        "team": "OneFiveDesigns",
-        "bike": "0000FF"
+        "timestamp": "2022-01-04T19:08:59.000Z",
+        "uid": 48951,
+        "name": "Cody Cooper",
+        "team": "Eyespec",
+        "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:11:21.000Z",
-        "uid": 34215,
-        "name": "Landon Bartol",
-        "team": "OneFiveDesigns",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:23.000Z",
-        "uid": 37578,
-        "name": "Logan Mortberg",
-        "team": "OneFiveDesigns",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:39.000Z",
-        "uid": 49034,
-        "name": "Richard Miller",
-        "team": "OTB",
-        "bike": "00BF00"
+        "timestamp": "2022-01-04T19:13:58.000Z",
+        "uid": 31340,
+        "name": "Cody McMurray",
+        "team": "7Fiveone Apparel",
+        "bike": "000000"
     },
     {
         "timestamp": "2022-01-04T19:11:30.000Z",
@@ -1141,74 +476,46 @@
         "bike": "0000FF"
     },
     {
-        "timestamp": "2022-01-04T19:11:32.000Z",
-        "uid": 25569,
-        "name": "Ethan Gerst",
-        "team": "Panini",
+        "timestamp": "2022-01-04T19:09:59.000Z",
+        "uid": 27952,
+        "name": "Cole Gress",
+        "team": "Adept Creative Co.",
         "bike": "0000FF"
     },
     {
-        "timestamp": "2022-01-04T19:11:33.000Z",
-        "uid": 29859,
-        "name": "Jaden Wilson",
-        "team": "Panini",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:26.000Z",
-        "uid": 9061,
-        "name": "Jeremi Seabolt",
-        "team": "Panini",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:29.000Z",
-        "uid": 23699,
-        "name": "Johan Bourdieu",
-        "team": "Panini",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:28.000Z",
-        "uid": 17199,
-        "name": "Lewis Lynds",
-        "team": "Panini",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:27.000Z",
-        "uid": 9863,
-        "name": "Michael Buitendijk",
-        "team": "Panini",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:31.000Z",
-        "uid": 25177,
-        "name": "Nathan Prin",
-        "team": "Panini",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:25.000Z",
-        "uid": 7396,
-        "name": "Owen Hillman",
-        "team": "Panini",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:34.000Z",
-        "uid": 39236,
-        "name": "Payson Johnson ",
-        "team": "Panini",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:37.000Z",
-        "uid": 30696,
-        "name": "Aaron Wills",
-        "team": "Peap.co",
+        "timestamp": "2022-01-04T19:14:23.000Z",
+        "uid": 24272,
+        "name": "Collin Allen",
+        "team": "Fuel Graphix",
         "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:54.000Z",
+        "uid": 1846,
+        "name": "Colton Goeckeritz",
+        "team": "STANCE",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:45.000Z",
+        "uid": 30353,
+        "name": "Colton Hansen",
+        "team": "1TF",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:18.000Z",
+        "uid": 6767,
+        "name": "Colton Mitchell",
+        "team": "Covenant",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:42.000Z",
+        "uid": 2233,
+        "name": "Corentin Julian",
+        "team": "Impact",
+        "bike": "FF0000 "
     },
     {
         "timestamp": "2022-01-04T19:11:40.000Z",
@@ -1225,53 +532,39 @@
         "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:11:36.000Z",
-        "uid": 26321,
-        "name": "Joey Bradstreet",
-        "team": "Peap.co",
+        "timestamp": "2022-01-04T19:14:49.000Z",
+        "uid": 21311,
+        "name": "Dan Jones",
+        "team": "SGUK",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:02.000Z",
+        "uid": 7108,
+        "name": "Daniel Irvine",
+        "team": "Ayetom.com",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:49.000Z",
+        "uid": 21,
+        "name": "Daniel Mills",
+        "team": "Jack Daniel's Racing",
         "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:11:35.000Z",
-        "uid": 22389,
-        "name": "Kyle Carter",
-        "team": "Peap.co",
+        "timestamp": "2022-01-04T19:11:17.000Z",
+        "uid": 32938,
+        "name": "David Bradley",
+        "team": "MXS Magazine",
         "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:11:39.000Z",
-        "uid": 34325,
-        "name": "Ryan Swanson",
-        "team": "Peap.co",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:49.000Z",
-        "uid": 18235,
-        "name": "Braden Carter",
-        "team": "Phil's",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:48.000Z",
-        "uid": 11838,
-        "name": "Bryce Whealon",
-        "team": "Phil's",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:45.000Z",
-        "uid": 6066,
-        "name": "Chandler Rogers",
-        "team": "Phil's",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:50.000Z",
-        "uid": 22504,
-        "name": "Chris Post",
-        "team": "Phil's",
-        "bike": "FF0000"
+        "timestamp": "2022-01-04T19:09:47.000Z",
+        "uid": 32968,
+        "name": "Dean Tye",
+        "team": "1TF",
+        "bike": "FF8000"
     },
     {
         "timestamp": "2022-01-04T19:11:42.000Z",
@@ -1281,142 +574,51 @@
         "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:11:51.000Z",
-        "uid": 23971,
-        "name": "Jakob Hubbard",
-        "team": "Phil's",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:53.000Z",
-        "uid": 33050,
-        "name": "James Wilcox",
-        "team": "Phil's",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:52.000Z",
-        "uid": 31403,
-        "name": "John Hileman",
-        "team": "Phil's",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:40.000Z",
-        "uid": 5189,
-        "name": "Kasey Oehlert",
-        "team": "Phil's",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:44.000Z",
-        "uid": 5149,
-        "name": "Matt Cromie",
-        "team": "Phil's",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:41.000Z",
-        "uid": 1248,
-        "name": "Maxime Vanderbeek",
-        "team": "Phil's",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:46.000Z",
-        "uid": 7877,
-        "name": "Tanner Rogers",
-        "team": "Phil's",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:43.000Z",
-        "uid": 4943,
-        "name": "Thomas Wilcox",
-        "team": "Phil's",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:47.000Z",
-        "uid": 10610,
-        "name": "Zoa Cross",
-        "team": "Phil's",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:41.000Z",
-        "uid": 24566,
-        "name": "Ashton Rakofsky",
-        "team": "Pluto",
-        "bike": "000000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:42.000Z",
-        "uid": 22061,
-        "name": "Josh Bellinger",
-        "team": "Pluto",
-        "bike": "000000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:43.000Z",
-        "uid": 38437,
-        "name": "Ryder Bednar",
-        "team": "Pluto",
-        "bike": "000000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:44.000Z",
-        "uid": 4422,
-        "name": "Zane Urek",
-        "team": "PoGo",
-        "bike": "000000"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:58.000Z",
-        "uid": 18915,
-        "name": "Alex Helms",
-        "team": "Proline Designs",
+        "timestamp": "2022-01-04T19:09:49.000Z",
+        "uid": 4275,
+        "name": "Devin Davis",
+        "team": "Adept Creative Co.",
         "bike": "0000FF"
     },
     {
-        "timestamp": "2022-01-04T19:11:56.000Z",
-        "uid": 11594,
-        "name": "Blake Franklin",
-        "team": "Proline Designs",
+        "timestamp": "2022-01-04T19:10:06.000Z",
+        "uid": 22903,
+        "name": "Dominic Paolini",
+        "team": "Boots House",
         "bike": "0000FF"
     },
     {
-        "timestamp": "2022-01-04T19:11:54.000Z",
-        "uid": 7418,
-        "name": "Chase Dunivant",
-        "team": "Proline Designs",
-        "bike": "0000FF"
+        "timestamp": "2022-01-04T19:13:56.000Z",
+        "uid": 4652,
+        "name": "Dominic Tibberino",
+        "team": "Tegridy",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:29.000Z",
+        "uid": 21634,
+        "name": "Dustin Chrest",
+        "team": "FourLoko Designs",
+        "bike": "00BF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:15.000Z",
+        "uid": 31126,
+        "name": "Dylan Adams",
+        "team": "MXS Magazine",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:12:07.000Z",
+        "uid": 28299,
+        "name": "Dylan Cavaciuti",
+        "team": "Underground RC",
+        "bike": "FFBF00"
     },
     {
         "timestamp": "2022-01-04T19:12:00.000Z",
         "uid": 29623,
         "name": "Dylan Love",
-        "team": "Proline Designs",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:55.000Z",
-        "uid": 10123,
-        "name": "Neil Fitzpatrick",
-        "team": "Proline Designs",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:59.000Z",
-        "uid": 20073,
-        "name": "Seth Crotty",
-        "team": "Proline Designs",
-        "bike": "0000FF"
-    },
-    {
-        "timestamp": "2022-01-04T19:11:57.000Z",
-        "uid": 16669,
-        "name": "Tanner Thorsen",
         "team": "Proline Designs",
         "bike": "0000FF"
     },
@@ -1428,59 +630,94 @@
         "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:12:25.000Z",
-        "uid": 42255,
-        "name": "Rasmus Balzer",
-        "team": "Romis",
-        "bike": "FFBF00"
+        "timestamp": "2022-01-04T19:10:58.000Z",
+        "uid": 25938,
+        "name": "Dylan Smith",
+        "team": "Jack Daniel's Racing",
+        "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:14:46.000Z",
-        "uid": 31262,
-        "name": "Bobby BigLines",
-        "team": "Ryno Power",
-        "bike": "CC0000"
+        "timestamp": "2022-01-04T19:09:40.000Z",
+        "uid": 23100,
+        "name": "Eli Block",
+        "team": "1TF",
+        "bike": "FF8000"
     },
     {
-        "timestamp": "2022-01-04T19:14:47.000Z",
-        "uid": 10326,
-        "name": "Brandon Hedge",
-        "team": "Ryno Power",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:48.000Z",
-        "uid": 33165,
-        "name": "Matt Greeley",
-        "team": "Ryno Power",
-        "bike": "CC0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:13:28.000Z",
-        "uid": 6454,
-        "name": "Alexis Leclair",
-        "team": "Safemoon",
+        "timestamp": "2022-01-04T19:11:07.000Z",
+        "uid": 38003,
+        "name": "Elliot Persson",
+        "team": "Motosport.com",
         "bike": "BFBFBF"
     },
     {
-        "timestamp": "2022-01-04T19:14:49.000Z",
-        "uid": 21311,
-        "name": "Dan Jones",
-        "team": "SGUK",
+        "timestamp": "2022-01-04T19:13:57.000Z",
+        "uid": 31619,
+        "name": "Emmett Sund",
+        "team": "Stoolbend",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:43.000Z",
+        "uid": 10255,
+        "name": "Enzo Boutigny",
+        "team": "Impact",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:50.000Z",
+        "uid": 8855,
+        "name": "Erik Haugness",
+        "team": "Adept Creative Co.",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:12:06.000Z",
+        "uid": 25349,
+        "name": "Erin Rockafellow",
+        "team": "Underground RC",
+        "bike": "FFBF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:24.000Z",
+        "uid": 23829,
+        "name": "Ethan Commodore",
+        "team": "Fuel Graphix",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:32.000Z",
+        "uid": 25569,
+        "name": "Ethan Gerst",
+        "team": "Panini",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:13:21.000Z",
+        "uid": 17880,
+        "name": "Ethan Parks",
+        "team": "SYS / Heckman Productions",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:13.000Z",
+        "uid": 39502,
+        "name": "Ezekiel Appelbaum",
+        "team": "Dirt Worx",
         "bike": "000000"
     },
     {
-        "timestamp": "2022-01-04T19:14:50.000Z",
-        "uid": 20859,
-        "name": "Kyle Biggs",
-        "team": "SGUK",
-        "bike": "000000"
+        "timestamp": "2022-01-04T19:14:55.000Z",
+        "uid": 5890,
+        "name": "Ezra Lewis",
+        "team": "STANCE",
+        "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:14:51.000Z",
-        "uid": 22064,
-        "name": "Caleb Bates",
-        "team": "ShredCo x Stapo MX",
+        "timestamp": "2022-01-04T19:14:20.000Z",
+        "uid": 29944,
+        "name": "Filip Larsson",
+        "team": "Eyespec",
         "bike": "FF0000"
     },
     {
@@ -1491,53 +728,158 @@
         "bike": "000000"
     },
     {
+        "timestamp": "2022-01-04T19:10:31.000Z",
+        "uid": 29236,
+        "name": "Greed Jay",
+        "team": "FourLoko Designs",
+        "bike": "00BF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:05.000Z",
+        "uid": 34010,
+        "name": "Guillam Farres",
+        "team": "Motosport.com",
+        "bike": "BFBFBF"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:03.000Z",
+        "uid": 45543,
+        "name": "Gunnar Ortiz",
+        "team": "BC Racing",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:13:59.000Z",
+        "uid": 23379,
+        "name": "Hayden Stevenson",
+        "team": "AEO",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:59.000Z",
+        "uid": 5629,
+        "name": "Holden Cote",
+        "team": "Motosport.com",
+        "bike": "BFBFBF"
+    },
+    {
+        "timestamp": "2022-01-04T19:12:17.000Z",
+        "uid": 43399,
+        "name": "Isaac Lawyer",
+        "team": "Vurbmoto",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:13.000Z",
+        "uid": 11337,
+        "name": "Jack Gatland",
+        "team": "BPC",
+        "bike": "00BF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:50.000Z",
+        "uid": 1486,
+        "name": "Jack Haley",
+        "team": "Jack Daniel's Racing",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:09.000Z",
+        "uid": 34695,
+        "name": "Jacob Johnson",
+        "team": "Coyote Racing",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:18.000Z",
+        "uid": 34905,
+        "name": "Jacob Kelly",
+        "team": "MXS Magazine",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:33.000Z",
+        "uid": 29859,
+        "name": "Jaden Wilson",
+        "team": "Panini",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:15:07.000Z",
+        "uid": 36624,
+        "name": "Jadon Cooper",
+        "team": "VSR",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:14.000Z",
+        "uid": 30371,
+        "name": "Jake Spease",
+        "team": "District Designs",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:51.000Z",
+        "uid": 23971,
+        "name": "Jakob Hubbard",
+        "team": "Phil's",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:12.000Z",
+        "uid": 36643,
+        "name": "James Newman",
+        "team": "Cyber Dezigns",
+        "bike": "00BF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:53.000Z",
+        "uid": 33050,
+        "name": "James Wilcox",
+        "team": "Phil's",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:09.000Z",
+        "uid": 9249,
+        "name": "Jason Helm",
+        "team": "MXS Magazine",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:25.000Z",
+        "uid": 28851,
+        "name": "Jason Stubbs",
+        "team": "Full Throttle",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:26.000Z",
+        "uid": 9061,
+        "name": "Jeremi Seabolt",
+        "team": "Panini",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:37.000Z",
+        "uid": 13366,
+        "name": "Jeremy Denny",
+        "team": "Galaxy",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:15:08.000Z",
+        "uid": 33135,
+        "name": "Jeremy Estrella",
+        "team": "VSR",
+        "bike": "FF8000"
+    },
+    {
         "timestamp": "2022-01-04T19:14:53.000Z",
         "uid": 7750,
         "name": "Jeremy Gwiozdowski",
         "team": "SPINC",
         "bike": "000000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:54.000Z",
-        "uid": 1846,
-        "name": "Colton Goeckeritz",
-        "team": "STANCE",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:55.000Z",
-        "uid": 5890,
-        "name": "Ezra Lewis",
-        "team": "STANCE",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:13:57.000Z",
-        "uid": 31619,
-        "name": "Emmett Sund",
-        "team": "Stoolbend",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:13:35.000Z",
-        "uid": 23780,
-        "name": "Tyler Scheels",
-        "team": "Stoolbend",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:13:00.000Z",
-        "uid": 18576,
-        "name": "Alex Heckman",
-        "team": "SYS / Heckman Productions",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:13:21.000Z",
-        "uid": 17880,
-        "name": "Ethan Parks",
-        "team": "SYS / Heckman Productions",
-        "bike": "FF0000"
     },
     {
         "timestamp": "2022-01-04T19:13:07.000Z",
@@ -1547,45 +889,38 @@
         "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:12:53.000Z",
-        "uid": 14782,
-        "name": "Kyle Carpenter",
-        "team": "Tagger Designs",
+        "timestamp": "2022-01-04T19:10:24.000Z",
+        "uid": 30293,
+        "name": "Jett Holyhead",
+        "team": "Covenant",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:17.000Z",
+        "uid": 32889,
+        "name": "Jett Wisdom",
+        "team": "BPC",
+        "bike": "00BF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:16.000Z",
+        "uid": 32400,
+        "name": "Jim Koping",
+        "team": "MXS Magazine",
         "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:13:56.000Z",
-        "uid": 4652,
-        "name": "Dominic Tibberino",
-        "team": "Tegridy",
+        "timestamp": "2022-01-04T19:14:04.000Z",
+        "uid": 31491,
+        "name": "Jimmy Griffin",
+        "team": "buttsnorker.com",
         "bike": "000000"
     },
     {
-        "timestamp": "2022-01-04T19:14:56.000Z",
-        "uid": 33143,
-        "name": "Mitchell Helmer",
-        "team": "Tokyo Mods",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:57.000Z",
-        "uid": 30368,
-        "name": "Sebastien Racine",
-        "team": "Tokyo Mods",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:14:59.000Z",
-        "uid": 33089,
-        "name": "Tukker Mclean",
-        "team": "Tokyo Mods",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:15:00.000Z",
-        "uid": 20904,
-        "name": "Tyson Parliament",
-        "team": "Tokyo Mods",
+        "timestamp": "2022-01-04T19:09:34.315Z",
+        "uid": 13750,
+        "name": "Joe Wagner",
+        "team": "1TF",
         "bike": "FF8000"
     },
     {
@@ -1596,39 +931,25 @@
         "bike": "000000"
     },
     {
-        "timestamp": "2022-01-04T19:15:02.000Z",
-        "uid": 27463,
-        "name": "Tyler Mollet",
-        "team": "Undefined Lifestyle co",
-        "bike": "000000"
+        "timestamp": "2022-01-04T19:11:36.000Z",
+        "uid": 26321,
+        "name": "Joey Bradstreet",
+        "team": "Peap.co",
+        "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:12:03.000Z",
-        "uid": 13568,
-        "name": "Braden Castellaneta",
-        "team": "Underground RC",
-        "bike": "FFBF00"
+        "timestamp": "2022-01-04T19:11:29.000Z",
+        "uid": 23699,
+        "name": "Johan Bourdieu",
+        "team": "Panini",
+        "bike": "0000FF"
     },
     {
-        "timestamp": "2022-01-04T19:12:02.000Z",
-        "uid": 10047,
-        "name": "Caleb Hall",
-        "team": "Underground RC",
-        "bike": "FFBF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:12:07.000Z",
-        "uid": 28299,
-        "name": "Dylan Cavaciuti",
-        "team": "Underground RC",
-        "bike": "FFBF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:12:06.000Z",
-        "uid": 25349,
-        "name": "Erin Rockafellow",
-        "team": "Underground RC",
-        "bike": "FFBF00"
+        "timestamp": "2022-01-04T19:11:52.000Z",
+        "uid": 31403,
+        "name": "John Hileman",
+        "team": "Phil's",
+        "bike": "FF0000"
     },
     {
         "timestamp": "2022-01-04T19:12:01.000Z",
@@ -1638,6 +959,251 @@
         "bike": "FFBF00"
     },
     {
+        "timestamp": "2022-01-04T19:15:12.000Z",
+        "uid": 17892,
+        "name": "JoJo Dashosh",
+        "team": "ZYN",
+        "bike": "00BF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:20.000Z",
+        "uid": 33887,
+        "name": "Jonathan Hernandez",
+        "team": "OneFiveDesigns",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:39.000Z",
+        "uid": 22937,
+        "name": "Joseph Pilsner",
+        "team": "1TF",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:42.000Z",
+        "uid": 22061,
+        "name": "Josh Bellinger",
+        "team": "Pluto",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:15:11.000Z",
+        "uid": 10981,
+        "name": "Josh Gilmore",
+        "team": "Wildside Designs",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:47.000Z",
+        "uid": 37993,
+        "name": "Juan Gomez",
+        "team": "DP26 KTM",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:22.000Z",
+        "uid": 37339,
+        "name": "Kaden Koepke",
+        "team": "OneFiveDesigns",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:21.000Z",
+        "uid": 24832,
+        "name": "Kael Braden",
+        "team": "Covenant",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:38.000Z",
+        "uid": 46886,
+        "name": "Kai Koepke",
+        "team": "OneFiveDesigns",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:40.000Z",
+        "uid": 5189,
+        "name": "Kasey Oehlert",
+        "team": "Phil's",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:15.000Z",
+        "uid": 17299,
+        "name": "Kevin Ferzacca",
+        "team": "BPC",
+        "bike": "00BF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:57.000Z",
+        "uid": 23185,
+        "name": "Kevin Gonzalez",
+        "team": "Adept Creative Co.",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:50.000Z",
+        "uid": 20859,
+        "name": "Kyle Biggs",
+        "team": "SGUK",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:12:53.000Z",
+        "uid": 14782,
+        "name": "Kyle Carpenter",
+        "team": "Tagger Designs",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:35.000Z",
+        "uid": 22389,
+        "name": "Kyle Carter",
+        "team": "Peap.co",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:39.000Z",
+        "uid": 21415,
+        "name": "Kyle Howard",
+        "team": "Galaxy",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:21.000Z",
+        "uid": 34215,
+        "name": "Landon Bartol",
+        "team": "OneFiveDesigns",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:27.000Z",
+        "uid": 11747,
+        "name": "Lane Burkes",
+        "team": "Elevated Motorsports",
+        "bike": "FFBF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:09.000Z",
+        "uid": 32983,
+        "name": "Layne Wafford",
+        "team": "Boots House",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:11.000Z",
+        "uid": 18628,
+        "name": "Leon Tye",
+        "team": "MXS Magazine",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:28.000Z",
+        "uid": 17199,
+        "name": "Lewis Lynds",
+        "team": "Panini",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:11.000Z",
+        "uid": 25419,
+        "name": "Liam Atkinson",
+        "team": "CV",
+        "bike": "FFBF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:23.000Z",
+        "uid": 26987,
+        "name": "Lliam Rowella",
+        "team": "Covenant",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:35.000Z",
+        "uid": 6521,
+        "name": "Logan Heagney",
+        "team": "Galaxy",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:53.000Z",
+        "uid": 19661,
+        "name": "Logan Leitzel",
+        "team": "Adept Creative Co.",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:23.000Z",
+        "uid": 37578,
+        "name": "Logan Mortberg",
+        "team": "OneFiveDesigns",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:30.000Z",
+        "uid": 26712,
+        "name": "Logan Wren",
+        "team": "FourLoko Designs",
+        "bike": "00BF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:12.000Z",
+        "uid": 23106,
+        "name": "Loris Modard",
+        "team": "MXS Magazine",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:12:32.000Z",
+        "uid": 26802,
+        "name": "Luca Schwerdtner",
+        "team": "JIBR",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:10.000Z",
+        "uid": 38842,
+        "name": "Lucas Arriagada",
+        "team": "CTR",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:28.000Z",
+        "uid": 46003,
+        "name": "Luke Fauser",
+        "team": "Limited Decal",
+        "bike": "BFBFBF"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:56.000Z",
+        "uid": 22324,
+        "name": "Luke Magnetti",
+        "team": "Adept Creative Co.",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:38.000Z",
+        "uid": 22447,
+        "name": "Luke Sullivan",
+        "team": "Panini",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:41.000Z",
+        "uid": 39326,
+        "name": "Mack Spokes",
+        "team": "Galaxy",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:32.000Z",
+        "uid": 49109,
+        "name": "Mat Robinson",
+        "team": "MatRob Designs",
+        "bike": "000000"
+    },
+    {
         "timestamp": "2022-01-04T19:12:05.000Z",
         "uid": 17932,
         "name": "Matias Janice",
@@ -1645,18 +1211,158 @@
         "bike": "FFBF00"
     },
     {
-        "timestamp": "2022-01-04T19:12:08.000Z",
-        "uid": 33662,
-        "name": "Seth Carr",
-        "team": "Underground RC",
-        "bike": "FFBF00"
+        "timestamp": "2022-01-04T19:11:44.000Z",
+        "uid": 5149,
+        "name": "Matt Cromie",
+        "team": "Phil's",
+        "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:12:04.000Z",
-        "uid": 14539,
-        "name": "Tyler Lang",
-        "team": "Underground RC",
-        "bike": "FFBF00"
+        "timestamp": "2022-01-04T19:14:48.000Z",
+        "uid": 33165,
+        "name": "Matt Greeley",
+        "team": "Ryno Power",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:00.000Z",
+        "uid": 46468,
+        "name": "Matthew Cruz",
+        "team": "Altus Motorsports",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:15:13.000Z",
+        "uid": 34474,
+        "name": "Matthew LeBlanc",
+        "team": "ZYN",
+        "bike": "00BF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:03.000Z",
+        "uid": 24448,
+        "name": "Max Chwalik",
+        "team": "Motosport.com",
+        "bike": "BFBFBF"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:41.000Z",
+        "uid": 1248,
+        "name": "Maxime Vanderbeek",
+        "team": "Phil's",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:27.000Z",
+        "uid": 9863,
+        "name": "Michael Buitendijk",
+        "team": "Panini",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:56.000Z",
+        "uid": 33143,
+        "name": "Mitchell Helmer",
+        "team": "Tokyo Mods",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:12:15.000Z",
+        "uid": 33872,
+        "name": "Nate Brough",
+        "team": "Vurbmoto",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:36.000Z",
+        "uid": 9752,
+        "name": "Nathan Denny",
+        "team": "Galaxy",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:34.000Z",
+        "uid": 38509,
+        "name": "Nathan Goman",
+        "team": "FourLoko Designs",
+        "bike": "00BF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:29.000Z",
+        "uid": 31541,
+        "name": "Nathan McLaughlin",
+        "team": "Limited Decal",
+        "bike": "BFBFBF"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:31.000Z",
+        "uid": 25177,
+        "name": "Nathan Prin",
+        "team": "Panini",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:55.000Z",
+        "uid": 10123,
+        "name": "Neil Fitzpatrick",
+        "team": "Proline Designs",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:42.000Z",
+        "uid": 27130,
+        "name": "Nicklas Langstrup",
+        "team": "1TF",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:36.000Z",
+        "uid": 19791,
+        "name": "Noah Karassy",
+        "team": "NCK Decals",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:30.000Z",
+        "uid": 30022,
+        "name": "Noah McLaughlin",
+        "team": "Limited Decal",
+        "bike": "BFBFBF"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:19.000Z",
+        "uid": 22039,
+        "name": "Noah Viney",
+        "team": "Covenant",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:23.000Z",
+        "uid": 18203,
+        "name": "Oscar Manias",
+        "team": "DP26 KTM",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:25.000Z",
+        "uid": 7396,
+        "name": "Owen Hillman",
+        "team": "Panini",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:34.000Z",
+        "uid": 39236,
+        "name": "Payson Johnson ",
+        "team": "Panini",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:22.000Z",
+        "uid": 26846,
+        "name": "Preston Zollers",
+        "team": "Covenant",
+        "bike": "CC0000"
     },
     {
         "timestamp": "2022-01-04T19:15:03.000Z",
@@ -1666,74 +1372,25 @@
         "bike": "000000"
     },
     {
-        "timestamp": "2022-01-04T19:15:04.000Z",
-        "uid": 30151,
-        "name": "Tucker Chitwood",
-        "team": "Unlimited.Co",
-        "bike": "000000"
+        "timestamp": "2022-01-04T19:12:25.000Z",
+        "uid": 42255,
+        "name": "Rasmus Balzer",
+        "team": "Romis",
+        "bike": "FFBF00"
     },
     {
-        "timestamp": "2022-01-04T19:15:05.000Z",
-        "uid": 16133,
-        "name": "Brandon Ma",
-        "team": "UpperGround Cr",
-        "bike": "000000"
+        "timestamp": "2022-01-04T19:11:08.000Z",
+        "uid": 8686,
+        "name": "Rasmus Eriksson",
+        "team": "MXS Magazine",
+        "bike": "00BFFF"
     },
     {
-        "timestamp": "2022-01-04T19:15:07.000Z",
-        "uid": 36624,
-        "name": "Jadon Cooper",
-        "team": "VSR",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:15:08.000Z",
-        "uid": 33135,
-        "name": "Jeremy Estrella",
-        "team": "VSR",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:15:09.000Z",
-        "uid": 32796,
-        "name": "Tristan Powell",
-        "team": "VSR",
-        "bike": "FF8000"
-    },
-    {
-        "timestamp": "2022-01-04T19:12:13.000Z",
-        "uid": 28734,
-        "name": "Alec Zellner",
-        "team": "Vurbmoto",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:12:09.000Z",
-        "uid": 13211,
-        "name": "Brett Thomas",
-        "team": "Vurbmoto",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:12:12.000Z",
-        "uid": 24545,
-        "name": "Carl Novak",
-        "team": "Vurbmoto",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:12:17.000Z",
-        "uid": 43399,
-        "name": "Isaac Lawyer",
-        "team": "Vurbmoto",
-        "bike": "FF0000"
-    },
-    {
-        "timestamp": "2022-01-04T19:12:15.000Z",
-        "uid": 33872,
-        "name": "Nate Brough",
-        "team": "Vurbmoto",
-        "bike": "FF0000"
+        "timestamp": "2022-01-04T19:14:39.000Z",
+        "uid": 49034,
+        "name": "Richard Miller",
+        "team": "OTB",
+        "bike": "00BF00"
     },
     {
         "timestamp": "2022-01-04T19:12:10.000Z",
@@ -1750,6 +1407,293 @@
         "bike": "FF0000"
     },
     {
+        "timestamp": "2022-01-04T19:10:40.000Z",
+        "uid": 23127,
+        "name": "Riley Hughan",
+        "team": "Galaxy",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:01.000Z",
+        "uid": 49261,
+        "name": "Robbie Good",
+        "team": "AOSX",
+        "bike": "00BF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:11.000Z",
+        "uid": 4547,
+        "name": "Robert Wilson",
+        "team": "BPC",
+        "bike": "00BF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:44.000Z",
+        "uid": 28509,
+        "name": "Rogan McIntosh",
+        "team": "1TF",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:53.000Z",
+        "uid": 4681,
+        "name": "Roy Mitchell",
+        "team": "Jack Daniel's Racing",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:02.000Z",
+        "uid": 22178,
+        "name": "Ryan Crow",
+        "team": "Baguette Racing",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:01.000Z",
+        "uid": 36809,
+        "name": "Ryan Pinkerton",
+        "team": "Adept Creative Co.",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:39.000Z",
+        "uid": 34325,
+        "name": "Ryan Swanson",
+        "team": "Peap.co",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:45.000Z",
+        "uid": 17899,
+        "name": "Ryan Turner",
+        "team": "Impact",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:43.000Z",
+        "uid": 38437,
+        "name": "Ryder Bednar",
+        "team": "Pluto",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:43.000Z",
+        "uid": 27574,
+        "name": "Ryder Plouffe",
+        "team": "1TF",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:14.000Z",
+        "uid": 28267,
+        "name": "Sam Hawes",
+        "team": "MXS Magazine",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:48.000Z",
+        "uid": 32402,
+        "name": "Samuel Renard",
+        "team": "Impact",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:57.000Z",
+        "uid": 30368,
+        "name": "Sebastien Racine",
+        "team": "Tokyo Mods",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:01.000Z",
+        "uid": 21957,
+        "name": "Sem Wijgman",
+        "team": "Motosport.com",
+        "bike": "BFBFBF"
+    },
+    {
+        "timestamp": "2022-01-04T19:12:08.000Z",
+        "uid": 33662,
+        "name": "Seth Carr",
+        "team": "Underground RC",
+        "bike": "FFBF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:59.000Z",
+        "uid": 20073,
+        "name": "Seth Crotty",
+        "team": "Proline Designs",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:35.000Z",
+        "uid": 18588,
+        "name": "Seth Garrett",
+        "team": "1TF",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:26.000Z",
+        "uid": 33606,
+        "name": "Seth Harnishfeger",
+        "team": "JNP",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:05.000Z",
+        "uid": 31547,
+        "name": "Seth Shirley",
+        "team": "Ayetom.com",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:32.000Z",
+        "uid": 36241,
+        "name": "Shelby Rempel",
+        "team": "FourLoko Designs",
+        "bike": "00BF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:47.000Z",
+        "uid": 31280,
+        "name": "Steve Bonnal",
+        "team": "Impact",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:25.000Z",
+        "uid": 34198,
+        "name": "Talan Zollers",
+        "team": "Covenant",
+        "bike": "CC0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:46.000Z",
+        "uid": 7877,
+        "name": "Tanner Rogers",
+        "team": "Phil's",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:58.000Z",
+        "uid": 45996,
+        "name": "Tanner Scott",
+        "team": "Limited Decal",
+        "bike": "BFBFBF"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:57.000Z",
+        "uid": 16669,
+        "name": "Tanner Thorsen",
+        "team": "Proline Designs",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:02.000Z",
+        "uid": 23317,
+        "name": "Theo Sieciechowicz",
+        "team": "Motosport.com",
+        "bike": "BFBFBF"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:44.000Z",
+        "uid": 17383,
+        "name": "Thomas Bento",
+        "team": "Impact",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:43.000Z",
+        "uid": 4943,
+        "name": "Thomas Wilcox",
+        "team": "Phil's",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:56.000Z",
+        "uid": 17537,
+        "name": "Tim Althaus",
+        "team": "Jack Daniel's Racing",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:35.000Z",
+        "uid": 19001,
+        "name": "Timmy Briscoe",
+        "team": "MSK",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:55.000Z",
+        "uid": 5560,
+        "name": "Travis Hoffman",
+        "team": "Jack Daniel's Racing",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:09:37.000Z",
+        "uid": 20274,
+        "name": "Trent Adams",
+        "team": "1TF",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:31.000Z",
+        "uid": 28741,
+        "name": "Trevin Thompson",
+        "team": "Limited Decal",
+        "bike": "BFBFBF"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:00.000Z",
+        "uid": 32029,
+        "name": "Trevor Burns",
+        "team": "Adept Creative Co.",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:16.000Z",
+        "uid": 31221,
+        "name": "Trevor Spencer",
+        "team": "BPC",
+        "bike": "00BF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:00.000Z",
+        "uid": 16970,
+        "name": "Tristan Botteram",
+        "team": "Motosport.com",
+        "bike": "BFBFBF"
+    },
+    {
+        "timestamp": "2022-01-04T19:15:09.000Z",
+        "uid": 32796,
+        "name": "Tristan Powell",
+        "team": "VSR",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:21.000Z",
+        "uid": 25134,
+        "name": "Trystan Williams",
+        "team": "Flatchat",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:15:04.000Z",
+        "uid": 30151,
+        "name": "Tucker Chitwood",
+        "team": "Unlimited.Co",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:59.000Z",
+        "uid": 33089,
+        "name": "Tukker Mclean",
+        "team": "Tokyo Mods",
+        "bike": "FF8000"
+    },
+    {
         "timestamp": "2022-01-04T19:12:14.000Z",
         "uid": 32835,
         "name": "Tyler Blowers",
@@ -1757,25 +1701,67 @@
         "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:12:11.000Z",
-        "uid": 15392,
-        "name": "Zach Fischer",
-        "team": "Vurbmoto",
+        "timestamp": "2022-01-04T19:12:04.000Z",
+        "uid": 14539,
+        "name": "Tyler Lang",
+        "team": "Underground RC",
+        "bike": "FFBF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:15:02.000Z",
+        "uid": 27463,
+        "name": "Tyler Mollet",
+        "team": "Undefined Lifestyle co",
+        "bike": "000000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:18.000Z",
+        "uid": 31898,
+        "name": "Tyler More",
+        "team": "ERA X SCR",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:33.000Z",
+        "uid": 21110,
+        "name": "Tyler Moses",
+        "team": "MonsterMountainMx",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:13:35.000Z",
+        "uid": 23780,
+        "name": "Tyler Scheels",
+        "team": "Phil's",
         "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:15:10.000Z",
-        "uid": 2642,
-        "name": "Brett Powers",
-        "team": "Wildside Designs",
-        "bike": "000000"
+        "timestamp": "2022-01-04T19:11:13.000Z",
+        "uid": 26443,
+        "name": "Tyler Wren",
+        "team": "MXS Magazine",
+        "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:15:11.000Z",
-        "uid": 10981,
-        "name": "Josh Gilmore",
-        "team": "Wildside Designs",
-        "bike": "000000"
+        "timestamp": "2022-01-04T19:15:00.000Z",
+        "uid": 20904,
+        "name": "Tyson Parliament",
+        "team": "Tokyo Mods",
+        "bike": "FF8000"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:10.000Z",
+        "uid": 42833,
+        "name": "Will Clark",
+        "team": "Boots House",
+        "bike": "0000FF"
+    },
+    {
+        "timestamp": "2022-01-04T19:10:28.000Z",
+        "uid": 12970,
+        "name": "Will Knau",
+        "team": "FourLoko Designs",
+        "bike": "00BF00"
     },
     {
         "timestamp": "2022-01-04T19:12:18.000Z",
@@ -1785,24 +1771,38 @@
         "bike": "FF0000"
     },
     {
-        "timestamp": "2022-01-04T19:12:39.000Z",
-        "uid": 26568,
-        "name": "Antoine Mouqueron",
-        "team": "Wiseco Products",
+        "timestamp": "2022-01-04T19:10:14.000Z",
+        "uid": 16254,
+        "name": "William St. Laurent",
+        "team": "BPC",
+        "bike": "00BF00"
+    },
+    {
+        "timestamp": "2022-01-04T19:11:04.000Z",
+        "uid": 31495,
+        "name": "William Terava",
+        "team": "Motosport.com",
+        "bike": "BFBFBF"
+    },
+    {
+        "timestamp": "2022-01-04T19:12:11.000Z",
+        "uid": 15392,
+        "name": "Zach Fischer",
+        "team": "Vurbmoto",
+        "bike": "FF0000"
+    },
+    {
+        "timestamp": "2022-01-04T19:14:44.000Z",
+        "uid": 4422,
+        "name": "Zane Urek",
+        "team": "PoGo",
         "bike": "000000"
     },
     {
-        "timestamp": "2022-01-04T19:15:12.000Z",
-        "uid": 17892,
-        "name": "JoJo Dashosh",
-        "team": "ZYN",
-        "bike": "00BF00"
-    },
-    {
-        "timestamp": "2022-01-04T19:15:13.000Z",
-        "uid": 34474,
-        "name": "Matthew LeBlanc",
-        "team": "ZYN",
-        "bike": "00BF00"
+        "timestamp": "2022-01-04T19:11:47.000Z",
+        "uid": 10610,
+        "name": "Zoa Cross",
+        "team": "Phil's",
+        "bike": "FF0000"
     }
 ]
