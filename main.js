@@ -128,8 +128,8 @@ ipcMain.on("generateProSxStats", async (event, data) => {
             } else if(nation === "EU"){
                 await pointsSX250wPro(data.proSxQualifying);
                 await pointsSX450Pro(data.proSxQualifying);
-                await getStats(euStatsURL);
-                await doStats();
+                //await getStats(euStatsURL);
+                //await doStats();
             }  
         }
         await win.webContents.send("statsUpdates", 'Finished!')
