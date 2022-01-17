@@ -1685,60 +1685,6 @@ async function pointsSX250Novice(qualurl){
     fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 Novice Supercross[/b][/u]\n`);
     await page.click('#nav-standings-tab')
     await page.select('#standingsClassSelector', "80")
-    await page.select(`#DataTables_Table_19_length > label:nth-child(1) > select:nth-child(1)`, '100')
-    await page.waitForTimeout(5000)
-
-    let points = await page.evaluate(() =>{
-        function capitalize(str) {
-            return str.replace(
-                /\w\S*/g,
-                function(txt) {
-                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-                }
-            );
-        }
-        let numberArray = [];
-        let nameArray = [];
-        let pointArray = [];
-        let uidArray = [];
-        for(let i=0;i<20;i++){
-            numberArray[i] = document.querySelector(`#DataTables_Table_19 > tbody > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_19 > tbody > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
-            pointArray[i] = document.querySelector(`#DataTables_Table_19 > tbody > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_19 > tbody > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML)
-        }
-        return {numberArray, nameArray, pointArray, uidArray};
-    });
-    for(let j = 0; j<20;j++){
-        let bikeColor = '000000';
-        let teamStr = '';
-        for(let k=0; k<teams.length; k++){
-            if(points.uidArray[j] === parseInt(teams[k].uid)){
-                bikeColor = teams[k].bike;
-                teamStr = teams[k].team;
-            } else{
-                //do nothing
-            }
-        }
-        if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
-        } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
-        }
-    }
-    await browser.close();
-}
-
-async function pointsSX250Am(qualurl){
-    let browser = await puppeteer.launch({headless: true});
-    let page = await browser.newPage();
-    await page.setViewport({width: 1920, height: 1080})
-    await page.setDefaultNavigationTimeout(120000);
-    await page.goto(qualurl);
-    await page.waitForTimeout(2000);
-    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 Am Supercross[/b][/u]\n`);
-    await page.click('#nav-standings-tab')
-    await page.select('#standingsClassSelector', "76")
     await page.select(`#DataTables_Table_21_length > label:nth-child(1) > select:nth-child(1)`, '100')
     await page.waitForTimeout(5000)
 
@@ -1783,16 +1729,16 @@ async function pointsSX250Am(qualurl){
     await browser.close();
 }
 
-async function pointsSX450Am(qualurl){
+async function pointsSX250Am(qualurl){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Am Supercross[/b][/u]\n`);
+    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 Am Supercross[/b][/u]\n`);
     await page.click('#nav-standings-tab')
-    await page.select('#standingsClassSelector', "74")
+    await page.select('#standingsClassSelector', "76")
     await page.select(`#DataTables_Table_20_length > label:nth-child(1) > select:nth-child(1)`, '100')
     await page.waitForTimeout(5000)
 
@@ -1814,6 +1760,60 @@ async function pointsSX450Am(qualurl){
             nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_20 > tbody > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
             pointArray[i] = document.querySelector(`#DataTables_Table_20 > tbody > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
             uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_20 > tbody > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML)
+        }
+        return {numberArray, nameArray, pointArray, uidArray};
+    });
+    for(let j = 0; j<20;j++){
+        let bikeColor = '000000';
+        let teamStr = '';
+        for(let k=0; k<teams.length; k++){
+            if(points.uidArray[j] === parseInt(teams[k].uid)){
+                bikeColor = teams[k].bike;
+                teamStr = teams[k].team;
+            } else{
+                //do nothing
+            }
+        }
+        if(teamStr !== ''){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+        } else{
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+        }
+    }
+    await browser.close();
+}
+
+async function pointsSX450Am(qualurl){
+    let browser = await puppeteer.launch({headless: true});
+    let page = await browser.newPage();
+    await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
+    await page.goto(qualurl);
+    await page.waitForTimeout(2000);
+    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Am Supercross[/b][/u]\n`);
+    await page.click('#nav-standings-tab')
+    await page.select('#standingsClassSelector', "74")
+    await page.select(`#DataTables_Table_19_length > label:nth-child(1) > select:nth-child(1)`, '100')
+    await page.waitForTimeout(5000)
+
+    let points = await page.evaluate(() =>{
+        function capitalize(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                }
+            );
+        }
+        let numberArray = [];
+        let nameArray = [];
+        let pointArray = [];
+        let uidArray = [];
+        for(let i=0;i<20;i++){
+            numberArray[i] = document.querySelector(`#DataTables_Table_19 > tbody > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_19 > tbody > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
+            pointArray[i] = document.querySelector(`#DataTables_Table_19 > tbody > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_19 > tbody > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML)
         }
         return {numberArray, nameArray, pointArray, uidArray};
     });
