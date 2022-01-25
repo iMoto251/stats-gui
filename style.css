@@ -68,86 +68,6 @@ input {
     margin: 5px;
 }
 
-.proSxLCQ_250Check{
-    width: 30px;
-}
-
-.proSxLCQ_450Check{
-    width: 30px;
-}
-
-.amSxLCQ_250Check{
-    width: 30px;
-}
-
-.amSxLCQ_450Check{
-    width: 30px;
-}
-
-.amSxLCQ_NovCheck{
-    width: 30px;
-}
-
-.proMxConsi_250Check{
-    width: 30px;
-}
-
-.proMxConsi_450Check{
-    width: 30px;
-}
-
-.amMxConsi_250Check{
-    width: 30px;
-}
-
-.amMxConsi_450Check{
-    width: 30px;
-}
-
-.proSxQualiCheck{
-    width: 30px;
-}
-
-.amSxQualiCheck{
-    width: 30px;
-}
-
-.proMxQualiCheck{
-    width: 30px;
-}
-
-.amMxQualiCheck{
-    width: 30px;
-}
-
-.proSxTcQualiCheck{
-    width: 30px;
-}
-
-.proSxTcLCQ_250Check{
-    width: 30px;
-}
-
-.proSxTcLCQ_450Check{
-    width: 30px;
-}
-
-.amSxTcQualiCheck{
-    width: 30px;
-}
-
-.amSxTcLCQ_NovCheck{
-    width: 30px;
-}
-
-.amSxTcLCQ_250Check{
-    width: 30px;
-}
-
-.amSxTcLCQ_450Check{
-    width: 30px;
-}
-
 button {
     margin: 20px;
     height: 40px;
@@ -187,7 +107,7 @@ button.generateButton{
 }
 
 #sxPro{
-    display: block;
+    display: none;
 }
 
 #sxProTC{
@@ -208,4 +128,16 @@ button.generateButton{
 
 #mxAm{
     display: none;
+}
+
+.nav{
+    position: absolute;
+    top: 50px;
+    border: 50px;
+}
+
+.boxes{
+    position: absolute;
+    top: 225px;
+    border: 5px;
 }
