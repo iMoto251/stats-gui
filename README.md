@@ -27,6 +27,7 @@ The GUI is in HTML and CSS packed by electron.
 6. Run the StartApp.bat file to start the app
 
 ## FAQ
+**Triple Crowns are untested. After the first Triple Crown of 2022, I will have it updated to work 100% correctly**
 > How do I use this thing?
 
 - [Here](https://i.gyazo.com/c8294b115190b8fb6e8c3e87b6fbeb7b.png) is an example picture of how it should look when it is filled out. The easiest way to get the results, is to go to the rF page and click the links there. If they aren't on rF yet, you can always go to the [server page](https://mxsimulator.com/servers/), navigate to the race server, and find the results manually from there. They're *usually* in incrementing order, but not always. [Here](https://raw.githubusercontent.com/iMoto251/stats-gui/main/example.txt) is some example data to use that should give an accurate representation of what the data should look like.
