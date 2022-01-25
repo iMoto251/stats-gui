@@ -9,222 +9,201 @@
 </head>
 <body>
 
-<h1>MX Simulator Auto Statistics Generator</h1>
-<p class="buttons">
-    <button onclick="showSxPro()">Pro Supercross</button>
-    <button onclick="showSxProTC()">Pro Sx Triple Crown</button>
-    <button onclick="showSxAm()">Am Supercross</button>
-    <button onclick="showSxAmTC()">Am Sx Triple Crown</button>
-    <button onclick="showMxPro()">Pro Motocross</button>
-    <button onclick="showMxAm()">Am Motocross</button>
-</p>
-
-<div id="sxPro">
-    <p class="inputs">
-        <label>NA/EU</label>
-        <select class="proNation">
-            <option value="NA">NA</option>
-            <option value="EU">EU</option>
-        </select>
-        <label>Qualifying</label>
-        <input type="text" class="proSxQualifying" placeholder="Qualifying URL">
-        <label>250 Coast</label>
-        <select class="coast">
-            <option value="West">West</option>
-            <option value="East">East</option>
-            <option value="None">None</option>
-        </select>
-        <label>250 Heat 1</label>
-        <input type="text" class="proSxHeat1_250" placeholder="250 Heat 1">
-        <label>250 Heat 2</label>
-        <input type="text" class="proSxHeat2_250" placeholder="250 Heat 2">
-        <label>450 Heat 1</label>
-        <input type="text" class="proSxHeat1_450" placeholder="450 Heat 1">
-        <label>450 Heat 2</label>
-        <input type="text" class="proSxHeat2_450" placeholder="450 Heat 2">
-        <label>250 LCQ</label>
-        <input type="text" class="proSxLCQ_250" placeholder="250 LCQ">
-        <label>450 LCQ</label>
-        <input type="text" class="proSxLCQ_450" placeholder="450 LCQ">
-        <label>250 Main</label>
-        <input type="text" class="proSxMain_250" placeholder="250 Main">
-        <label>450 Main</label>
-        <input type="text" class="proSxMain_450" placeholder="450 Main">
+<div class="nav">
+    <h1>MX Simulator Auto Statistics Generator</h1>
+    <p class="buttons">
+        <button onclick="showSxPro()">Pro Supercross</button>
+        <button onclick="showSxProTC()">Pro Sx Triple Crown</button>
+        <button onclick="showSxAm()">Am Supercross</button>
+        <button onclick="showSxAmTC()">Am Sx Triple Crown</button>
+        <button onclick="showMxPro()">Pro Motocross</button>
+        <button onclick="showMxAm()">Am Motocross</button>
     </p>
-    <button class="generateButton" onclick="generateProSxStats()">Generate Pro SX Stats</button>
 </div>
 
-<div id="sxProTC">
-    <p class="inputs">
-        <label>No Qualifying</label>
-        <input type="checkbox" class="proSxTcQualiCheck"/>
-        <label>Qualifying</label>
-        <input type="text" class="proSxTcQualifying" placeholder="Qualifying URL">
-        <label>250 Coast</label>
-        <select class="coast">
-            <option value="West">West</option>
-            <option value="East">East</option>
-            <option value="None">None</option>
-        </select>
-        <label>No 250 LCQ</label>
-        <input type="checkbox" class="proSxTcLCQ_250Check"/>
-        <label>250 LCQ</label>
-        <input type="text" class="proSxTcLCQ_250" placeholder="250 LCQ">
-        <label>No 450 LCQ</label>
-        <input type="checkbox" class="proSxTcLCQ_450Check"/>
-        <label>450 LCQ</label>
-        <input type="text" class="proSxTcLCQ_450" placeholder="450 LCQ">
-        <label>250 Main 1</label>
-        <input type="text" class="proSxTcMain1_250" placeholder="250 Main 1">
-        <label>250 Main 2</label>
-        <input type="text" class="proSxTcMain2_250" placeholder="250 Main 2">
-        <label>250 Main 3</label>
-        <input type="text" class="proSxTcMain3_250" placeholder="250 Main 3">
-        <label>450 Main 1</label>
-        <input type="text" class="proSxTcMain1_450" placeholder="450 Main 1">
-        <label>450 Main 2</label>
-        <input type="text" class="proSxTcMain2_450" placeholder="450 Main 2">
-        <label>450 Main 3</label>
-        <input type="text" class="proSxTcMain3_450" placeholder="450 Main 3">
-    </p>
-    <button class="generateButton" onclick="generateProSxTCStats()">Generate Pro SX Triple Crown Stats</button>
+<div class="boxes">
+    <div id="sxPro">
+        <p class="inputs">
+            <label>NA/EU</label>
+            <select class="proNation">
+                <option value="NA">NA</option>
+                <option value="EU">EU</option>
+            </select>
+            <label>Qualifying</label>
+            <input type="text" class="proSxQualifying" placeholder="Qualifying URL">
+            <label>250 Coast</label>
+            <select class="coast">
+                <option value="West">West</option>
+                <option value="East">East</option>
+                <option value="None">None</option>
+            </select>
+            <label>250 Heat 1</label>
+            <input type="text" class="proSxHeat1_250" placeholder="250 Heat 1">
+            <label>250 Heat 2</label>
+            <input type="text" class="proSxHeat2_250" placeholder="250 Heat 2">
+            <label>450 Heat 1</label>
+            <input type="text" class="proSxHeat1_450" placeholder="450 Heat 1">
+            <label>450 Heat 2</label>
+            <input type="text" class="proSxHeat2_450" placeholder="450 Heat 2">
+            <label>250 LCQ</label>
+            <input type="text" class="proSxLCQ_250" placeholder="250 LCQ">
+            <label>450 LCQ</label>
+            <input type="text" class="proSxLCQ_450" placeholder="450 LCQ">
+            <label>250 Main</label>
+            <input type="text" class="proSxMain_250" placeholder="250 Main">
+            <label>450 Main</label>
+            <input type="text" class="proSxMain_450" placeholder="450 Main">
+        </p>
+        <button class="generateButton" onclick="generateProSxStats()">Generate Pro SX Stats</button>
+    </div>
+    
+    <div id="sxProTC">
+        <p class="inputs">
+            <label>Qualifying</label>
+            <input type="text" class="proSxTcQualifying" placeholder="Qualifying URL">
+            <label>250 Coast</label>
+            <select class="coast">
+                <option value="West">West</option>
+                <option value="East">East</option>
+                <option value="None">None</option>
+            </select>
+            <label>250 LCQ</label>
+            <input type="text" class="proSxTcLCQ_250" placeholder="250 LCQ">
+            <label>450 LCQ</label>
+            <input type="text" class="proSxTcLCQ_450" placeholder="450 LCQ">
+            <label>250 Main 1</label>
+            <input type="text" class="proSxTcMain1_250" placeholder="250 Main 1">
+            <label>250 Main 2</label>
+            <input type="text" class="proSxTcMain2_250" placeholder="250 Main 2">
+            <label>250 Main 3</label>
+            <input type="text" class="proSxTcMain3_250" placeholder="250 Main 3">
+            <label>450 Main 1</label>
+            <input type="text" class="proSxTcMain1_450" placeholder="450 Main 1">
+            <label>450 Main 2</label>
+            <input type="text" class="proSxTcMain2_450" placeholder="450 Main 2">
+            <label>450 Main 3</label>
+            <input type="text" class="proSxTcMain3_450" placeholder="450 Main 3">
+        </p>
+        <button class="generateButton" onclick="generateProSxTCStats()">Generate Pro SX Triple Crown Stats</button>
+    </div>
+    
+    <div id="sxAm">
+        <p class="inputs">
+            <label>Qualifying</label>
+            <input type="text" class="amSxQualifying" placeholder="Qualifying URL">
+            <label>Novice Heat 1</label>
+            <input type="text" class="amSxHeat1_nov" placeholder="Novice Heat 1">
+            <label>Novice Heat 2</label>
+            <input type="text" class="amSxHeat2_nov" placeholder="Novice Heat 2">
+            <label>Novice LCQ</label>
+            <input type="text" class="amSxLCQ_nov" placeholder="Novice LCQ">
+            <label>Novice Main</label>
+            <input type="text" class="amSxMain_nov" placeholder="Novice Main">
+            <label>250 Am Heat 1</label>
+            <input type="text" class="amSxHeat1_250" placeholder="250 Heat 1">
+            <label>250 Am Heat 2</label>
+            <input type="text" class="amSxHeat2_250" placeholder="250 Heat 2">
+            <label>450 Am Heat 1</label>
+            <input type="text" class="amSxHeat1_450" placeholder="450 Heat 1">
+            <label>450 Am Heat 2</label>
+            <input type="text" class="amSxHeat2_450" placeholder="450 Heat 2">
+            <label>250 Am LCQ</label>
+            <input type="text" class="amSxLCQ_250" placeholder="250 LCQ">
+            <label>450 Am LCQ</label>
+            <input type="text" class="amSxLCQ_450" placeholder="450 LCQ">
+            <label>250 Am Main</label>
+            <input type="text" class="amSxMain_250" placeholder="250 Am Main">
+            <label>450 Am Main</label>
+            <input type="text" class="amSxMain_450" placeholder="450 Am Main">
+        </p>
+        <button class="generateButton" onclick="generateAmSxStats()">Generate Am SX Stats</button>
+    </div>
+    
+    <div id="sxAmTC">
+        <p class="inputs">
+            <label>Qualifying</label>
+            <input type="text" class="amSxTcQualifying" placeholder="Qualifying URL">
+            <label>Novice LCQ</label>
+            <input type="text" class="amSxTcLCQ_Nov" placeholder="Novice LCQ">
+            <label>250 LCQ</label>
+            <input type="text" class="amSxTcLCQ_250" placeholder="250 LCQ">
+            <label>450 LCQ</label>
+            <input type="text" class="amSxTcLCQ_450" placeholder="450 LCQ">
+            <label>250 Novice Main 1</label>
+            <input type="text" class="amSxTcMain1_Nov" placeholder="Novice Main 1">
+            <label>250 Novice Main 2</label>
+            <input type="text" class="amSxTcMain2_Nov" placeholder="Novice Main 2">
+            <label>250 Novice Main 3</label>
+            <input type="text" class="amSxTcMain3_Nov" placeholder="Novice Main 3">
+            <label>250 Am Main 1</label>
+            <input type="text" class="amSxTcMain1_250" placeholder="250 Main 1">
+            <label>250 Am Main 2</label>
+            <input type="text" class="amSxTcMain2_250" placeholder="250 Main 2">
+            <label>250 Am Main 3</label>
+            <input type="text" class="amSxTcMain3_250" placeholder="250 Main 3">
+            <label>450 Am Main 1</label>
+            <input type="text" class="amSxTcMain1_450" placeholder="450 Main 1">
+            <label>450 Am Main 2</label>
+            <input type="text" class="amSxTcMain2_450" placeholder="450 Main 2">
+            <label>450 Am Main 3</label>
+            <input type="text" class="amSxTcMain3_450" placeholder="450 Main 3">
+        </p>
+        <button class="generateButton" onclick="generateAmSxTCStats()">Generate Am SX Triple Crown Stats</button>
+    </div>
+    
+    <div id="mxPro">
+        <p class="inputs">
+            <label>Qualifying</label>
+            <input type="text" class="proMxQualifying" placeholder="Qualifying URL">
+            <label>250 Consi</label>
+            <input type="text" class="proMxConsi_250" placeholder="250 Consi">
+            <label>250 Moto 1</label>
+            <input type="text" class="proMxMoto1_250" placeholder="250 Moto 1">
+            <label>250 Moto 2</label>
+            <input type="text" class="proMxMoto2_250" placeholder="250 Moto 2">
+            <label>250 Standings</label>
+            <select class="standings250">
+                <option value="5">250 Motocross</option>
+                <option value="84">Open 250 Motocross</option>
+                <option value="86">MX2</option>
+            </select>
+            <label>450 Consi</label>
+            <input type="text" class="proMxConsi_450" placeholder="450 Consi">
+            <label>450 Moto 1</label>
+            <input type="text" class="proMxMoto1_450" placeholder="450 Moto 1">
+            <label>450 Moto 2</label>
+            <input type="text" class="proMxMoto2_450" placeholder="450 Moto 2">
+            <label>450 Standings</label>
+            <select class="standings450">
+                <option value="4">450 Motocross</option>
+                <option value="83">Open 450 Motocross</option>
+                <option value="85">MXGP</option>
+            </select>
+        </p>
+        <button class="generateButton" onclick="generateProMxStats()">Generate Pro MX Stats</button>
+    </div>
+    
+    <div id="mxAm">
+        <p class="inputs">
+            <label>Qualifying</label>
+            <input type="text" class="amMxQualifying" placeholder="Qualifying URL">
+            <label>250 Consi</label>
+            <input type="text" class="amMxConsi_250" placeholder="250 Consi">
+            <label>250 Moto 1</label>
+            <input type="text" class="amMxMoto1_250" placeholder="250 Moto 1">
+            <label>250 Moto 2</label>
+            <input type="text" class="amMxMoto2_250" placeholder="250 Moto 2">
+            <label>450 Consi</label>
+            <input type="text" class="amMxConsi_450" placeholder="450 Consi">
+            <label>450 Moto 1</label>
+            <input type="text" class="amMxMoto1_450" placeholder="450 Moto 1">
+            <label>450 Moto 2</label>
+            <input type="text" class="amMxMoto2_450" placeholder="450 Moto 2">
+        </p>
+        <button class="generateButton" onclick="generateAmMxStats()">Generate Am MX Stats</button>
+    </div>
 </div>
 
-<div id="sxAm">
-    <p class="inputs">
-        <label>Qualifying</label>
-        <input type="text" class="amSxQualifying" placeholder="Qualifying URL">
-        <label>Novice Heat 1</label>
-        <input type="text" class="amSxHeat1_nov" placeholder="Novice Heat 1">
-        <label>Novice Heat 2</label>
-        <input type="text" class="amSxHeat2_nov" placeholder="Novice Heat 2">
-        <label>Novice LCQ</label>
-        <input type="text" class="amSxLCQ_nov" placeholder="Novice LCQ">
-        <label>Novice Main</label>
-        <input type="text" class="amSxMain_nov" placeholder="Novice Main">
-        <label>250 Am Heat 1</label>
-        <input type="text" class="amSxHeat1_250" placeholder="250 Heat 1">
-        <label>250 Am Heat 2</label>
-        <input type="text" class="amSxHeat2_250" placeholder="250 Heat 2">
-        <label>450 Am Heat 1</label>
-        <input type="text" class="amSxHeat1_450" placeholder="450 Heat 1">
-        <label>450 Am Heat 2</label>
-        <input type="text" class="amSxHeat2_450" placeholder="450 Heat 2">
-        <label>250 Am LCQ</label>
-        <input type="text" class="amSxLCQ_250" placeholder="250 LCQ">
-        <label>450 Am LCQ</label>
-        <input type="text" class="amSxLCQ_450" placeholder="450 LCQ">
-        <label>250 Am Main</label>
-        <input type="text" class="amSxMain_250" placeholder="250 Am Main">
-        <label>450 Am Main</label>
-        <input type="text" class="amSxMain_450" placeholder="450 Am Main">
-    </p>
-    <button class="generateButton" onclick="generateAmSxStats()">Generate Am SX Stats</button>
-</div>
-
-<div id="sxAmTC">
-    <p class="inputs">
-        <label>No Qualifying</label>
-        <input type="checkbox" class="amSxTcQualiCheck"/>
-        <label>Qualifying</label>
-        <input type="text" class="amSxTcQualifying" placeholder="Qualifying URL">
-        <label>No Novice LCQ</label>
-        <input type="checkbox" class="amSxTcLCQ_NovCheck"/>
-        <label>Novice LCQ</label>
-        <input type="text" class="amSxTcLCQ_Nov" placeholder="Novice LCQ">
-        <label>No 250 LCQ</label>
-        <input type="checkbox" class="amSxTcLCQ_250Check"/>
-        <label>250 LCQ</label>
-        <input type="text" class="amSxTcLCQ_250" placeholder="250 LCQ">
-        <label>No 450 LCQ</label>
-        <input type="checkbox" class="amSxTcLCQ_450Check"/>
-        <label>450 LCQ</label>
-        <input type="text" class="amSxTcLCQ_450" placeholder="450 LCQ">
-        <label>250 Novice Main 1</label>
-        <input type="text" class="amSxTcMain1_Nov" placeholder="Novice Main 1">
-        <label>250 Novice Main 2</label>
-        <input type="text" class="amSxTcMain2_Nov" placeholder="Novice Main 2">
-        <label>250 Novice Main 3</label>
-        <input type="text" class="amSxTcMain3_Nov" placeholder="Novice Main 3">
-        <label>250 Am Main 1</label>
-        <input type="text" class="amSxTcMain1_250" placeholder="250 Main 1">
-        <label>250 Am Main 2</label>
-        <input type="text" class="amSxTcMain2_250" placeholder="250 Main 2">
-        <label>250 Am Main 3</label>
-        <input type="text" class="amSxTcMain3_250" placeholder="250 Main 3">
-        <label>450 Am Main 1</label>
-        <input type="text" class="amSxTcMain1_450" placeholder="450 Main 1">
-        <label>450 Am Main 2</label>
-        <input type="text" class="amSxTcMain2_450" placeholder="450 Main 2">
-        <label>450 Am Main 3</label>
-        <input type="text" class="amSxTcMain3_450" placeholder="450 Main 3">
-    </p>
-    <button class="generateButton" onclick="generateAmSxTCStats()">Generate Am SX Triple Crown Stats</button>
-</div>
-
-<div id="mxPro">
-    <p class="inputs">
-        <label>No Qualifying</label>
-        <input type="checkbox" class="proMxQualiCheck"/>
-        <label>Qualifying</label>
-        <input type="text" class="proMxQualifying" placeholder="Qualifying URL">
-        <label>No 250 Consi</label>
-        <input type="checkbox" class="proMxConsi_250Check"/>
-        <label>250 Consi</label>
-        <input type="text" class="proMxConsi_250" placeholder="250 Consi">
-        <label>250 Moto 1</label>
-        <input type="text" class="proMxMoto1_250" placeholder="250 Moto 1">
-        <label>250 Moto 2</label>
-        <input type="text" class="proMxMoto2_250" placeholder="250 Moto 2">
-        <label>250 Standings</label>
-        <select class="standings250">
-            <option value="5">250 Motocross</option>
-            <option value="84">Open 250 Motocross</option>
-            <option value="86">MX2</option>
-        </select>
-        <label>No 450 Consi</label>
-        <input type="checkbox" class="proMxConsi_450Check"/>
-        <label>450 Consi</label>
-        <input type="text" class="proMxConsi_450" placeholder="450 Consi">
-        <label>450 Moto 1</label>
-        <input type="text" class="proMxMoto1_450" placeholder="450 Moto 1">
-        <label>450 Moto 2</label>
-        <input type="text" class="proMxMoto2_450" placeholder="450 Moto 2">
-        <label>450 Standings</label>
-        <select class="standings450">
-            <option value="4">450 Motocross</option>
-            <option value="83">Open 450 Motocross</option>
-            <option value="85">MXGP</option>
-        </select>
-    </p>
-    <button class="generateButton" onclick="generateProMxStats()">Generate Pro MX Stats</button>
-</div>
-
-<div id="mxAm">
-    <p class="inputs">
-        <label>No Qualifying</label>
-        <input type="checkbox" class="amMxQualiCheck"/>
-        <label>Qualifying</label>
-        <input type="text" class="amMxQualifying" placeholder="Qualifying URL">
-        <label>No 250 Consi</label>
-        <input type="checkbox" class="amMxConsi_250Check" value="true"/>
-        <label>250 Consi</label>
-        <input type="text" class="amMxConsi_250" placeholder="250 Consi">
-        <label>250 Moto 1</label>
-        <input type="text" class="amMxMoto1_250" placeholder="250 Moto 1">
-        <label>250 Moto 2</label>
-        <input type="text" class="amMxMoto2_250" placeholder="250 Moto 2">
-        <label>No 450 Consi</label>
-        <input type="checkbox" class="amMxConsi_450Check" value="true"/>
-        <label>450 Consi</label>
-        <input type="text" class="amMxConsi_450" placeholder="450 Consi">
-        <label>450 Moto 1</label>
-        <input type="text" class="amMxMoto1_450" placeholder="450 Moto 1">
-        <label>450 Moto 2</label>
-        <input type="text" class="amMxMoto2_450" placeholder="450 Moto 2">
-    </p>
-    <button class="generateButton" onclick="generateAmMxStats()">Generate Am MX Stats</button>
-</div>
 
 
 

@@ -147,7 +147,7 @@ ipcMain.on("generateProSxTCStats", async (event, data) => {
     try{
         await win.webContents.send("statsUpdates", 'Starting')
         await win.webContents.send("sendError", "")
-        if(data.proSxTcQualiCheck === false){
+        if(data.proSxTcQualifying !== ""){
             await qualSX250Pro(data.proSxTcQualifying);
             await qualSX450Pro(data.proSxTcQualifying);
             await win.webContents.send("statsUpdates", 'Qualifying Done')
@@ -161,13 +161,13 @@ ipcMain.on("generateProSxTCStats", async (event, data) => {
     }
 
     try{
-        if(data.proSxTcLCQ_250Check === false || data.proSxTcLCQ_450Check === false){
+        if(data.proSxTcLCQ_250 !== "" || data.proSxTcLCQ_450 !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]LCQ Results[/b][/u][/color]\n`)
         }
-        if(data.proSxTcLCQ_250Check === false){
+        if(data.proSxTcLCQ_250 !== ""){
             await lcq("250", data.proSxTcLCQ_250, "Supercross", "LCQ");
         }
-        if(data.proSxTcLCQ_450Check === false){
+        if(data.proSxTcLCQ_450 !== ""){
             await lcq("450", data.proSxTcLCQ_450, "Supercross", "LCQ");
         }
         await win.webContents.send("statsUpdates", 'LCQs Done')
@@ -183,8 +183,8 @@ ipcMain.on("generateProSxTCStats", async (event, data) => {
         await mains("250", data.proSxTcMain2_250, "Supercross Triple Crown", "Main Event 2");
         await mains("250", data.proSxTcMain3_250, "Supercross Triple Crown", "Main Event 3");
         await mains("450", data.proSxTcMain1_450, "Supercross Triple Crown", "Main Event 1");
-        await mains("450", data.proSxTcMain1_450, "Supercross Triple Crown", "Main Event 2");
-        await mains("450", data.proSxTcMain1_450, "Supercross Triple Crown", "Main Event 3");
+        await mains("450", data.proSxTcMain2_450, "Supercross Triple Crown", "Main Event 2");
+        await mains("450", data.proSxTcMain3_450, "Supercross Triple Crown", "Main Event 3");
         await win.webContents.send("statsUpdates", 'Mains Done')
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Mains')
@@ -203,7 +203,7 @@ ipcMain.on("generateProSxTCStats", async (event, data) => {
     }
 
     try{
-        if(data.proSxTcQualiCheck === false){
+        if(data.proSxTcQualifying !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
             if(data.coast === "West"){
                 await pointsSX250wPro(data.proSxTcQualifying);
@@ -306,7 +306,7 @@ ipcMain.on("generateAmSxTCStats", async (event, data) => {
     try{
         await win.webContents.send("statsUpdates", 'Starting')
         await win.webContents.send("sendError", "")
-        if(data.amSxTcQualiCheck === false){
+        if(data.amSxTcQualifying !== ""){
             await qualSX250Novice(data.amSxTcQualifying);
             await qualSX250Am(data.amSxTcQualifying);
             await qualSX450Am(data.amSxTcQualifying);
@@ -321,16 +321,16 @@ ipcMain.on("generateAmSxTCStats", async (event, data) => {
     }
 
     try{
-        if(data.amSxTcLCQ_250Check === false || data.amSxTcLCQ_450Check === false || data.amSxTcLCQ_NovCheck === false){
+        if(data.amSxTcLCQ_250 !== "" || data.amSxTcLCQ_450 !== "" || data.amSxTcLCQ_Nov !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]LCQ Results[/b][/u][/color]\n`)
         }
-		if(data.amSxTcLCQ_NovCheck === false){
+		if(data.amSxTcLCQ_Nov !== ""){
             await lcq("Novice", data.amSxTcLCQ_Nov, "Supercross", "LCQ");
         }
-        if(data.amSxTcLCQ_250Check === false){
+        if(data.amSxTcLCQ_250 !== ""){
             await lcq("250", data.amSxTcLCQ_250, "Supercross", "LCQ");
         }
-        if(data.amSxTcLCQ_450Check === false){
+        if(data.amSxTcLCQ_450 !== ""){
             await lcq("450", data.amSxTcLCQ_450, "Supercross", "LCQ");
         }
         await win.webContents.send("statsUpdates", 'LCQs Done')
@@ -358,7 +358,6 @@ ipcMain.on("generateAmSxTCStats", async (event, data) => {
     }
 
     try{
-        let coast = data.coast;
 		await tripleCrown(`Novice`, "Supercross Triple Crown", "Overall", data.amSxTcMain1_Nov, data.amSxTcMain2_Nov, data.amSxTcMain3_Nov)
         await tripleCrown(`250`, "Supercross Triple Crown", "Overall", data.amSxTcMain1_250, data.amSxTcMain2_250, data.amSxTcMain3_250)
         await tripleCrown(`450`, "Supercross Triple Crown", "Overall", data.amSxTcMain1_450, data.amSxTcMain2_450, data.amSxTcMain3_450)
@@ -370,7 +369,7 @@ ipcMain.on("generateAmSxTCStats", async (event, data) => {
     }
 
     try{
-        if(data.amSxTcQualiCheck === false){
+        if(data.amSxTcQualifying !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
             await pointsSX250Novice(data.amSxTcQualifying);
             await pointsSX250Am(data.amSxTcQualifying);
@@ -388,7 +387,7 @@ ipcMain.on("generateProMxStats", async (event, data) => {
     try{
         await win.webContents.send("statsUpdates", 'Starting')
         await win.webContents.send("sendError", "")
-        if(data.proMxQualiCheck === false){
+        if(data.proMxQualifying !== ""){
             await qualMX250Pro(data.proMxQualifying);
             await qualMX450Pro(data.proMxQualifying);
             await win.webContents.send("statsUpdates", 'Qualifying Done')
@@ -402,13 +401,13 @@ ipcMain.on("generateProMxStats", async (event, data) => {
     }
 
     try{
-        if(data.proMxConsi_250Check === false || data.proMxConsi_450Check === false){
+        if(data.proMxConsi_250 !== "" || data.proMxConsi_450 !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Consi Results[/b][/u][/color]\n`)
         }
-        if(data.proMxConsi_250Check === false){
+        if(data.proMxConsi_250 !== ""){
             await lcq("250", data.proMxConsi_250, "Motocross", "Consi");
         }
-        if(data.proMxConsi_450Check === false){
+        if(data.proMxConsi_450 !== ""){
             await lcq("450", data.proMxConsi_450, "Motocross", "Consi");
         }
         await win.webContents.send("statsUpdates", 'Consis Done')
@@ -440,7 +439,7 @@ ipcMain.on("generateProMxStats", async (event, data) => {
     }
 
     try{
-        if(data.proMxQualiCheck === false){
+        if(data.proMxQualifying !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Qualifying to Overall Results Differences[/b][/u][/color]\n`);
             await diffOAQuali("250", data.proMxQualifying, data.proMxMoto1_250, data.proMxMoto2_250, "Motocross", "Quali - Overall Difference")
             await diffOAQuali("450", data.proMxQualifying, data.proMxMoto1_450, data.proMxMoto2_450, "Motocross", "Quali - Overall Difference")
@@ -452,7 +451,7 @@ ipcMain.on("generateProMxStats", async (event, data) => {
     }
 
     try{
-        if(data.proMxQualiCheck === false){
+        if(data.proMxQualifying !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
             await pointsMXPro(data.proMxQualifying, data.proMxStand_250, "250");
             await pointsMXPro(data.proMxQualifying, data.proMxStand_450, "450");
@@ -468,7 +467,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
     try {
         await win.webContents.send("statsUpdates", 'Starting')
         await win.webContents.send("sendError", "")
-        if(data.amMxQualiCheck === false){
+        if(data.amMxQualifying !== ""){
             await qualMX250Am(data.amMxQualifying);
             await qualMX450Am(data.amMxQualifying);
             await win.webContents.send("statsUpdates", 'Qualifying Done')
@@ -482,13 +481,13 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
     }
 
     try{
-        if(data.amMxConsi_250Check===false || data.amMxConsi_450Check === false){
+        if(data.amMxConsi_250 !== "" || data.amMxConsi_450 !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Consi Results[/b][/u][/color]\n`)
         }
-        if(data.amMxConsi_250Check === false){
+        if(data.amMxConsi_250 !== ""){
             await lcq("250 Am", data.amMxConsi_250, "Motocross", "Consi");
         }
-        if(data.amMxConsi_450Check === false){
+        if(data.amMxConsi_450 !== ""){
             await lcq("450 Am", data.amMxConsi_450, "Motocross", "Consi");
         }
         await win.webContents.send("statsUpdates", 'Consis Done')
@@ -520,7 +519,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
     }
 
     try{
-        if(data.proMxQualiCheck === false){
+        if(data.proMxQualifying !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Qualifying to Overall Results Differences[/b][/u][/color]\n`);
             await diffOAQuali("250 Am", data.amMxQualifying, data.amMxMoto1_250, data.amMxMoto2_250, "Motocross", "Quali - Overall Difference")
             await diffOAQuali("450 Am", data.amMxQualifying, data.amMxMoto1_450, data.amMxMoto2_450, "Motocross", "Quali - Overall Difference")
@@ -532,7 +531,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
     }
 
     try{
-        if(data.amMxQualiCheck === false){
+        if(data.amMxQualifying !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
             await pointsMX250Am(data.amMxQualifying);
             await pointsMX450Am(data.amMxQualifying);
