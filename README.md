@@ -1,6 +1,6 @@
 # MX Simulator Automatic Statistics Generator
 
-Very **very** rough, but functional, statistics generator for Mx Simulator in raceFactory Gaming series. It utilizes a web scraper built in JavaScript to write to an output text file in BBCode format. I haven't had time to update anything or slim down the code, so funcitonality should work, but may be limited or need slight changes.
+Very **very** rough, but functional, statistics generator for Mx Simulator in raceFactory Gaming series. It utilizes a web scraper built in JavaScript to write to an output text file in BBCode format. I haven't had time to update anything or slim down the code, so functionality should work, but may be limited or need slight changes.
 
 ## Web Scraper
 The web scraper is built utilizing puppeteer.
