@@ -20,11 +20,12 @@ The GUI is in HTML and CSS packed by electron.
 > Only tested on Windows
 
 1. Install [NodeJS](https://nodejs.org/en/download/)
-2. Open a command prompt in administrator mode
-3. Run the command `npm install --global yarn`
-4. Clone the [repository](https://github.com/iMoto251/stats-gui.git) or [download the zip file](https://github.com/iMoto251/stats-gui/archive/refs/heads/main.zip) and extract the folder to your desired location
-5. Run the Install.bat file to install necessary dependencies (This can take a while depending on internet speed)
-6. Run the StartApp.bat file to start the app
+2. Install [Git](https://phoenixnap.com/kb/how-to-install-git-windows)
+3. Open a command prompt in administrator mode
+4. Run the command `npm install --global yarn`
+5. Clone the [repository](https://github.com/iMoto251/stats-gui.git) or [download the zip file](https://github.com/iMoto251/stats-gui/archive/refs/heads/main.zip) and extract the folder to your desired location
+6. Run the Install.bat file to install necessary dependencies (This can take a while depending on internet speed)
+7. Run the StartApp.bat file to start the app
 
 ## FAQ
 **Triple Crowns are untested. After the first Triple Crown of 2022, I will have it updated to work 100% correctly**
