@@ -35,6 +35,8 @@ const generateProSxTCStats = () => {
         "generateProSxTCStats",
         {
             proSxTcQualifying: document.querySelector(".proSxTcQualifying").value,
+            proSxTcLCQ_250: document.querySelector(".proSxTcLCQ_250").value,
+            proSxTcLCQ_450: document.querySelector(".proSxTcLCQ_450").value,
             proSxTcMain1_250: document.querySelector('.proSxTcMain1_250').value,
             proSxTcMain2_250: document.querySelector('.proSxTcMain2_250').value,
             proSxTcMain3_250: document.querySelector('.proSxTcMain3_250').value,
@@ -44,6 +46,8 @@ const generateProSxTCStats = () => {
             coast: document.querySelector('.coast').value
         },
         document.querySelector(".proSxTcQualifying").value,
+        document.querySelector(".proSxTcLCQ_250").value,
+        document.querySelector(".proSxTcLCQ_450").value,
         document.querySelector('.proSxTcMain1_250').value,
         document.querySelector('.proSxTcMain2_250').value,
         document.querySelector('.proSxTcMain3_250').value,
@@ -93,6 +97,9 @@ const generateAmSxTCStats = () => {
         "generateAmSxTCStats",
         {
             amSxTcQualifying: document.querySelector(".amSxTcQualifying").value,
+            amSxTcLCQ_Nov: document.querySelector(".amSxTcLCQ_Nov").value,
+            amSxTcLCQ_250: document.querySelector(".amSxTcLCQ_250").value,
+            amSxTcLCQ_450: document.querySelector(".amSxTcLCQ_450").value,
             amSxTcMain1_Nov: document.querySelector('.amSxTcMain1_Nov').value,
             amSxTcMain2_Nov: document.querySelector('.amSxTcMain2_Nov').value,
             amSxTcMain3_Nov: document.querySelector('.amSxTcMain3_Nov').value,
@@ -103,6 +110,9 @@ const generateAmSxTCStats = () => {
             amSxTcMain2_450: document.querySelector('.amSxTcMain2_450').value,
             amSxTcMain3_450: document.querySelector('.amSxTcMain3_450').value,
         },
+        document.querySelector(".amSxTcLCQ_Nov").value,
+        document.querySelector(".amSxTcLCQ_250").value,
+        document.querySelector(".amSxTcLCQ_450").value,
         document.querySelector(".amSxTcQualifying").value,
         document.querySelector('.amSxTcMain1_Nov').value,
         document.querySelector('.amSxTcMain2_Nov').value,
