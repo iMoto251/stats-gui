@@ -304,26 +304,6 @@ ipcMain.on("generateAmSxTCStats", async (event, data) => {
     }
 
     try{
-        if(data.amSxTcLCQ_250 !== "" || data.amSxTcLCQ_450 !== "" || data.amSxTcLCQ_Nov !== ""){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]LCQ Results[/b][/u][/color]\n`)
-        }
-		if(data.amSxTcLCQ_Nov !== ""){
-            await lcq("Novice", data.amSxTcLCQ_Nov, "Supercross", "LCQ");
-        }
-        if(data.amSxTcLCQ_250 !== ""){
-            await lcq("250", data.amSxTcLCQ_250, "Supercross", "LCQ");
-        }
-        if(data.amSxTcLCQ_450 !== ""){
-            await lcq("450", data.amSxTcLCQ_450, "Supercross", "LCQ");
-        }
-        await win.webContents.send("statsUpdates", 'LCQs Done')
-    } catch(e) {
-        await win.webContents.send("statsUpdates", 'Error in LCQs')
-        await win.webContents.send("sendError", e)
-    }
-
-
-    try{
         fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Main Results[/b][/u][/color]\n`)
         await mains("Novice", data.amSxTcMain1_Nov, "Supercross Triple Crown", "Main Event 1");
         await mains("Novice", data.amSxTcMain2_Nov, "Supercross Triple Crown", "Main Event 2");
