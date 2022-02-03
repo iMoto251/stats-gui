@@ -161,6 +161,23 @@ ipcMain.on("generateProSxTCStats", async (event, data) => {
     }
 
     try{
+        if(data.proSxTcLCQ_250 !== "" || data.proSxTcLCQ_450 !== ""){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]LCQ Results[/b][/u][/color]\n`)
+        }
+        if(data.proSxTcLCQ_250 !== ""){
+            await lcq("250", data.proSxTcLCQ_250, "Supercross", "LCQ");
+        }
+        if(data.proSxTcLCQ_450 !== ""){
+            await lcq("450", data.proSxTcLCQ_450, "Supercross", "LCQ");
+        }
+        await win.webContents.send("statsUpdates", 'LCQs Done')
+    } catch(e) {
+        await win.webContents.send("statsUpdates", 'Error in LCQs')
+        await win.webContents.send("sendError", e)
+    }
+
+
+    try{
         fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Main Results[/b][/u][/color]\n`)
         await mains("250", data.proSxTcMain1_250, "Supercross Triple Crown", "Main Event 1");
         await mains("250", data.proSxTcMain2_250, "Supercross Triple Crown", "Main Event 2");
@@ -302,6 +319,26 @@ ipcMain.on("generateAmSxTCStats", async (event, data) => {
         await win.webContents.send("statsUpdates", 'Error in Qualifying')
         await win.webContents.send("sendError", e)
     }
+
+    try{
+        if(data.amSxTcLCQ_250 !== "" || data.amSxTcLCQ_450 !== "" || data.amSxTcLCQ_Nov !== ""){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]LCQ Results[/b][/u][/color]\n`)
+        }
+		if(data.amSxTcLCQ_Nov !== ""){
+            await lcq("Novice", data.amSxTcLCQ_Nov, "Supercross", "LCQ");
+        }
+        if(data.amSxTcLCQ_250 !== ""){
+            await lcq("250", data.amSxTcLCQ_250, "Supercross", "LCQ");
+        }
+        if(data.amSxTcLCQ_450 !== ""){
+            await lcq("450", data.amSxTcLCQ_450, "Supercross", "LCQ");
+        }
+        await win.webContents.send("statsUpdates", 'LCQs Done')
+    } catch(e) {
+        await win.webContents.send("statsUpdates", 'Error in LCQs')
+        await win.webContents.send("sendError", e)
+    }
+
 
     try{
         fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Main Results[/b][/u][/color]\n`)
