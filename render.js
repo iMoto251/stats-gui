@@ -35,8 +35,6 @@ const generateProSxTCStats = () => {
         "generateProSxTCStats",
         {
             proSxTcQualifying: document.querySelector(".proSxTcQualifying").value,
-            proSxTcLCQ_250: document.querySelector(".proSxTcLCQ_250").value,
-            proSxTcLCQ_450: document.querySelector(".proSxTcLCQ_450").value,
             proSxTcMain1_250: document.querySelector('.proSxTcMain1_250').value,
             proSxTcMain2_250: document.querySelector('.proSxTcMain2_250').value,
             proSxTcMain3_250: document.querySelector('.proSxTcMain3_250').value,
@@ -46,8 +44,6 @@ const generateProSxTCStats = () => {
             coast: document.querySelector('.coast').value
         },
         document.querySelector(".proSxTcQualifying").value,
-        document.querySelector(".proSxTcLCQ_250").value,
-        document.querySelector(".proSxTcLCQ_450").value,
         document.querySelector('.proSxTcMain1_250').value,
         document.querySelector('.proSxTcMain2_250').value,
         document.querySelector('.proSxTcMain3_250').value,
