@@ -1633,10 +1633,6 @@ async function pointsSX250ePro(qualurl){
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
     fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 East Supercross[/b][/u]\n`);
-    if(nation === "NA"){
-        standVal = "3";
-        table = "15";
-    }
     await page.click('#nav-standings-tab')
     await page.select('#standingsClassSelector', `3`)
     await page.select(`#DataTables_Table_15_length > label:nth-child(1) > select:nth-child(1)`, '100')
@@ -1656,10 +1652,10 @@ async function pointsSX250ePro(qualurl){
         let pointArray = [];
         let uidArray = [];
         for(let i=0;i<20;i++){
-            numberArray[i] = document.querySelector(`#DataTables_Table_${table} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_${table} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
-            pointArray[i] = document.querySelector(`#DataTables_Table_${table} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_${table} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            numberArray[i] = document.querySelector(`#DataTables_Table_15 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_15 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
+            pointArray[i] = document.querySelector(`#DataTables_Table_15 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_15 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
         }
         return {numberArray, nameArray, pointArray, uidArray};
     });
