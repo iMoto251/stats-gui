@@ -39,6 +39,7 @@ const createWindow = () => {
         resizable: true,
         webPreferences: {
             nodeIntegration: true,
+            contextIsolation: false
         },
     });
 
@@ -54,6 +55,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
         let nation = data.proNation;
         await win.webContents.send("statsUpdates", 'Starting')
         await win.webContents.send("sendError", "")
+        await makePoints("250", data.proSxMain_250, "Supercross", "Main Event");
         if(data.proSxQualifying !== ""){
             await qualSX250Pro(data.proSxQualifying, nation);
             await qualSX450Pro(data.proSxQualifying, nation);
@@ -3308,4 +3310,50 @@ async function doStats(){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n${stats[i].Filters}`);
         }  
     }
+}
+
+async function makePoints(title, url, series, race){
+    let browser = await puppeteer.launch({headless: true});
+    let page = await browser.newPage();
+    await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
+    await page.goto(url);
+    await page.waitForTimeout(2000);
+    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${title} ${series} ${race}[/b][/u]\n`);
+
+    let results = await page.evaluate(() =>{
+        let position = document.querySelectorAll(`td.pos`);
+        let uidArray = [];
+        let posNum = position.length;
+        for(let i=0;i<position.length;i++){
+            uidArray[i] = parseInt(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(9)`).innerHTML)
+        }
+        return {posNum, uidArray};
+    });
+
+    let pointsJSON = []
+    let points = 26
+    for(let i=0;i<results.posNum;i++){
+        if(series != "Motocross"){
+            if(i=0){
+                var pointsData = {uid: results.uidArray[i], points: points}
+                pointsJSON.push(pointsData)
+                points = 23
+            } else if(i=1){
+                var pointsData = {uid: results.uidArray[i], points: points}
+                pointsJSON.push(pointsData)
+                points = 21
+            } else if(i=2){
+                var pointsData = {uid: results.uidArray[i], points: points}
+                pointsJSON.push(pointsData)
+                points = 19
+            } else if(i<=3){
+                var pointsData = {uid: results.uidArray[i], points: points}
+                pointsJSON.push(pointsData)
+                points--
+            }
+        }
+    }
+    console.log(pointsJSON)
+    await browser.close();
 }
