@@ -443,8 +443,8 @@ ipcMain.on("generateProMxStats", async (event, data) => {
 
     try{
         fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Overall Results[/b][/u][/color]\n`);
-        await overalls("250", data.proMxMoto1_250, data.proMxMoto2_250, "Motocross", "Overall")
-        await overalls("450", data.proMxMoto1_450, data.proMxMoto2_450, "Motocross", "Overall")
+        await overalls("250", data.proMxMoto1_250, data.proMxMoto2_250, "Motocross", "Overall", data.round)
+        await overalls("450", data.proMxMoto1_450, data.proMxMoto2_450, "Motocross", "Overall", data.round)
         await win.webContents.send("statsUpdates", 'Overalls Done')
     } catch(e){
         await win.webContents.send("statsUpdates", 'Error in Overalls')
@@ -523,8 +523,8 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
 
     try{
         fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Overall Results[/b][/u][/color]\n`);
-        await overalls("250 Am", data.amMxMoto1_250, data.amMxMoto2_250, "Motocross", "Overall")
-        await overalls("450 Am", data.amMxMoto1_450, data.amMxMoto2_450, "Motocross", "Overall")
+        await overalls("250 Am", data.amMxMoto1_250, data.amMxMoto2_250, "Motocross", "Overall", data.round)
+        await overalls("450 Am", data.amMxMoto1_450, data.amMxMoto2_450, "Motocross", "Overall", data.round)
         await win.webContents.send("statsUpdates", 'Overalls Done')
     } catch(e){
         await win.webContents.send("statsUpdates", 'Error in Overalls')
@@ -2462,7 +2462,6 @@ async function pointsMXPro(qualurl, stand, race){
     await page.select('#standingsClassSelector', stand)
     await page.select(`#${standings}_length > label:nth-child(1) > select:nth-child(1)`, '100')
     await page.waitForTimeout(5000)
-    console.log(stand + " " + standings)
 
 
     let points = await page.evaluate((standings) =>{
@@ -2617,7 +2616,7 @@ async function pointsMX450Am(qualurl){
     await browser.close();
 }
 
-async function overalls(title, urlm1, urlm2, series, race){
+async function overalls(title, urlm1, urlm2, series, race, round){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
@@ -2813,8 +2812,10 @@ async function overalls(title, urlm1, urlm2, series, race){
         }
     }
     overall.sort((a,b)=>(a.points < b.points) ? 1 : -1)
+    fs.writeFileSync(`${path.join(__dirname, `${title}points-${round}.txt`)}`, ``)
     for(let i=0;i<overall.length;i++){
         overall[i].overallPos = (i+1)
+        fs.appendFileSync(`${path.join(__dirname, `${title}points-${round}.txt`)}`, `${overall[i].uid},${overall[i].points}\n`)
     }
 
     for(let a = 0;a<overall.length;a++){
@@ -3354,6 +3355,5 @@ async function makePoints(title, url, series, race){
             }
         }
     }
-    console.log(pointsJSON)
     await browser.close();
 }
