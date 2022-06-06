@@ -10,11 +10,19 @@ let naStatsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GG
 let euStatsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/EU%20Output';
 let amStatsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/AM%20Output';
 
+let naMxURL = 'https://opensheet.elk.sh/16H7ogdl9pAIYYKsNBH1DDovCltBEdOodvPab5ikgjUc/NA%20MX%20Output'
+let euMxURL = 'https://opensheet.elk.sh/16H7ogdl9pAIYYKsNBH1DDovCltBEdOodvPab5ikgjUc/EU%20MX%20Output'
+let naGpURL = 'https://opensheet.elk.sh/16H7ogdl9pAIYYKsNBH1DDovCltBEdOodvPab5ikgjUc/NA%20GP%20Output'
+let euGpURL = 'https://opensheet.elk.sh/16H7ogdl9pAIYYKsNBH1DDovCltBEdOodvPab5ikgjUc/EU%20GP%20Output'
+let amMxURL = 'https://opensheet.elk.sh/16H7ogdl9pAIYYKsNBH1DDovCltBEdOodvPab5ikgjUc/AM%20MX%20Output'
+
 let win = null;
 
 
 async function getTeams(){
-    const teamsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/Teams'
+    //SX - https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/Teams
+    //MX - https://opensheet.elk.sh/16H7ogdl9pAIYYKsNBH1DDovCltBEdOodvPab5ikgjUc/Teams
+    const teamsURL = 'https://opensheet.elk.sh/16H7ogdl9pAIYYKsNBH1DDovCltBEdOodvPab5ikgjUc/Teams'
     const response = await fetch(teamsURL);
     teams = await response.json();
 }
@@ -443,8 +451,8 @@ ipcMain.on("generateProMxStats", async (event, data) => {
 
     try{
         fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Overall Results[/b][/u][/color]\n`);
-        await overalls("250", data.proMxMoto1_250, data.proMxMoto2_250, "Motocross", "Overall", data.round)
-        await overalls("450", data.proMxMoto1_450, data.proMxMoto2_450, "Motocross", "Overall", data.round)
+        await overalls("250", data.proMxMoto1_250, data.proMxMoto2_250, "Motocross", "Overall", data.round, data.proMxNation, data.proMxSeries)
+        await overalls("450", data.proMxMoto1_450, data.proMxMoto2_450, "Motocross", "Overall", data.round, data.proMxNation, data.proMxSeries)
         await win.webContents.send("statsUpdates", 'Overalls Done')
     } catch(e){
         await win.webContents.send("statsUpdates", 'Error in Overalls')
@@ -466,13 +474,69 @@ ipcMain.on("generateProMxStats", async (event, data) => {
     try{
         if(data.proMxQualifying !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
-            await pointsMXPro(data.proMxQualifying, data.proMxStand_250, "250");
-            await pointsMXPro(data.proMxQualifying, data.proMxStand_450, "450");
+            if(data.proMxNation === "NA"){
+                if(data.proMxSeries === "AMA"){
+                    //NA MX 250 = 
+                    standings250 = 'DataTables_Table_14'
+
+                    //NA MX 450 = 
+                    standings450 = 'DataTables_Table_13'  
+                } else {
+                    //NA GP 250 = 
+                    standings250 = ''
+
+                    //NA GP 450 = 
+                    standings450 = ''
+                }
+            } else {
+                if(data.proMxSeries === "AMA"){
+                    //EU MX 250 = 
+                    standings250 = 'DataTables_Table_14'
+
+                    //EU MX 450 = 
+                    standings450 = 'DataTables_Table_13'
+                } else {
+                    //EU GP 250 = 
+                    standings250 = ''
+
+                    //EU GP 450 = 
+                    standings450 = ''
+                }
+            }
+
+
+            await pointsMXPro(data.proMxQualifying, standings250, "250");
+            await pointsMXPro(data.proMxQualifying, standings450, "450");
         }
-    await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e){
     await win.webContents.send("statsUpdates", 'Error in Points')
     await win.webContents.send("sendError", e)
+    }
+
+    try{
+        if(data.proMxNation === "NA"){
+            if(data.proMxSeries === "AMA"){
+                await getStats(naMxURL);
+                await doStats();
+            } else{
+                await getStats(naGpURL);
+                await doStats(); 
+            }
+            
+        } else {
+            if(data.proMxSeries === "AMA"){
+                await getStats(euMxURL);
+                await doStats();
+            } else{
+                await getStats(euGpURL);
+                await doStats(); 
+            }
+        }
+        
+        await win.webContents.send("statsUpdates", 'Finished!')
+    } catch (e){
+        await win.webContents.send("statsUpdates", 'Error in Stats')
+        await win.webContents.send("sendError", e)
     }
 });
 
@@ -549,9 +613,18 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
             await pointsMX250Am(data.amMxQualifying);
             await pointsMX450Am(data.amMxQualifying);
         }
-    await win.webContents.send("statsUpdates", 'Finished!')
     } catch (e) {
         await win.webContents.send("statsUpdates", 'Error in Points')
+        await win.webContents.send("sendError", e)
+    }
+
+    try{
+        await getStats(amMxURL);
+        await doStats(); 
+    
+        await win.webContents.send("statsUpdates", 'Finished!')
+    } catch (e){
+        await win.webContents.send("statsUpdates", 'Error in Stats')
         await win.webContents.send("sendError", e)
     }
 
@@ -591,18 +664,20 @@ async function qualSX250Pro(qualurl, nation){
         for(let j = 0; j<10; j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = qualifying.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name}} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -640,18 +715,20 @@ async function qualSX250Pro(qualurl, nation){
         for(let j = 0; j<10; j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = qualifying.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -689,18 +766,20 @@ async function qualSX250Pro(qualurl, nation){
         for(let j = 0; j<10; j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = qualifying.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -742,18 +821,20 @@ async function qualSX450Pro(qualurl, nation){
         for(let j = 0; j<10; j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = qualifying.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -790,18 +871,20 @@ async function qualSX450Pro(qualurl, nation){
         for(let j = 0; j<10; j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = qualifying.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -838,18 +921,20 @@ async function qualSX450Pro(qualurl, nation){
         for(let j = 0; j<10; j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = qualifying.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -890,18 +975,20 @@ async function qualSX250Novice(qualurl){
     for(let j = 0; j<10; j++){
         let bikeColor = '000000';
         let teamStr = '';
+        let name = qualifying.nameArray[j]
         for(let k=0; k<teams.length; k++){
             if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
+                name = teams[k].name;
             } else{
                 //do nothing
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         }
     }
 
@@ -941,18 +1028,20 @@ async function qualSX250Am(qualurl){
     for(let j = 0; j<10; j++){
         let bikeColor = '000000';
         let teamStr = '';
+        let name = qualifying.nameArray[j]
         for(let k=0; k<teams.length; k++){
             if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
+                name = teams[k].name;
             } else{
                 //do nothing
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         }
     }
 
@@ -992,18 +1081,20 @@ async function qualSX450Am(qualurl){
     for(let j = 0; j<10; j++){
         let bikeColor = '000000';
         let teamStr = '';
+        let name = qualifying.nameArray[j]
         for(let k=0; k<teams.length; k++){
             if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
+                name = teams[k].name;
             } else{
                 //do nothing
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         }
 
     }
@@ -1341,18 +1432,20 @@ async function pointsSX250wPro(qualurl, nation){
         for(let j = 0; j<20;j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = points.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(points.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -1393,18 +1486,20 @@ async function pointsSX250wPro(qualurl, nation){
         for(let j = 0; j<20;j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = points.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(points.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -1446,18 +1541,20 @@ async function pointsSX250wPro(qualurl, nation){
         for(let j = 0; j<20;j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = points.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(points.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -1503,18 +1600,20 @@ async function pointsSX250wProTc(qualurl, nation){
         for(let j = 0; j<20;j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = points.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(points.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -1555,18 +1654,20 @@ async function pointsSX250wProTc(qualurl, nation){
         for(let j = 0; j<20;j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = points.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(points.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -1608,18 +1709,20 @@ async function pointsSX250wProTc(qualurl, nation){
         for(let j = 0; j<20;j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = points.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(points.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -1664,18 +1767,20 @@ async function pointsSX250ePro(qualurl){
     for(let j = 0; j<20;j++){
         let bikeColor = '000000';
         let teamStr = '';
+        let name = points.nameArray[j]
         for(let k=0; k<teams.length; k++){
             if(points.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
+                name = teams[k].name;
             } else{
                 //do nothing
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -1718,18 +1823,20 @@ async function pointsSX250eProTc(qualurl){
     for(let j = 0; j<20;j++){
         let bikeColor = '000000';
         let teamStr = '';
+        let name = points.nameArray[j]
         for(let k=0; k<teams.length; k++){
             if(points.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
+                name = teams[k].name;
             } else{
                 //do nothing
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -1774,18 +1881,20 @@ async function pointsSX450Pro(qualurl, nation){
         for(let j = 0; j<20;j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = points.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(points.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -1827,18 +1936,20 @@ async function pointsSX450Pro(qualurl, nation){
         for(let j = 0; j<20;j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = points.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(points.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -1880,18 +1991,20 @@ async function pointsSX450Pro(qualurl, nation){
         for(let j = 0; j<20;j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = points.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(points.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -1938,18 +2051,20 @@ async function pointsSX450ProTc(qualurl, nation){
         for(let j = 0; j<20;j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = points.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(points.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -1991,18 +2106,20 @@ async function pointsSX450ProTc(qualurl, nation){
         for(let j = 0; j<20;j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = points.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(points.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -2044,18 +2161,20 @@ async function pointsSX450ProTc(qualurl, nation){
         for(let j = 0; j<20;j++){
             let bikeColor = '000000';
             let teamStr = '';
+            let name = points.nameArray[j]
             for(let k=0; k<teams.length; k++){
                 if(points.uidArray[j] === parseInt(teams[k].uid)){
                     bikeColor = teams[k].bike;
                     teamStr = teams[k].team;
+                    name = teams[k].name;
                 } else{
                     //do nothing
                 }
             }
             if(teamStr !== ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
             }
         }
         await browser.close();
@@ -2100,18 +2219,20 @@ async function pointsSX250Novice(qualurl){
     for(let j = 0; j<20;j++){
         let bikeColor = '000000';
         let teamStr = '';
+        let name = points.nameArray[j]
         for(let k=0; k<teams.length; k++){
             if(points.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
+                name = teams[k].name;
             } else{
                 //do nothing
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -2154,18 +2275,20 @@ async function pointsSX250Am(qualurl){
     for(let j = 0; j<20;j++){
         let bikeColor = '000000';
         let teamStr = '';
+        let name = points.nameArray[j]
         for(let k=0; k<teams.length; k++){
             if(points.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
+                name = teams[k].name;
             } else{
                 //do nothing
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -2208,18 +2331,20 @@ async function pointsSX450Am(qualurl){
     for(let j = 0; j<20;j++){
         let bikeColor = '000000';
         let teamStr = '';
+        let name = points.nameArray[j]
         for(let k=0; k<teams.length; k++){
             if(points.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
+                name = teams[k].name;
             } else{
                 //do nothing
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -2250,26 +2375,28 @@ async function qualMX250Pro(qualurl){
         for(let i=0;i<10;i++){
             numberArray[i] = document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
             nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
-            timeArray[i] = document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_4 > tbody > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML)
+            timeArray[i] = document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_4 > tbody > tr:nth-child(${i+1}) > td:nth-child(7)`).innerHTML)
         }
         return {numberArray, nameArray, timeArray, uidArray};
     });
     for(let j = 0; j<10; j++){
         let bikeColor = '000000';
         let teamStr = '';
+        let name = qualifying.nameArray[j]
         for(let k=0; k<teams.length; k++){
             if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
+                name = teams[k].name;
             } else{
                 //do nothing
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -2301,26 +2428,28 @@ async function qualMX450Pro(qualurl){
         for(let i=0;i<10;i++){
             numberArray[i] = document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
             nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
-            timeArray[i] = document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_3 > tbody > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML)
+            timeArray[i] = document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_3 > tbody > tr:nth-child(${i+1}) > td:nth-child(7)`).innerHTML)
         }
         return {numberArray, nameArray, timeArray, uidArray};
     });
     for(let j = 0; j<10; j++){
         let bikeColor = '000000';
         let teamStr = '';
+        let name = qualifying.nameArray[j]
         for(let k=0; k<teams.length; k++){
             if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
+                name = teams[k].name;
             } else{
                 //do nothing
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -2359,18 +2488,20 @@ async function qualMX250Am(qualurl){
     for(let j = 0; j<10; j++){
         let bikeColor = '000000';
         let teamStr = '';
+        let name = qualifying.nameArray[j]
         for(let k=0; k<teams.length; k++){
             if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
+                name = teams[k].name;
             } else{
                 //do nothing
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -2409,54 +2540,56 @@ async function qualMX450Am(qualurl){
     for(let j = 0; j<10; j++){
         let bikeColor = '000000';
         let teamStr = '';
+        let name = qualifying.nameArray[j]
         for(let k=0; k<teams.length; k++){
             if(qualifying.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
+                name = teams[k].name;
             } else{
                 //do nothing
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${qualifying.nameArray[j]} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${qualifying.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${qualifying.timeArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
 }
 
 async function pointsMXPro(qualurl, stand, race){
-    let standings = '';
+    let standings = stand;
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    switch(stand){
-        case "4":
-            standings = 'DataTables_Table_14'
-            break;
-        case "83":
-            standings = 'DataTables_Table_14'
-            break;
-        case "85":
-            standings = 'DataTables_Table_14'
-            break;
-        case "5":
-            standings = 'DataTables_Table_13'
-            break;
-        case "84":
-            standings = 'DataTables_Table_13'
-            break;
-        case "86":
-            standings = 'DataTables_Table_13'
-            break;
-        default:
-            standings = ''
-            break;
-    }
+    // switch(stand){
+    //     case "4":
+    //         standings = 'DataTables_Table_14'
+    //         break;
+    //     case "83":
+    //         standings = 'DataTables_Table_14'
+    //         break;
+    //     case "85":
+    //         standings = 'DataTables_Table_14'
+    //         break;
+    //     case "5":
+    //         standings = 'DataTables_Table_13'
+    //         break;
+    //     case "84":
+    //         standings = 'DataTables_Table_13'
+    //         break;
+    //     case "86":
+    //         standings = 'DataTables_Table_13'
+    //         break;
+    //     default:
+    //         standings = ''
+    //         break;
+    // }
     fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${race} Motocross[/b][/u]\n`);
     await page.click('#nav-standings-tab')
     await page.select('#standingsClassSelector', stand)
@@ -2479,29 +2612,39 @@ async function pointsMXPro(qualurl, stand, race){
         let uidArray = [];
 
         for(let i=0;i<20;i++){
-            //#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(2)
+            //#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(2)
+            //#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(4)
+            //#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(7)
+            //#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(6)
+
+            //
+            //
+            //#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(7)
+            //
             numberArray[i] = document.querySelector(`#${standings} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#${standings} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
-            pointArray[i] = document.querySelector(`#${standings} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#${standings} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML)
+            nameArray[i] = capitalize(document.querySelector(`#${standings} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            pointArray[i] = document.querySelector(`#${standings} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(7)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#${standings} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML)
         }
         return {numberArray, nameArray, pointArray, uidArray};
     }, standings);
     for(let j = 0; j<20;j++){
         let bikeColor = '000000';
         let teamStr = '';
+        let name = points.nameArray[j]
         for(let k=0; k<teams.length; k++){
             if(points.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
+                name = teams[k].name;
             } else{
                 //do nothing
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -2545,18 +2688,20 @@ async function pointsMX250Am(qualurl){
     for(let j = 0; j<20;j++){
         let bikeColor = '000000';
         let teamStr = '';
+        let name = points.nameArray[j]
         for(let k=0; k<teams.length; k++){
             if(points.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
+                name = teams[k].name;
             } else{
                 //do nothing
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -2599,24 +2744,26 @@ async function pointsMX450Am(qualurl){
     for(let j = 0; j<20;j++){
         let bikeColor = '000000';
         let teamStr = '';
+        let name = points.nameArray[j]
         for(let k=0; k<teams.length; k++){
             if(points.uidArray[j] === parseInt(teams[k].uid)){
                 bikeColor = teams[k].bike;
                 teamStr = teams[k].team;
+                name = teams[k].name;
             } else{
                 //do nothing
             }
         }
         if(teamStr !== ''){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         } else{
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${points.nameArray[j]} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${j+1}. [i][size=85]#${points.numberArray[j]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[j]}[/i][/size]\n`)
         }
     }
     await browser.close();
 }
 
-async function overalls(title, urlm1, urlm2, series, race, round){
+async function overalls(title, urlm1, urlm2, series, race, round, nation, rfseries){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
@@ -2812,10 +2959,29 @@ async function overalls(title, urlm1, urlm2, series, race, round){
         }
     }
     overall.sort((a,b)=>(a.points < b.points) ? 1 : -1)
-    fs.writeFileSync(`${path.join(__dirname, `${title}points-${round}.txt`)}`, ``)
+    let seriesFolder = ''
+
+    if(nation === "NA"){
+        if(rfseries === "AMA"){
+            seriesFolder = "naAMA"
+        } else {
+            seriesFolder = "naGP"
+        }
+    } else if(nation === "EU") {
+        if(rfseries === "AMA"){
+            seriesFolder = "euAMA"
+        } else {
+            seriesFolder = "euGP"
+        }
+    } else {
+        seriesFolder === "am"
+    }
+
+
+    fs.writeFileSync(`${path.join(__dirname, seriesFolder, `${title}points-${round}.txt`)}`, ``)
     for(let i=0;i<overall.length;i++){
         overall[i].overallPos = (i+1)
-        fs.appendFileSync(`${path.join(__dirname, `${title}points-${round}.txt`)}`, `${overall[i].uid},${overall[i].points}\n`)
+        fs.appendFileSync(`${path.join(__dirname, seriesFolder, `${title}points-${round}.txt`)}`, `${overall[i].uid},${overall[i].points}\n`)
     }
 
     for(let a = 0;a<overall.length;a++){
@@ -2831,7 +2997,7 @@ async function overalls(title, urlm1, urlm2, series, race, round){
             team = helper.substring(helper.indexOf("|")+1).trim();
             let bikeColor = '000000';
             for(let b=0;b<teams.length;b++){
-                if(overall[a].uid === teams[b].uid){
+                if(overall[a].uid === parseInt(teams[b].uid)){
                     bikeColor = teams[b].bike;
                     team = teams[b].team;
                     name = teams[b].name;
@@ -2881,9 +3047,12 @@ async function diffOAQuali(title, quali, urlm1, urlm2, series, race){
         let entry = document.querySelectorAll(`#${dataTable} > tbody:nth-child(2) > tr`);
         let entryNum = entry.length;
         for(let i=0;i<entry.length;i++){
+            //#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(2)
+            //#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(4)
+            //#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(7)
             numberArray[i] = document.querySelector(`#${dataTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
             nameArray[i] = capitalize(document.querySelector(`#${dataTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
-            uidArray[i] = parseInt(document.querySelector(`#${dataTable} > tbody > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML)
+            uidArray[i] = parseInt(document.querySelector(`#${dataTable} > tbody > tr:nth-child(${i+1}) > td:nth-child(7)`).innerHTML)
         }
         return {numberArray, nameArray, uidArray, entryNum};
     }, dataTable);
@@ -3120,7 +3289,7 @@ async function diffOAQuali(title, quali, urlm1, urlm2, series, race){
                 team = helper.substring(helper.indexOf("|")+1).trim();
                 let bikeColor = '000000';
                 for(let b=0;b<teams.length;b++){
-                    if(overQuali[i].uid === teams[b].uid){
+                    if(overQuali[i].uid === parseInt(teams[b].uid)){
                         bikeColor = teams[b].bike;
                         team = teams[b].team;
                         name = teams[b].name;

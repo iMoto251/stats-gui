@@ -166,6 +166,16 @@
     
     <div id="mxPro">
         <p class="inputs">
+            <label>NA/EU</label>
+            <select class="proMxNation">
+                <option value="NA">NA</option>
+                <option value="EU">EU</option>
+            </select>
+            <label>AMA/GP</label>
+            <select class="proMxSeries">
+                <option value="AMA">AMA</option>
+                <option value="GP">GP</option>
+            </select>
             <label>Round</label>
             <input type="text" class="proMxRound" placeholder="Round Name. Ex: Atlanta, Southwick...">
             <label>Qualifying</label>
@@ -176,24 +186,12 @@
             <input type="text" class="proMxMoto1_250" placeholder="250 Moto 1">
             <label>250 Moto 2</label>
             <input type="text" class="proMxMoto2_250" placeholder="250 Moto 2">
-            <label>250 Standings</label>
-            <select class="standings250">
-                <option value="5">250 Motocross</option>
-                <option value="84">Open 250 Motocross</option>
-                <option value="86">MX2</option>
-            </select>
             <label>450 Consi</label>
             <input type="text" class="proMxConsi_450" placeholder="450 Consi">
             <label>450 Moto 1</label>
             <input type="text" class="proMxMoto1_450" placeholder="450 Moto 1">
             <label>450 Moto 2</label>
             <input type="text" class="proMxMoto2_450" placeholder="450 Moto 2">
-            <label>450 Standings</label>
-            <select class="standings450">
-                <option value="4">450 Motocross</option>
-                <option value="83">Open 450 Motocross</option>
-                <option value="85">MXGP</option>
-            </select>
         </p>
         <button class="generateButton" onclick="generateProMxStats()">Generate Pro MX Stats</button>
     </div>

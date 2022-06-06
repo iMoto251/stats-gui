@@ -144,23 +144,23 @@ const generateProMxStats =  () => {
             proMxConsi_250: document.querySelector(".proMxConsi_250").value,
             proMxMoto1_250: document.querySelector(".proMxMoto1_250").value,
             proMxMoto2_250: document.querySelector(".proMxMoto2_250").value,
-            proMxStand_250: document.querySelector(".standings250").value,
             proMxConsi_450: document.querySelector(".proMxConsi_450").value,
             proMxMoto1_450: document.querySelector(".proMxMoto1_450").value,
             proMxMoto2_450: document.querySelector(".proMxMoto2_450").value,
-            proMxStand_450: document.querySelector(".standings450").value,
-            round: document.querySelector('.proMxRound').value
+            round: document.querySelector('.proMxRound').value,
+            proMxNation: document.querySelector('.proMxNation').value,
+            proMxSeries: document.querySelector('.proMxSeries').value
         },
         document.querySelector(".proMxQualifying").value,
         document.querySelector(".proMxConsi_250").value,
         document.querySelector(".proMxMoto1_250").value,
         document.querySelector(".proMxMoto2_250").value,
-        document.querySelector(".standings250").value,
         document.querySelector(".proMxConsi_450").value,
         document.querySelector(".proMxMoto1_450").value,
         document.querySelector(".proMxMoto2_450").value,
-        document.querySelector(".standings450").value,
-        document.querySelector('.proMxRound').value
+        document.querySelector('.proMxRound').value,
+        document.querySelector('.proMxNation').value,
+        document.querySelector('.proMxSeries').value
     );
 }
 
