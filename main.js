@@ -6,6 +6,7 @@ const path = require('path');
 //const teams = require('./teams.json');
 let teams = [];
 let stats = [];
+
 let naStatsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/NA%20Output';
 let euStatsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/EU%20Output';
 let amStatsURL = 'https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/AM%20Output';
@@ -482,11 +483,11 @@ ipcMain.on("generateProMxStats", async (event, data) => {
                     //NA MX 450 = 
                     standings450 = 'DataTables_Table_13'  
                 } else {
-                    //NA GP 250 = 
-                    standings250 = ''
+                    //NA GP 250 = #DataTables_Table_4 > tbody > tr:nth-child(1) > td:nth-child(2)
+                    standings250 = 'DataTables_Table_13'
 
-                    //NA GP 450 = 
-                    standings450 = ''
+                    //NA GP 450 = #DataTables_Table_3 > tbody > tr:nth-child(1) > td:nth-child(2)
+                    standings450 = 'DataTables_Table_14'
                 }
             } else {
                 if(data.proMxSeries === "AMA"){
@@ -497,10 +498,10 @@ ipcMain.on("generateProMxStats", async (event, data) => {
                     standings450 = 'DataTables_Table_13'
                 } else {
                     //EU GP 250 = 
-                    standings250 = ''
+                    standings250 = 'DataTables_Table_13'
 
                     //EU GP 450 = 
-                    standings450 = ''
+                    standings450 = 'DataTables_Table_14'
                 }
             }
 
@@ -2478,10 +2479,12 @@ async function qualMX250Am(qualurl){
         let timeArray = [];
         let uidArray = [];
         for(let i=0;i<10;i++){
+            //#DataTables_Table_3 > tbody > tr:nth-child(1) > td:nth-child(6)
+            //#DataTables_Table_3 > tbody > tr:nth-child(1) > td:nth-child(7)
             numberArray[i] = document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
             nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
-            timeArray[i] = document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_3 > tbody > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML)
+            timeArray[i] = document.querySelector(`#DataTables_Table_3 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_3 > tbody > tr:nth-child(${i+1}) > td:nth-child(7)`).innerHTML)
         }
         return {numberArray, nameArray, timeArray, uidArray};
     });
@@ -2532,8 +2535,8 @@ async function qualMX450Am(qualurl){
         for(let i=0;i<10;i++){
             numberArray[i] = document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
             nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
-            timeArray[i] = document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_4 > tbody > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML)
+            timeArray[i] = document.querySelector(`#DataTables_Table_4 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_4 > tbody > tr:nth-child(${i+1}) > td:nth-child(7)`).innerHTML)
         }
         return {numberArray, nameArray, timeArray, uidArray};
     });
@@ -2567,29 +2570,7 @@ async function pointsMXPro(qualurl, stand, race){
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForTimeout(2000);
-    // switch(stand){
-    //     case "4":
-    //         standings = 'DataTables_Table_14'
-    //         break;
-    //     case "83":
-    //         standings = 'DataTables_Table_14'
-    //         break;
-    //     case "85":
-    //         standings = 'DataTables_Table_14'
-    //         break;
-    //     case "5":
-    //         standings = 'DataTables_Table_13'
-    //         break;
-    //     case "84":
-    //         standings = 'DataTables_Table_13'
-    //         break;
-    //     case "86":
-    //         standings = 'DataTables_Table_13'
-    //         break;
-    //     default:
-    //         standings = ''
-    //         break;
-    // }
+    
     fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${race} Motocross[/b][/u]\n`);
     await page.click('#nav-standings-tab')
     await page.select('#standingsClassSelector', stand)
@@ -2612,15 +2593,8 @@ async function pointsMXPro(qualurl, stand, race){
         let uidArray = [];
 
         for(let i=0;i<20;i++){
-            //#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(2)
-            //#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(4)
-            //#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(7)
-            //#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(6)
+            //#DataTables_Table_13 > tbody > tr:nth-child(1) > td:nth-child(7)
 
-            //
-            //
-            //#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(7)
-            //
             numberArray[i] = document.querySelector(`#${standings} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
             nameArray[i] = capitalize(document.querySelector(`#${standings} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
             pointArray[i] = document.querySelector(`#${standings} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(7)`).innerHTML;
@@ -2676,12 +2650,11 @@ async function pointsMX250Am(qualurl){
         let nameArray = [];
         let pointArray = [];
         let uidArray = [];
-        //#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(2)
         for(let i=0;i<20;i++){
             numberArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
-            pointArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML)
+            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            pointArray[i] = document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(7)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_14 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML)
         }
         return {numberArray, nameArray, pointArray, uidArray};
     });
@@ -2735,9 +2708,9 @@ async function pointsMX450Am(qualurl){
         //#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(2)
         for(let i=0;i<20;i++){
             numberArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(3)`).innerHTML);
-            pointArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(5)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML)
+            nameArray[i] = capitalize(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            pointArray[i] = document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(7)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#DataTables_Table_13 > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML)
         }
         return {numberArray, nameArray, pointArray, uidArray};
     });

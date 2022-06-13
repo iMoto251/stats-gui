@@ -177,13 +177,10 @@ const generateAmMxStats =  () => {
             amMxMoto2_450: document.querySelector(".amMxMoto2_450").value,
             round: document.querySelector('.amMxRound').value
         },
-        document.querySelector(".amMxQualiCheck").checked,
         document.querySelector(".amMxQualifying").value,
-        document.querySelector(".amMxConsi_250Check").checked,
         document.querySelector(".amMxConsi_250").value,
         document.querySelector(".amMxMoto1_250").value,
         document.querySelector(".amMxMoto2_250").value,
-        document.querySelector(".amMxConsi_450Check").checked,
         document.querySelector(".amMxConsi_450").value,
         document.querySelector(".amMxMoto1_450").value,
         document.querySelector(".amMxMoto2_450").value,
