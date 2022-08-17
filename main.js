@@ -484,10 +484,10 @@ ipcMain.on("generateProMxStats", async (event, data) => {
                     standings450 = 'DataTables_Table_13'  
                 } else {
                     //NA GP 250 = #DataTables_Table_4 > tbody > tr:nth-child(1) > td:nth-child(2)
-                    standings250 = 'DataTables_Table_13'
+                    standings250 = 'DataTables_Table_14'
 
                     //NA GP 450 = #DataTables_Table_3 > tbody > tr:nth-child(1) > td:nth-child(2)
-                    standings450 = 'DataTables_Table_14'
+                    standings450 = 'DataTables_Table_13'
                 }
             } else {
                 if(data.proMxSeries === "AMA"){
