@@ -588,8 +588,8 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
 
     try{
         fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Overall Results[/b][/u][/color]\n`);
-        await overalls("250 Am", data.amMxMoto1_250, data.amMxMoto2_250, "Motocross", "Overall", data.round)
-        await overalls("450 Am", data.amMxMoto1_450, data.amMxMoto2_450, "Motocross", "Overall", data.round)
+        await overalls("250 Am", data.amMxMoto1_250, data.amMxMoto2_250, "Motocross", "Overall", data.round, "AM")
+        await overalls("450 Am", data.amMxMoto1_450, data.amMxMoto2_450, "Motocross", "Overall", data.round, "AM")
         await win.webContents.send("statsUpdates", 'Overalls Done')
     } catch(e){
         await win.webContents.send("statsUpdates", 'Error in Overalls')
@@ -2932,7 +2932,7 @@ async function overalls(title, urlm1, urlm2, series, race, round, nation, rfseri
         }
     }
     overall.sort((a,b)=>(a.points < b.points) ? 1 : -1)
-    let seriesFolder = ''
+    let seriesFolder = "am"
 
     if(nation === "NA"){
         if(rfseries === "AMA"){
@@ -2946,7 +2946,7 @@ async function overalls(title, urlm1, urlm2, series, race, round, nation, rfseri
         } else {
             seriesFolder = "euGP"
         }
-    } else {
+    } else if(nation === "") {
         seriesFolder === "am"
     }
 
