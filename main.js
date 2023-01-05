@@ -24,8 +24,13 @@ async function getTeams(){
     //SX - https://opensheet.elk.sh/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/Teams
     //MX - https://opensheet.elk.sh/16H7ogdl9pAIYYKsNBH1DDovCltBEdOodvPab5ikgjUc/Teams
     const teamsURL = 'https://opensheet.elk.sh/16H7ogdl9pAIYYKsNBH1DDovCltBEdOodvPab5ikgjUc/Teams'
-    const response = await fetch(teamsURL);
-    teams = await response.json();
+    try{
+        const response = await fetch(teamsURL);
+        teams = await response.json();
+    } catch(e){
+        console.log(e)
+    }
+
 }
 getTeams();
 
