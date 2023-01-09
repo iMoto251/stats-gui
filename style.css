@@ -6,6 +6,11 @@ body {
     height: 100vh;
     font-family: Arial, Helvetica, sans-serif;
     background-color: lightgray;
+    overflow: hidden;
+}
+
+title{
+    align-items: center;
 }
 
 input {
