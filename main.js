@@ -771,20 +771,6 @@ async function points(qualurl, nation, coast, raceClass, bikeClass){
     await browser.close();
 }
 
-async function doStats(){
-    var count = Object.keys(stats).length;
-
-    for(let i =0;i<count;i++){
-        if(stats[i].Filters === undefined){
-            //do nothing
-        } else if(stats[i].Filters === "LineBreak"){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n`);
-        } else {
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n${stats[i].Filters}`);
-        }  
-    }
-}
-
 async function tcOverall(urlm1, urlm2, urlm3){
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
@@ -939,4 +925,18 @@ async function tcOverall(urlm1, urlm2, urlm3){
         }
     }
 
+}
+
+async function doStats(){
+    var count = Object.keys(stats).length;
+
+    for(let i =0;i<count;i++){
+        if(stats[i].Filters === undefined){
+            //do nothing
+        } else if(stats[i].Filters === "LineBreak"){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n`);
+        } else {
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n${stats[i].Filters}`);
+        }  
+    }
 }
