@@ -3,7 +3,6 @@ const fetch = require("node-fetch");
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 const path = require("path");
-const readline = require('readline');
 
 let teams = [];
 let stats = [];
@@ -15,9 +14,9 @@ let amStatsURL = 'https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mm
 
 const createWindow = () => {
     win = new BrowserWindow({
-        width:1600,
+        width:1400,
         height:1000,
-        minWidth:1600,
+        minWidth:1400,
         minHeight:1000,
         resizable:true,
         autoHideMenuBar: true,
