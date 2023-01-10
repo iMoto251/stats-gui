@@ -51,4 +51,4 @@ The GUI is in HTML and CSS packed by electron.
 
 > Where does the teams data come from?
 
-- [This](https://docs.google.com/spreadsheets/d/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/edit#gid=138797587) google sheet using [this](https://forms.gle/DHX4kjSjMvyu7eEr9) google form. Data is pulled straight from the sheet.
+- [This](https://docs.google.com/spreadsheets/d/1aPu8IwZD60baEHk8dSsKf3Ib7vSnH_SEZ4GGTCjDPFA/edit#gid=138797587) google sheet is an older example. I will have instructions on how to copy and use this sheet for your own series later. Data is pulled straight from the sheet.
