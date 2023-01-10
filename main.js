@@ -3,9 +3,11 @@ const fetch = require("node-fetch");
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 const path = require("path");
+const readline = require('readline');
 
 let teams = [];
 let stats = [];
+let riders = [];
 
 let naStatsURL = 'https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/NA%20Output';
 let euStatsURL = 'https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/EU%20Output';
@@ -39,7 +41,9 @@ async function getTeams(){
         console.log(e)
     }
 }
-getTeams();
+//getTeams();
+
+
 
 async function getStats(url){
     const statsURL = url;
@@ -56,6 +60,7 @@ app.on('window-all-closed', () => {
 })
 
 ipcMain.on("generateProSxStats", async (event, data) => {
+    await getTeams();
     let nation = data.proNation;
     let coast = data.coast;
     try{
@@ -152,7 +157,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
             } else {
                 await getStats(euStatsURL);
             }
-            doStats();
+            await doStats();
             await win.webContents.send("statsUpdates", 'Finished!')
         } else {
             fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
@@ -165,6 +170,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
 });
 
 ipcMain.on("generateProSxTCStats", async (event, data) => {
+    await getTeams();
     let nation = data.proNation;
     let coast = data.coast;
     try{
@@ -274,6 +280,7 @@ ipcMain.on("generateProSxTCStats", async (event, data) => {
 });
 
 ipcMain.on("generateAmSxStats", async(event, data) =>{
+    await getTeams();
     try{
         await win.webContents.send("statsUpdates", 'Starting')
         await win.webContents.send("sendError", "")
@@ -281,13 +288,13 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
         if(data.amSxQualifying !== ""){
             fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[url=${data.amSxQualifying}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n`)
 
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]Novice Supercross[/b][/u][/color]\n`)
             await qualifyingFunction(data.amSxQualifying, "NA", "coast", "Am", "Nov")
             
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Am Supercross[/b][/u][/color]\n`)
             await qualifyingFunction(data.amSxQualifying, "NA", "coast", "Am", "250")
 
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Supercross[/b][/u][/color]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Am Supercross[/b][/u][/color]\n`)
             await qualifyingFunction(data.amSxQualifying, "NA", "coast", "Am", "450")
 
             await win.webContents.send("statsUpdates", 'Qualifying Done')
@@ -314,7 +321,7 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
         await qualifiers(data.amSxHeat2_250, "Heat")
 
 
-        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 AM Supercross Heat 2[/b][/u]\n`);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 AM Supercross Heat 1[/b][/u]\n`);
         await qualifiers(data.amSxHeat1_450, "Heat")
         fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 AM Supercross Heat 2[/b][/u]\n`);
         await qualifiers(data.amSxHeat2_450, "Heat")
@@ -367,14 +374,14 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]Novice Supercross[/b][/u][/color]\n`)
             await points(data.amSxQualifying, "NA", "coast", "Am", "Nov")
 
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 AM Supercross[/b][/u][/color]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 AM Supercross[/b][/u][/color]\n`)
             await points(data.amSxQualifying, "NA", "coast", "Am", "250")
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 AM Supercross[/b][/u][/color]\n`)
             await points(data.amSxQualifying, "NA", "coast", "Am", "450")
             
-            getStats(amStatsURL);
-            doStats();
+            await getStats(amStatsURL);
+            await doStats();
             await win.webContents.send("statsUpdates", 'Finished!')
         } else {
             fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
@@ -387,7 +394,121 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
 });
 
 ipcMain.on("generateAmSxTCStats", async (event, data) => {
-    console.log("Test")
+    await getTeams();
+    try{
+        await win.webContents.send("statsUpdates", 'Starting')
+        await win.webContents.send("sendError", "")
+        if(data.amSxTcQualifying !== ""){
+            fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[url=${data.amSxTcQualifying}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Am Supercross[/b][/u][/color]\n`)
+            await qualifyingFunction(data.amSxTcQualifying, "NA", "coast", "Am", "Nov")
+
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Am Supercross[/b][/u][/color]\n`)
+            await qualifyingFunction(data.amSxTcQualifying, "NA", "coast", "Am", "250")
+
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Am Supercross[/b][/u][/color]\n`)
+            await qualifyingFunction(data.amSxTcQualifying, "NA", "coast", "Am", "450")
+
+            await win.webContents.send("statsUpdates", 'Qualifying Done')
+        } else {
+            fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
+            await win.webContents.send("statsUpdates", 'Qualifying Skipped')
+        }
+    } catch(e) {
+        await win.webContents.send("statsUpdates", 'Error in Qualifying')
+        await win.webContents.send("sendError", e)
+    }
+
+    try{
+        if(data.amSxTcLCQ_Nov !== "" || data.amSxTcLCQ_250 !== "" || data.amSxTcLCQ_450 !== ""){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]LCQ Results[/b][/u][/color]\n`)
+        }
+        if(data.amSxTcLCQ_Nov !== ""){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 Supercross LCQ[/b][/u]\n`);
+            await qualifiers(data.amSxTcLCQ_Nov, "LCQ")
+        }
+        if(data.amSxTcLCQ_250 !== ""){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 Supercross LCQ[/b][/u]\n`);
+            await qualifiers(data.amSxTcLCQ_250, "LCQ")
+        }
+        if(data.amSxTcLCQ_450 !== ""){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Supercross LCQ[/b][/u]\n`);
+            await qualifiers(data.amSxTcLCQ_450, "LCQ")
+        }
+        await win.webContents.send("statsUpdates", 'LCQs Done')
+    } catch(e){
+        await win.webContents.send("statsUpdates", 'Error in LCQs')
+        await win.webContents.send("sendError", e)
+    }
+
+    try{
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Main Event Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]Novice Supercross Main 1[/b][/u]\n`);
+        await main(data.amSxTcMain1_Nov);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]Novice Supercross Main 2[/b][/u]\n`);
+        await main(data.amSxTcMain2_Nov);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]Novice Supercross Main 3[/b][/u]\n`);
+        await main(data.amSxTcMain3_Nov);
+
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 Am Supercross Main 1[/b][/u]\n`);
+        await main(data.amSxTcMain1_250);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 Am Supercross Main 2[/b][/u]\n`);
+        await main(data.amSxTcMain2_250);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 Am Supercross Main 3[/b][/u]\n`);
+        await main(data.amSxTcMain3_250);
+
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Am Supercross Main 1[/b][/u]\n`);
+        await main(data.amSxTcMain1_450);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Am Supercross Main 2[/b][/u]\n`);
+        await main(data.amSxTcMain2_450);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Am Supercross Main 3[/b][/u]\n`);
+        await main(data.amSxTcMain3_450);
+
+        await win.webContents.send("statsUpdates", 'Mains Done')
+    } catch (e){
+        await win.webContents.send("statsUpdates", 'Error in Mains')
+        await win.webContents.send("sendError", e)
+    }
+
+    try {
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Triple Crown Overalls[/b][/u][/color]\n\n`);
+
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]Novice Supercross Triple Crown[/b][/u][/color]\n`)
+        await tcOverall(data.amSxTcMain1_Nov, data.amSxTcMain2_Nov, data.amSxTcMain3_Nov);
+
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Am Supercross Triple Crown[/b][/u][/color]\n`)
+        await tcOverall(data.amSxTcMain1_250, data.amSxTcMain2_250, data.amSxTcMain3_250);
+        
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Am Supercross Triple Crown[/b][/u][/color]\n`)
+        await tcOverall(data.amSxTcMain1_450, data.amSxTcMain2_450, data.amSxTcMain3_450);
+        await win.webContents.send("statsUpdates", 'Triple Crown Overall Done')
+    } catch(e){
+        await win.webContents.send("statsUpdates", 'Error in Triple Crown Overalls')
+        await win.webContents.send("sendError", e)
+    }
+
+    try{
+        if(data.amSxTcQualifying !== ""){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n\n`);
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]Novice Supercross[/b][/u][/color]\n`)
+            await points(data.amSxTcQualifying, "NA", "coast", "Am", "Nov")
+
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Am Supercross[/b][/u][/color]\n`)
+            await points(data.amSxTcQualifying, "NA", "coast", "Am", "250")
+
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Am Supercross[/b][/u][/color]\n`)
+            await points(data.amSxTcQualifying, "NA", "coast", "Am", "450")
+            
+            doStats(amStatsURL);
+            await win.webContents.send("statsUpdates", 'Finished!')
+        } else {
+            fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
+            await win.webContents.send("statsUpdates", 'Points Skipped')
+        }
+    } catch(e) {
+        await win.webContents.send("statsUpdates", 'Error in Points')
+        await win.webContents.send("sendError", e)
+    }
 });
 
 ipcMain.on("generateProMxStats", async (event, data) => {
@@ -397,6 +518,13 @@ ipcMain.on("generateProMxStats", async (event, data) => {
 ipcMain.on("generateAmMxStats", async (event, data) => {
     console.log("Test")
 });
+
+ipcMain.on("getRidersFunc", async (event, data) =>{
+    await win.webContents.send("statsUpdates", 'Starting grabbing riders')
+    await getRiders();
+    await win.webContents.send("statsUpdates", 'Finished grabbing riders')
+    //console.log(riders)
+})
 
 
 async function qualifyingFunction(qualurl, nation, coast, raceClass, bikeClass){
@@ -494,7 +622,8 @@ async function qualifyingFunction(qualurl, nation, coast, raceClass, bikeClass){
                 //do nothing
             }
         }
-        if(teamStr !== '' || teamStr !== "Privateer"){
+        if(teamStr === "Privateer"){console.log("Privateer")};
+        if(teamStr !== '' && teamStr !== "Privateer"){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${qualifying.numberArray[i]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[i]}[/i][/size]\n`)
         } else {
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${qualifying.numberArray[i]}[/size][/i] - ${name} - [size=85][i]${qualifying.timeArray[i]}[/i][/size]\n`)
@@ -516,7 +645,7 @@ async function qualifiers(url, race){
     await page.setViewport({width: 1920, height: 1080})
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(url);
-    await page.waitfortimeout(500);
+    await page.waitForNetworkIdle();
 
     let results = await page.evaluate(() =>{
         function capitalize(str) {
@@ -577,7 +706,7 @@ async function main(url){
     await page.setViewport({width: 1920, height: 1080})
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(url);
-    await page.waitfortimeout(500);
+    await page.waitForNetworkIdle();
 
     let results = await page.evaluate(() =>{
         function capitalize(str) {
@@ -693,12 +822,15 @@ async function points(qualurl, nation, coast, raceClass, bikeClass){
                 classSelector='1'
             }
         } else if(raceClass === "Am"){
-            if(bikeClass === "250"){
-                selectorTable='DataTables_Table_4'
-                classSelector='2'
+            if(bikeClass === "Nov"){
+                selectorTable='DataTables_Table_21'
+                classSelector='80'
+            } else if(bikeClass === "250"){
+                selectorTable='DataTables_Table_20'
+                classSelector='76'
             } else {
-                selectorTable='DataTables_Table_3'
-                classSelector='1'
+                selectorTable='DataTables_Table_19'
+                classSelector='74'
             }
         }
     } else if(nation === "EU"){
@@ -718,12 +850,12 @@ async function points(qualurl, nation, coast, raceClass, bikeClass){
     await page.setViewport({width: 1920, height: 1080})
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
-    await page.waitForTimeout(500);
+    await page.waitForNetworkIdle();
 
     await page.click('#nav-standings-tab')
     await page.select('#standingsClassSelector', classSelector)
     await page.select(`#${selectorTable}_length > label:nth-child(1) > select:nth-child(1)`, '100')
-    await page.waitForTimeout(500)
+    await page.waitForNetworkIdle();
 
     let points = await page.evaluate((selectorTable) =>{
         function capitalize(str) {
@@ -762,7 +894,7 @@ async function points(qualurl, nation, coast, raceClass, bikeClass){
                 //do nothing
             }
         }
-        if(teamStr !== '' || teamStr !== "Privateer"){
+        if(teamStr !== '' && teamStr !== "Privateer"){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${points.numberArray[i]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[i]}[/i][/size]\n`)
         } else {
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${points.numberArray[i]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[i]}[/i][/size]\n`)
@@ -777,7 +909,7 @@ async function tcOverall(urlm1, urlm2, urlm3){
     await page.setViewport({width: 1920, height: 1080})
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(urlm1);
-    await page.waitfortimeout(500);
+    await page.waitForNetworkIdle();
 
     let resultsm1 = await page.evaluate(() =>{
         function capitalize(str) {
@@ -805,7 +937,7 @@ async function tcOverall(urlm1, urlm2, urlm3){
     });
 
     await page.goto(urlm2)
-    await page.waitfortimeout(500);
+    await page.waitForNetworkIdle();
 
     let resultsm2 = await page.evaluate(() =>{
         function capitalize(str) {
@@ -833,7 +965,7 @@ async function tcOverall(urlm1, urlm2, urlm3){
     });
 
     await page.goto(urlm3)
-    await page.waitfortimeout(500);
+    await page.waitForNetworkIdle();
 
     let resultsm3 = await page.evaluate(() =>{
         function capitalize(str) {
@@ -938,5 +1070,50 @@ async function doStats(){
         } else {
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n${stats[i].Filters}`);
         }  
+    }
+}
+
+async function getRiders(){
+    const ridersURL = 'https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/findNames'
+    fs.writeFileSync(`${path.join(__dirname, "riderNames.txt")}`, ``)
+    
+    try {
+        const response = await fetch(ridersURL);
+        riders = await response.json();
+
+        let browser = await puppeteer.launch({headless: true});
+        let page = await browser.newPage();
+        await page.setViewport({width: 1920, height: 1080})
+        await page.setDefaultNavigationTimeout(120000);
+        await page.goto(`https://racefactorygaming.com/Profiles/Rider?uid=11747`);
+        await page.waitForNetworkIdle();
+
+
+        for(i=0;i<riders.length;i++){
+            
+            await page.goto(`https://racefactorygaming.com/Profiles/Rider?uid=${riders[i].uid}`)
+            await page.waitForNetworkIdle();
+
+            let riderNames = await page.evaluate(() =>{
+                function capitalize(str) {
+                    return str.replace(
+                        /\w\S*/g,
+                        function(txt) {
+                            return txt.charAt(0).toUpperCase() + txt.substr(1);
+                        }
+                    );
+                }
+                let rider;
+                rider = capitalize(document.querySelector(`#nav-home-profile > div.col-sm-8 > div:nth-child(2)`).innerHTML);
+        
+                return {rider};
+            });
+            let newRider = riderNames.rider.trim();
+            fs.appendFileSync(`${path.join(__dirname, "riderNames.txt")}`, `${riders[i].uid}` + "," + newRider + "\n")
+            
+        }
+        await browser.close();
+    } catch (e){
+        console.log(e)
     }
 }
