@@ -188,6 +188,10 @@ const generateAmMxStats =  () => {
     );
 }
 
+const getRidersFunc = () =>{
+    ipcRenderer.send("getRidersFunc");
+}
+
 ipcRenderer.on("statsUpdates", (event, data) => {
     const finishedTag = document.querySelector("#finished");
     finishedTag.innerText = data;
