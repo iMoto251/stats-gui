@@ -848,11 +848,11 @@ async function points(qualurl, nation, coast, raceClass, bikeClass){
     } else if(nation === "EU"){
         if(bikeClass === "250"){
             //EU 250
-            selectorTable='DataTables_Table_14'
+            selectorTable='DataTables_Table_13'
             classSelector='8'
             } else {
             //EU 450
-            selectorTable='DataTables_Table_13'
+            selectorTable='DataTables_Table_14'
             classSelector='37'
         }
     }
