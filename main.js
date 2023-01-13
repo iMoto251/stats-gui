@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, clipboard } = require('electron')
 const fetch = require("node-fetch");
 const puppeteer = require("puppeteer");
 const fs = require("fs");
@@ -42,7 +42,16 @@ async function getTeams(){
 }
 //getTeams();
 
-
+async function copyStatsToClip(){
+    fs.readFile(path.join(__dirname, "stats.txt"), 'utf8', (err,data) =>{
+        if (err){
+            console.log(err);
+        } else {
+            clipboard.writeText(data);
+            console.log('File contents copied to clipboard')
+        }
+    })
+}
 
 async function getStats(url){
     const statsURL = url;
@@ -157,6 +166,7 @@ ipcMain.on("generateProSxStats", async (event, data) => {
                 await getStats(euStatsURL);
             }
             await doStats();
+            await copyStatsToClip();
             await win.webContents.send("statsUpdates", 'Finished!')
         } else {
             fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
@@ -267,6 +277,7 @@ ipcMain.on("generateProSxTCStats", async (event, data) => {
                 await getStats(euStatsURL);
             }
             doStats();
+            await copyStatsToClip();
             await win.webContents.send("statsUpdates", 'Finished!')
         } else {
             fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
@@ -381,6 +392,7 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
             
             await getStats(amStatsURL);
             await doStats();
+            await copyStatsToClip();
             await win.webContents.send("statsUpdates", 'Finished!')
         } else {
             fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
@@ -499,6 +511,7 @@ ipcMain.on("generateAmSxTCStats", async (event, data) => {
             await points(data.amSxTcQualifying, "NA", "coast", "Am", "450")
             
             doStats(amStatsURL);
+            await copyStatsToClip();
             await win.webContents.send("statsUpdates", 'Finished!')
         } else {
             fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
