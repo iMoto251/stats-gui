@@ -98,7 +98,7 @@ p.inputs{
 
 p.buttons{
     display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
     margin: auto;
 }
 
@@ -130,6 +130,10 @@ button.generateButton{
 }
 
 #mxAm{
+    display: none;
+}
+
+#vars{
     display: none;
 }
 

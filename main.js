@@ -14,9 +14,9 @@ let amStatsURL = 'https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mm
 
 const createWindow = () => {
     win = new BrowserWindow({
-        width:1400,
+        width:1600,
         height:1000,
-        minWidth:1400,
+        minWidth:1600,
         minHeight:1000,
         resizable:true,
         autoHideMenuBar: true,
