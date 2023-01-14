@@ -18,6 +18,7 @@
         <button onclick="showSxAmTC()">Am Sx Triple Crown</button>
         <button onclick="showMxPro()">Pro Motocross</button>
         <button onclick="showMxAm()">Am Motocross</button>
+        <button onclick="showVars()">Update Variables</button>
         <button onclick="getRidersFunc()">Get Riders</button>
     </p>
 </div>
@@ -218,6 +219,30 @@
         </p>
         <button class="generateButton" onclick="generateAmMxStats()">Generate Am MX Stats</button>
     </div>
+
+    <div id="vars">
+        <p class="inputs">
+            <label>Teams</label>
+            <input type="text" class="teamsVar" placeholder="Spreadsheet URL">
+            <label>SX AMA</label>
+            <input type="text" class="sxAMAVar" placeholder="Spreadsheet URL">
+            <label>SX EU</label>
+            <input type="text" class="amMxConsi_250" placeholder="Spreadsheet URL">
+            <label>SX Ams</label>
+            <input type="text" class="amMxMoto1_250" placeholder="Spreadsheet URL">
+            <label>MX NA AMA</label>
+            <input type="text" class="amMxMoto2_250" placeholder="Spreadsheet URL">
+            <label>MX NA GP</label>
+            <input type="text" class="amMxConsi_450" placeholder="Spreadsheet URL">
+            <label>MX EU AMA</label>
+            <input type="text" class="amMxMoto1_450" placeholder="Spreadsheet URL">
+            <label>MX EU GP</label>
+            <input type="text" class="amMxMoto2_450" placeholder="Spreadsheet URL">
+            <label>MX Ams</label>
+            <input type="text" class="amMxMoto2_450" placeholder="Spreadsheet URL">
+        </p>
+        <button class="generateButton" onclick="updateVars()">Update Variable Files</button>
+    </div>
 </div>
 
 
@@ -234,6 +259,7 @@
         const mxAm = document.getElementById("mxAm");
         const sxProTC = document.getElementById("sxProTC");
         const sxAmTC = document.getElementById("sxAmTC");
+        const vars = document.getElementById("vars");
         if(sxPro.style.display === "none"){
             sxPro.style.display = "block";
             sxAm.style.display = "none";
@@ -241,6 +267,7 @@
             mxAm.style.display = "none";
             sxProTC.style.display = "none";
             sxAmTC.style.display = "none";
+            vars.style.display = "none";
         } else {
             sxPro.style.display = "none";
         }
@@ -252,6 +279,7 @@
         const mxAm = document.getElementById("mxAm");
         const sxProTC = document.getElementById("sxProTC");
         const sxAmTC = document.getElementById("sxAmTC");
+        const vars = document.getElementById("vars");
         if(sxProTC.style.display === "none"){
             sxProTC.style.display = "block";
             sxAm.style.display = "none";
@@ -259,6 +287,7 @@
             mxAm.style.display = "none";
             sxPro.style.display = "none";
             sxAmTC.style.display = "none";
+            vars.style.display = "none";
         } else {
             sxProTC.style.display = "none";
         }
@@ -270,6 +299,7 @@
         const mxAm = document.getElementById("mxAm");
         const sxProTC = document.getElementById("sxProTC");
         const sxAmTC = document.getElementById("sxAmTC");
+        const vars = document.getElementById("vars");
         if(sxAm.style.display === "none"){
             sxAm.style.display = "block";
             sxPro.style.display = "none";
@@ -277,6 +307,7 @@
             mxAm.style.display = "none";
             sxProTC.style.display = "none";
             sxAmTC.style.display = "none";
+            vars.style.display = "none";
         } else {
             sxAm.style.display = "none";
         }
@@ -288,6 +319,7 @@
         const mxAm = document.getElementById("mxAm");
         const sxProTC = document.getElementById("sxProTC");
         const sxAmTC = document.getElementById("sxAmTC");
+        const vars = document.getElementById("vars");
         if(sxAmTC.style.display === "none"){
             sxAmTC.style.display = "block";
             sxAm.style.display = "none";
@@ -295,6 +327,7 @@
             mxPro.style.display = "none";
             mxAm.style.display = "none";
             sxProTC.style.display = "none";
+            vars.style.display = "none";
         } else {
             sxAmTC.style.display = "none";
         }
@@ -306,6 +339,7 @@
         const mxAm = document.getElementById("mxAm");
         const sxProTC = document.getElementById("sxProTC");
         const sxAmTC = document.getElementById("sxAmTC");
+        const vars = document.getElementById("vars");
         if(mxPro.style.display === "none"){
             mxPro.style.display = "block";
             sxPro.style.display = "none";
@@ -313,6 +347,7 @@
             mxAm.style.display = "none";
             sxProTC.style.display = "none";
             sxAmTC.style.display = "none";
+            vars.style.display = "none";
         } else {
             mxPro.style.display = "none";
         }
@@ -324,6 +359,7 @@
         const mxAm = document.getElementById("mxAm");
         const sxProTC = document.getElementById("sxProTC");
         const sxAmTC = document.getElementById("sxAmTC");
+        const vars = document.getElementById("vars");
         if(mxAm.style.display === "none"){
             mxAm.style.display = "block";
             mxPro.style.display = "none";
@@ -331,9 +367,30 @@
             sxAm.style.display = "none";
             sxProTC.style.display = "none";
             sxAmTC.style.display = "none";
+            vars.style.display = "none";
         } else {
             mxAm.style.display = "none";
         } 
+    }
+    function showVars(){
+        const sxPro = document.getElementById("sxPro");
+        const sxAm = document.getElementById("sxAm");
+        const mxPro = document.getElementById("mxPro");
+        const mxAm = document.getElementById("mxAm");
+        const sxProTC = document.getElementById("sxProTC");
+        const sxAmTC = document.getElementById("sxAmTC");
+        const vars = document.getElementById("vars");
+        if(vars.style.display === "none"){
+            vars.style.display = "block";
+            mxAm.style.display = "none";
+            mxPro.style.display = "none";
+            sxPro.style.display = "none";
+            sxAm.style.display = "none";
+            sxProTC.style.display = "none";
+            sxAmTC.style.display = "none";
+        } else {
+            vars.style.display = "none";
+        }
     }
 </script>
 </body>
