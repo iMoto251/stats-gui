@@ -1,11 +1,11 @@
 {
-    "teams" : "https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/Teams",
-    "sxAMA" : "https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/NA%20Output",
-    "sxEU" : "https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/EU%20Output",
-    "sxAms" : "https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/AM%20Output",
-    "mxNAAMA" : "",
-    "mxEUAMA" : "",
-    "mxNAGP" : "",
-    "mxEUGP" : "",
-    "mxAms" : ""
+  "teams": "https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/Teams",
+  "sxAMA": "https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/NA%20Output",
+  "sxEU": "https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/EU%20Output",
+  "sxAms": "https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/AM%20Output",
+  "mxNAAMA": "",
+  "mxEUAMA": "",
+  "mxNAGP": "",
+  "mxEUGP": "",
+  "mxAms": ""
 }

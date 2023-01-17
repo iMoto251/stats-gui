@@ -14,8 +14,7 @@ const generateProSxStats =  () => {
             proSxLCQ_450: document.querySelector('.proSxLCQ_450').value,
             proSxMain_250: document.querySelector('.proSxMain_250').value,
             proSxMain_450: document.querySelector('.proSxMain_450').value,
-            coast: document.querySelector('.coast').value,
-            round: document.querySelector('.proSxRound').value
+            coast: document.querySelector('.coast').value
         },
         document.querySelector(".proNation").value,
         document.querySelector(".proSxQualifying").value,
@@ -27,8 +26,7 @@ const generateProSxStats =  () => {
         document.querySelector('.proSxLCQ_450').value,
         document.querySelector('.proSxMain_250').value,
         document.querySelector('.proSxMain_450').value,
-        document.querySelector('.coast').value,
-        document.querySelector('.proSxRound').value
+        document.querySelector('.coast').value
     );
 }
 
@@ -46,8 +44,7 @@ const generateProSxTCStats = () => {
             proSxTcMain1_450: document.querySelector('.proSxTcMain1_450').value,
             proSxTcMain2_450: document.querySelector('.proSxTcMain2_450').value,
             proSxTcMain3_450: document.querySelector('.proSxTcMain3_450').value,
-            coast: document.querySelector('.coast').value,
-            round: document.querySelector('.proSxRoundTC').value
+            coast: document.querySelector('.coast').value
         },
         document.querySelector(".proNation").value,
         document.querySelector(".proSxTcQualifying").value,
@@ -59,8 +56,7 @@ const generateProSxTCStats = () => {
         document.querySelector('.proSxTcMain1_450').value,
         document.querySelector('.proSxTcMain2_450').value,
         document.querySelector('.proSxTcMain3_450').value,
-        document.querySelector('.coast').value,
-        document.querySelector('.proSxRoundTC').value
+        document.querySelector('.coast').value
     );
 }
 
@@ -80,8 +76,7 @@ const generateAmSxStats = () => {
             amSxLCQ_450: document.querySelector('.amSxLCQ_450').value,
             amSxMain_nov: document.querySelector('.amSxMain_nov').value,
             amSxMain_250: document.querySelector('.amSxMain_250').value,
-            amSxMain_450: document.querySelector('.amSxMain_450').value,
-            round: document.querySelector('.amSxRound').value
+            amSxMain_450: document.querySelector('.amSxMain_450').value
         },
         document.querySelector(".amSxQualifying").value,
         document.querySelector('.amSxHeat1_nov').value,
@@ -95,8 +90,7 @@ const generateAmSxStats = () => {
         document.querySelector('.amSxLCQ_450').value,
         document.querySelector('.amSxMain_nov').value,
         document.querySelector('.amSxMain_250').value,
-        document.querySelector('.amSxMain_450').value,
-        document.querySelector('.amSxRound').value
+        document.querySelector('.amSxMain_450').value
     );
 }
 
@@ -116,8 +110,7 @@ const generateAmSxTCStats = () => {
             amSxTcMain3_250: document.querySelector('.amSxTcMain3_250').value,
             amSxTcMain1_450: document.querySelector('.amSxTcMain1_450').value,
             amSxTcMain2_450: document.querySelector('.amSxTcMain2_450').value,
-            amSxTcMain3_450: document.querySelector('.amSxTcMain3_450').value,
-            round: document.querySelector('.amSxRoundTC').value
+            amSxTcMain3_450: document.querySelector('.amSxTcMain3_450').value
         },
         document.querySelector(".amSxTcLCQ_Nov").value,
         document.querySelector(".amSxTcLCQ_250").value,
@@ -131,8 +124,7 @@ const generateAmSxTCStats = () => {
         document.querySelector('.amSxTcMain3_250').value,
         document.querySelector('.amSxTcMain1_450').value,
         document.querySelector('.amSxTcMain2_450').value,
-        document.querySelector('.amSxTcMain3_450').value,
-        document.querySelector('.amSxRoundTC').value
+        document.querySelector('.amSxTcMain3_450').value
     );
 }
 
@@ -147,7 +139,6 @@ const generateProMxStats =  () => {
             proMxConsi_450: document.querySelector(".proMxConsi_450").value,
             proMxMoto1_450: document.querySelector(".proMxMoto1_450").value,
             proMxMoto2_450: document.querySelector(".proMxMoto2_450").value,
-            round: document.querySelector('.proMxRound').value,
             proMxNation: document.querySelector('.proMxNation').value,
             proMxSeries: document.querySelector('.proMxSeries').value
         },
@@ -158,7 +149,6 @@ const generateProMxStats =  () => {
         document.querySelector(".proMxConsi_450").value,
         document.querySelector(".proMxMoto1_450").value,
         document.querySelector(".proMxMoto2_450").value,
-        document.querySelector('.proMxRound').value,
         document.querySelector('.proMxNation').value,
         document.querySelector('.proMxSeries').value
     );
@@ -174,8 +164,7 @@ const generateAmMxStats =  () => {
             amMxMoto2_250: document.querySelector(".amMxMoto2_250").value,
             amMxConsi_450: document.querySelector(".amMxConsi_450").value,
             amMxMoto1_450: document.querySelector(".amMxMoto1_450").value,
-            amMxMoto2_450: document.querySelector(".amMxMoto2_450").value,
-            round: document.querySelector('.amMxRound').value
+            amMxMoto2_450: document.querySelector(".amMxMoto2_450").value
         },
         document.querySelector(".amMxQualifying").value,
         document.querySelector(".amMxConsi_250").value,
@@ -183,13 +172,38 @@ const generateAmMxStats =  () => {
         document.querySelector(".amMxMoto2_250").value,
         document.querySelector(".amMxConsi_450").value,
         document.querySelector(".amMxMoto1_450").value,
-        document.querySelector(".amMxMoto2_450").value,
-        document.querySelector('.amMxRound').value
+        document.querySelector(".amMxMoto2_450").value
     );
 }
 
 const getRidersFunc = () =>{
     ipcRenderer.send("getRidersFunc");
+}
+
+const updateVars = () =>{
+    ipcRenderer.send(
+        "updateVars",
+        {
+            teamsVar: document.querySelector(".teamsVar").value,
+            sxAMAVar: document.querySelector(".sxAMAVar").value,
+            sxEUVar: document.querySelector(".sxEUVar").value,
+            sxAMSVar: document.querySelector(".sxAMSVar").value,
+            mxNAamaVar: document.querySelector(".mxNAamaVar").value,
+            mxNAgpVar: document.querySelector(".mxNAgpVar").value,
+            mxEUamaVar: document.querySelector(".mxEUamaVar").value,
+            mxEUgpVar: document.querySelector(".mxEUgpVar").value,
+            mxAmsVar: document.querySelector(".mxAmsVar").value
+        },
+        document.querySelector(".teamsVar").value,
+        document.querySelector(".sxAMAVar").value,
+        document.querySelector(".sxEUVar").value,
+        document.querySelector(".sxAMSVar").value,
+        document.querySelector(".mxNAamaVar").value,
+        document.querySelector(".mxNAgpVar").value,
+        document.querySelector(".mxEUamaVar").value,
+        document.querySelector(".mxEUgpVar").value,
+        document.querySelector(".mxAmsVar").value
+    )
 }
 
 ipcRenderer.on("statsUpdates", (event, data) => {
