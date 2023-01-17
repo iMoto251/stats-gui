@@ -654,7 +654,6 @@ ipcMain.on("getRidersFunc", async (event, data) =>{
     await win.webContents.send("statsUpdates", 'Starting grabbing riders')
     await getRiders();
     await win.webContents.send("statsUpdates", 'Finished grabbing riders')
-    //console.log(riders)
 })
 
 ipcMain.on("updateVars", async (event, data) =>{
