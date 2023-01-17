@@ -4,6 +4,8 @@ const puppeteer = require("puppeteer");
 const fs = require("fs");
 const path = require("path");
 
+const vars = require("./vars.json")
+
 let teams = [];
 let stats = [];
 let riders = [];
@@ -40,7 +42,6 @@ async function getTeams(){
         console.log(e)
     }
 }
-//getTeams();
 
 async function copyStatsToClip(){
     fs.readFile(path.join(__dirname, "stats.txt"), 'utf8', (err,data) =>{
@@ -656,6 +657,45 @@ ipcMain.on("getRidersFunc", async (event, data) =>{
     //console.log(riders)
 })
 
+ipcMain.on("updateVars", async (event, data) =>{
+    
+
+    let dataFile = fs.readFileSync('vars.json');
+    let json = JSON.parse(dataFile);
+
+    if(data.teamsVar !== ""){
+        json.teams = data.teamsVar
+    }
+    if(data.sxAMAVar !== ""){
+        json.sxAMA = data.sxAMAVar
+    }
+    if(data.sxEUVar !== ""){
+        json.sxEU = data.sxEUVar
+    }
+    if(data.sxAMSVar !== ""){
+        json.sxAms = data.sxAMSVar
+    }
+    if(data.mxNAamaVar !== ""){
+        json.mxNAAMA = data.mxNAamaVar
+    }
+    if(data.mxNAgpVar !== ""){
+        json.mxNAGP = data.mxNAgpVar
+    }
+    if(data.mxEUamaVar !== ""){
+        json.mxEUAMA = data.mxEUamaVar
+    }
+    if(data.mxEUgpVar !== ""){
+        json.mxEUGP = data.mxEUgpVar
+    }
+    if(data.mxAmsVar !== ""){
+        json.mxAms = data.mxAmsVar
+    }
+
+    fs.writeFileSync('vars.json',JSON.stringify(json, null, 2))
+    await win.webContents.send("statsUpdates", 'Variables updated')
+    await win.webContents.send("sendError", "")
+})
+
 
 async function qualifyingFunction(qualurl, nation, coast, raceClass, bikeClass, series){
     let selectorTable=''
@@ -682,13 +722,13 @@ async function qualifyingFunction(qualurl, nation, coast, raceClass, bikeClass, 
                 }
             } else if(raceClass === "Am"){
                 if(bikeClass === "Nov"){
-                    selectorTable='DataTables_Table_21'
+                    selectorTable='DataTables_Table_6'
                     classSelector='80'
                 } else if(bikeClass === "250"){
-                    selectorTable='DataTables_Table_20'
+                    selectorTable='DataTables_Table_5'
                     classSelector='76'
                 } else {
-                    selectorTable='DataTables_Table_19'
+                    selectorTable='DataTables_Table_4'
                     classSelector='74'
                 }
             }
@@ -789,7 +829,6 @@ async function qualifyingFunction(qualurl, nation, coast, raceClass, bikeClass, 
         
     }, selectorTable);
 
-    //console.log(teams)
 
     for(let i = 0; i<10; i++){
         let bikeColor = '000000';
@@ -804,14 +843,15 @@ async function qualifyingFunction(qualurl, nation, coast, raceClass, bikeClass, 
                 //do nothing
             }
         }
-        if(teamStr === "Privateer"){console.log("Privateer")};
         if(teamStr !== '' && teamStr !== "Privateer"){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${qualifying.numberArray[i]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${qualifying.timeArray[i]}[/i][/size]\n`)
         } else {
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${qualifying.numberArray[i]}[/size][/i] - ${name} - [size=85][i]${qualifying.timeArray[i]}[/i][/size]\n`)
         }
     }
-    await browser.close();
+
+    
+    //await browser.close();
 }
 
 async function qualifiers(url, race){
