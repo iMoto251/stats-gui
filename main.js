@@ -84,10 +84,10 @@ ipcMain.on("generateProSxStats", async (event, data) => {
         if(data.proSxQualifying !== ""){
             fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[url=${data.proSxQualifying}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n`)
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
-            await qualifyingFunction(data.proSxQualifying, nation, coast, "Pro", "250", "SX")
+            await rfQualifyingFunction(data.proSxQualifying, nation, coast, "Pro", "250", "SX")
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Supercross[/b][/u][/color]\n`)
-            await qualifyingFunction(data.proSxQualifying, nation, coast, "Pro", "450", "SX")
+            await rfQualifyingFunction(data.proSxQualifying, nation, coast, "Pro", "450", "SX")
 
             await win.webContents.send("statsUpdates", 'Qualifying Done')
         } else {
@@ -161,10 +161,10 @@ ipcMain.on("generateProSxStats", async (event, data) => {
         if(data.proSxQualifying !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n\n`);
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
-            await points(data.proSxQualifying, nation, coast, "Pro", "250", "SX")
+            await rfPoints(data.proSxQualifying, nation, coast, "Pro", "250", "SX")
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Supercross[/b][/u][/color]\n`)
-            await points(data.proSxQualifying, nation, coast, "Pro", "450", "SX")
+            await rfPoints(data.proSxQualifying, nation, coast, "Pro", "450", "SX")
             
             if(nation === "NA"){
                 await getStats(naSxStatsURL);
@@ -194,10 +194,10 @@ ipcMain.on("generateProSxTCStats", async (event, data) => {
         if(data.proSxTcQualifying !== ""){
             fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[url=${data.proSxTcQualifying}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n`)
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
-            await qualifyingFunction(data.proSxTcQualifying, nation, coast, "Pro", "250", "SX")
+            await rfQualifyingFunction(data.proSxTcQualifying, nation, coast, "Pro", "250", "SX")
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Supercross[/b][/u][/color]\n`)
-            await qualifyingFunction(data.proSxTcQualifying, nation, coast, "Pro", "450", "SX")
+            await rfQualifyingFunction(data.proSxTcQualifying, nation, coast, "Pro", "450", "SX")
 
             await win.webContents.send("statsUpdates", 'Qualifying Done')
         } else {
@@ -272,10 +272,10 @@ ipcMain.on("generateProSxTCStats", async (event, data) => {
         if(data.proSxTcQualifying !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n\n`);
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
-            await points(data.proSxTcQualifying, nation, coast, "Pro", "250", "SX")
+            await rfPoints(data.proSxTcQualifying, nation, coast, "Pro", "250", "SX")
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Supercross[/b][/u][/color]\n`)
-            await points(data.proSxTcQualifying, nation, coast, "Pro", "450", "SX")
+            await rfPoints(data.proSxTcQualifying, nation, coast, "Pro", "450", "SX")
             
             if(nation === "NA"){
                 await getStats(naSxStatsURL);
@@ -305,13 +305,13 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
             fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[url=${data.amSxQualifying}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n`)
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]Novice Supercross[/b][/u][/color]\n`)
-            await qualifyingFunction(data.amSxQualifying, "NA", "coast", "Am", "Nov", "SX")
+            await rfQualifyingFunction(data.amSxQualifying, "NA", "coast", "Am", "Nov", "SX")
             
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Am Supercross[/b][/u][/color]\n`)
-            await qualifyingFunction(data.amSxQualifying, "NA", "coast", "Am", "250", "SX")
+            await rfQualifyingFunction(data.amSxQualifying, "NA", "coast", "Am", "250", "SX")
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Am Supercross[/b][/u][/color]\n`)
-            await qualifyingFunction(data.amSxQualifying, "NA", "coast", "Am", "450", "SX")
+            await rfQualifyingFunction(data.amSxQualifying, "NA", "coast", "Am", "450", "SX")
 
             await win.webContents.send("statsUpdates", 'Qualifying Done')
         } else {
@@ -388,13 +388,13 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
         if(data.amSxQualifying !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n\n`);
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]Novice Supercross[/b][/u][/color]\n`)
-            await points(data.amSxQualifying, "NA", "coast", "Am", "Nov", "SX")
+            await rfPoints(data.amSxQualifying, "NA", "coast", "Am", "Nov", "SX")
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 AM Supercross[/b][/u][/color]\n`)
-            await points(data.amSxQualifying, "NA", "coast", "Am", "250", "SX")
+            await rfPoints(data.amSxQualifying, "NA", "coast", "Am", "250", "SX")
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 AM Supercross[/b][/u][/color]\n`)
-            await points(data.amSxQualifying, "NA", "coast", "Am", "450", "SX")
+            await rfPoints(data.amSxQualifying, "NA", "coast", "Am", "450", "SX")
             
             await getStats(amSxStatsURL);
             await doStats();
@@ -418,13 +418,13 @@ ipcMain.on("generateAmSxTCStats", async (event, data) => {
         if(data.amSxTcQualifying !== ""){
             fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[url=${data.amSxTcQualifying}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n`)
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Am Supercross[/b][/u][/color]\n`)
-            await qualifyingFunction(data.amSxTcQualifying, "NA", "coast", "Am", "Nov", "SX")
+            await rfQualifyingFunction(data.amSxTcQualifying, "NA", "coast", "Am", "Nov", "SX")
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Am Supercross[/b][/u][/color]\n`)
-            await qualifyingFunction(data.amSxTcQualifying, "NA", "coast", "Am", "250", "SX")
+            await rfQualifyingFunction(data.amSxTcQualifying, "NA", "coast", "Am", "250", "SX")
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Am Supercross[/b][/u][/color]\n`)
-            await qualifyingFunction(data.amSxTcQualifying, "NA", "coast", "Am", "450", "SX")
+            await rfQualifyingFunction(data.amSxTcQualifying, "NA", "coast", "Am", "450", "SX")
 
             await win.webContents.send("statsUpdates", 'Qualifying Done')
         } else {
@@ -508,13 +508,13 @@ ipcMain.on("generateAmSxTCStats", async (event, data) => {
         if(data.amSxTcQualifying !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n\n`);
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]Novice Supercross[/b][/u][/color]\n`)
-            await points(data.amSxTcQualifying, "NA", "coast", "Am", "Nov", "SX")
+            await rfPoints(data.amSxTcQualifying, "NA", "coast", "Am", "Nov", "SX")
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Am Supercross[/b][/u][/color]\n`)
-            await points(data.amSxTcQualifying, "NA", "coast", "Am", "250", "SX")
+            await rfPoints(data.amSxTcQualifying, "NA", "coast", "Am", "250", "SX")
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Am Supercross[/b][/u][/color]\n`)
-            await points(data.amSxTcQualifying, "NA", "coast", "Am", "450", "SX")
+            await rfPoints(data.amSxTcQualifying, "NA", "coast", "Am", "450", "SX")
             
             doStats(amSxStatsURL);
             await copyStatsToClip();
@@ -548,10 +548,10 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         if(data.proMxQualifying !== ""){
             fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[url=${data.proMxQualifying}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n`)
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]${class250}[/b][/u][/color]\n`)
-            await qualifyingFunction(data.proMxQualifying, nation, series, "Pro", "250", "MX")
+            await rfQualifyingFunction(data.proMxQualifying, nation, series, "Pro", "250", "MX")
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class450}[/b][/u][/color]\n`)
-            await qualifyingFunction(data.proMxQualifying, nation, series, "Pro", "450", "MX")
+            await rfQualifyingFunction(data.proMxQualifying, nation, series, "Pro", "450", "MX")
 
             await win.webContents.send("statsUpdates", 'Qualifying Done')
         } else {
@@ -616,10 +616,10 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         if(data.proMxQualifying !==""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Qualifying to Overall Results Differences[/b][/u][/color]\n`);
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class250} Quali - Overall Difference[/b][/u][/color]\n`);
-            await diffOAQuali(data.proMxQualifying, data.proMxMoto1_250, data.proMxMoto2_250)
+            await rfDiffOAQuali(data.proMxQualifying, data.proMxMoto1_250, data.proMxMoto2_250)
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class450} Quali - Overall Difference[/b][/u][/color]\n`);
-            await diffOAQuali(data.proMxQualifying, data.proMxMoto1_450, data.proMxMoto2_450)
+            await rfDiffOAQuali(data.proMxQualifying, data.proMxMoto1_450, data.proMxMoto2_450)
             await win.webContents.send("statsUpdates", 'Quali - Overalls Done')
         }
     } catch (e) {
@@ -631,10 +631,10 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         if(data.proMxQualifying !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]${class250}[/b][/u][/color]\n`)
-            await points(data.proSxQualifying, nation, series, "Pro", "250", "MX", )
+            await rfPoints(data.proSxQualifying, nation, series, "Pro", "250", "MX", )
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class450}[/b][/u][/color]\n`)
-            await points(data.proSxQualifying, nation, series, "Pro", "450", "MX")
+            await rfPoints(data.proSxQualifying, nation, series, "Pro", "450", "MX")
             
             if(nation === "NA"){
                 if(series === "AMA"){
@@ -669,10 +669,10 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         if(data.amMxQualifying !== ""){
             fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[url=${data.amMxQualifying}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n`)
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]${class250}[/b][/u][/color]\n`)
-            await qualifyingFunction(data.amMxQualifying, "NA", "AMA", "Am", "250", "MX")
+            await rfQualifyingFunction(data.amMxQualifying, "NA", "AMA", "Am", "250", "MX")
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class450}[/b][/u][/color]\n`)
-            await qualifyingFunction(data.amMxQualifying, "NA", "AMA", "Am", "450", "MX")
+            await rfQualifyingFunction(data.amMxQualifying, "NA", "AMA", "Am", "450", "MX")
 
             await win.webContents.send("statsUpdates", 'Qualifying Done')
         } else {
@@ -736,10 +736,10 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         if(data.amMxQualifying !==""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Qualifying to Overall Results Differences[/b][/u][/color]\n`);
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Motocross Quali - Overall Difference[/b][/u][/color]\n`);
-            await diffOAQuali(data.amMxQualifying, data.amMxMoto1_250, data.amMxMoto2_250)
+            await rfDiffOAQuali(data.amMxQualifying, data.amMxMoto1_250, data.amMxMoto2_250)
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Motocross Quali - Overall Difference[/b][/u][/color]\n`);
-            await diffOAQuali(data.amMxQualifying, data.amMxMoto1_450, data.amMxMoto2_450)
+            await rfDiffOAQuali(data.amMxQualifying, data.amMxMoto1_450, data.amMxMoto2_450)
             await win.webContents.send("statsUpdates", 'Quali - Overalls Done')
         }
     } catch (e) {
@@ -751,10 +751,10 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         if(data.amMxQualifying !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Motocross[/b][/u][/color]\n`)
-            await points(data.amMxQualifying, "NA", "AMA", "Am", "250", "MX", )
+            await rfPoints(data.amMxQualifying, "NA", "AMA", "Am", "250", "MX", )
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Motocross[/b][/u][/color]\n`)
-            await points(data.amMxQualifying, "NA", "AMA", "Am", "450", "MX")
+            await rfPoints(data.amMxQualifying, "NA", "AMA", "Am", "450", "MX")
             
             
             await doStats();
@@ -814,7 +814,7 @@ ipcMain.on("updateVars", async (event, data) =>{
 })
 
 
-async function qualifyingFunction(qualurl, nation, coast, raceClass, bikeClass, series){
+async function rfQualifyingFunction(qualurl, nation, coast, raceClass, bikeClass, series){
     let selectorTable=''
     let classSelector=''
     if(series === "SX"){
@@ -1138,7 +1138,7 @@ async function main(url){
     await browser.close();
 }
 
-async function points(qualurl, nation, coast, raceClass, bikeClass, series){
+async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
     let selectorTable=''
     let classSelector=''
     if(series === "SX"){
@@ -1670,7 +1670,7 @@ async function mxOveralls(urlm1, urlm2){
     await browser.close();
 }
 
-async function diffOAQuali(qualurl, urlm1, urlm2){
+async function rfDiffOAQuali(qualurl, urlm1, urlm2){
     let selectorTable=''
     let classSelector=''
     if(series === "SX"){
