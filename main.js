@@ -1,5 +1,5 @@
 const { app, BrowserWindow, ipcMain, clipboard } = require('electron')
-const fetch = require("node-fetch");
+const fetch = require("node-fetch");naSxStatsURL
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 const path = require("path");
@@ -10,9 +10,14 @@ let teams = [];
 let stats = [];
 let riders = [];
 
-let naStatsURL = 'https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/NA%20Output';
-let euStatsURL = 'https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/EU%20Output';
-let amStatsURL = 'https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/AM%20Output';
+let naSxStatsURL = vars.sxAMA;
+let euSxStatsURL = vars.sxEU;
+let amSxStatsURL = vars.sxAms;
+let naMxStatsURL = vars.mxNAAMA;
+let euMxStatsURL = vars.mxEUAMA;
+let naGpStatsURL = vars.mxNAGP;
+let euGpStatsURL = vars.mxEUGP;
+let amsMxStatsURL = vars.mxAms;
 
 const createWindow = () => {
     win = new BrowserWindow({
@@ -34,7 +39,7 @@ const createWindow = () => {
 app.whenReady().then(createWindow)
 
 async function getTeams(){
-    const teamsURL = 'https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/Teams'
+    const teamsURL = vars.teams
     try{
         const response = await fetch(teamsURL);
         teams = await response.json();
@@ -162,9 +167,9 @@ ipcMain.on("generateProSxStats", async (event, data) => {
             await points(data.proSxQualifying, nation, coast, "Pro", "450", "SX")
             
             if(nation === "NA"){
-                await getStats(naStatsURL);
+                await getStats(naSxStatsURL);
             } else {
-                await getStats(euStatsURL);
+                await getStats(euSxStatsURL);
             }
             await doStats();
             await copyStatsToClip();
@@ -273,9 +278,9 @@ ipcMain.on("generateProSxTCStats", async (event, data) => {
             await points(data.proSxTcQualifying, nation, coast, "Pro", "450", "SX")
             
             if(nation === "NA"){
-                await getStats(naStatsURL);
+                await getStats(naSxStatsURL);
             } else {
-                await getStats(euStatsURL);
+                await getStats(euSxStatsURL);
             }
             doStats();
             await copyStatsToClip();
@@ -391,7 +396,7 @@ ipcMain.on("generateAmSxStats", async(event, data) =>{
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 AM Supercross[/b][/u][/color]\n`)
             await points(data.amSxQualifying, "NA", "coast", "Am", "450", "SX")
             
-            await getStats(amStatsURL);
+            await getStats(amSxStatsURL);
             await doStats();
             await copyStatsToClip();
             await win.webContents.send("statsUpdates", 'Finished!')
@@ -511,7 +516,7 @@ ipcMain.on("generateAmSxTCStats", async (event, data) => {
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Am Supercross[/b][/u][/color]\n`)
             await points(data.amSxTcQualifying, "NA", "coast", "Am", "450", "SX")
             
-            doStats(amStatsURL);
+            doStats(amSxStatsURL);
             await copyStatsToClip();
             await win.webContents.send("statsUpdates", 'Finished!')
         } else {
@@ -632,9 +637,17 @@ ipcMain.on("generateProMxStats", async (event, data) => {
             await points(data.proSxQualifying, nation, series, "Pro", "450", "MX")
             
             if(nation === "NA"){
-                await getStats(naStatsURL);
+                if(series === "AMA"){
+                    await getStats(naMxStatsURL);
+                } else {
+                    await getStats(naGpStatsURL);
+                }
             } else {
-                await getStats(euStatsURL);
+                if(series === "AMA"){
+                    await getStats(euMxStatsURL);
+                } else {
+                    await getStats(euGpStatsURL);
+                }
             }
             await doStats();
             await copyStatsToClip();
@@ -642,12 +655,117 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         }
 
     } catch (e) {
-
+        await win.webContents.send("statsUpdates", 'Error in Points')
+        await win.webContents.send("sendError", e)
     }
 });
 
 ipcMain.on("generateAmMxStats", async (event, data) => {
-    console.log("Test")
+    await getTeams();
+
+    try{
+        await win.webContents.send("statsUpdates", 'Starting')
+        await win.webContents.send("sendError", "")
+        if(data.amMxQualifying !== ""){
+            fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[url=${data.amMxQualifying}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]${class250}[/b][/u][/color]\n`)
+            await qualifyingFunction(data.amMxQualifying, "NA", "AMA", "Am", "250", "MX")
+
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class450}[/b][/u][/color]\n`)
+            await qualifyingFunction(data.amMxQualifying, "NA", "AMA", "Am", "450", "MX")
+
+            await win.webContents.send("statsUpdates", 'Qualifying Done')
+        } else {
+            fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]${class250}[/b][/u][/color]\n`)
+            await win.webContents.send("statsUpdates", 'Qualifying Skipped')
+        }
+        
+    } catch (e) {
+        await win.webContents.send("statsUpdates", 'Error in Qualifying')
+        await win.webContents.send("sendError", e)
+    }
+    try{
+        if(data.amMxConsi_250 !== "" || data.amMxConsi_450 !== ""){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Consi Results[/b][/u][/color]\n`)
+        }
+        if(data.amMxConsi_250 !==""){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Motocross Consi Results[/b][/u][/color]\n`)
+            await qualifiers(data.amMxConsi_250,"Consi");
+        }
+        if(data.amMxConsi_450 !==""){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Motocross Consi Results[/b][/u][/color]\n`)
+            await qualifiers(data.amMxConsi_450,"Consi");
+        }
+        await win.webContents.send("statsUpdates", 'Consis Done')
+    } catch(e) {
+        await win.webContents.send("statsUpdates", 'Error in Consi')
+        await win.webContents.send("sendError", e)
+    }
+
+    try {
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Moto Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Motocross Moto 1 Results[/b][/u][/color]\n`)
+        await main(data.amMxMoto1_250);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Motocross Moto 2 Results[/b][/u][/color]\n`)
+        await main(data.amMxMoto2_250);
+
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Motocross Moto 1 Results[/b][/u][/color]\n`)
+        await main(data.amMxMoto1_450);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Motocross Moto 2 Results[/b][/u][/color]\n`)
+        await main(data.amMxMoto2_450);
+        await win.webContents.send("statsUpdates", 'Motos Done')
+    } catch(e){
+        await win.webContents.send("statsUpdates", 'Error in Motos')
+        await win.webContents.send("sendError", e)
+    }
+
+    try {
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Overall Results[/b][/u][/color]\n`);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Motocross Overall Results[/b][/u][/color]\n`);
+        await mxOveralls(data.amMxMoto1_250, data.amMxMoto2_250);
+
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Motocross Overall Results[/b][/u][/color]\n`);
+        await mxOveralls(data.amMxMoto1_450, data.amMxMoto2_450);
+        await win.webContents.send("statsUpdates", 'Overalls Done')
+    } catch(e) {
+        await win.webContents.send("statsUpdates", 'Error in Overalls')
+        await win.webContents.send("sendError", e)
+    }
+
+    try {
+        if(data.amMxQualifying !==""){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Qualifying to Overall Results Differences[/b][/u][/color]\n`);
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Motocross Quali - Overall Difference[/b][/u][/color]\n`);
+            await diffOAQuali(data.amMxQualifying, data.amMxMoto1_250, data.amMxMoto2_250)
+
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Motocross Quali - Overall Difference[/b][/u][/color]\n`);
+            await diffOAQuali(data.amMxQualifying, data.amMxMoto1_450, data.amMxMoto2_450)
+            await win.webContents.send("statsUpdates", 'Quali - Overalls Done')
+        }
+    } catch (e) {
+        await win.webContents.send("statsUpdates", 'Error in Quali to Overalls')
+        await win.webContents.send("sendError", e)
+    }
+
+    try {
+        if(data.amMxQualifying !== ""){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Motocross[/b][/u][/color]\n`)
+            await points(data.amMxQualifying, "NA", "AMA", "Am", "250", "MX", )
+
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Motocross[/b][/u][/color]\n`)
+            await points(data.amMxQualifying, "NA", "AMA", "Am", "450", "MX")
+            
+            
+            await doStats();
+            await copyStatsToClip();
+            await win.webContents.send("statsUpdates", 'Finished!')
+        }
+
+    } catch (e) {
+        await win.webContents.send("statsUpdates", 'Error in Points')
+        await win.webContents.send("sendError", e)
+    }
 });
 
 ipcMain.on("getRidersFunc", async (event, data) =>{
