@@ -71,6 +71,67 @@ async function getStats(url){
     
 }
 
+//Get stats from google sheets
+async function doStats(){
+    var count = Object.keys(stats).length;
+
+    for(let i =0;i<count;i++){
+        if(stats[i].Filters === undefined){
+            //do nothing
+        } else if(stats[i].Filters === "LineBreak"){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n`);
+        } else {
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n${stats[i].Filters}`);
+        }  
+    }
+}
+
+//Get riders names from rF
+async function getrfRiders(){
+    const ridersURL = 'https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/findNames'
+    fs.writeFileSync(`${path.join(__dirname, "riderNames.txt")}`, ``)
+    
+    try {
+        const response = await fetch(ridersURL);
+        riders = await response.json();
+
+        let browser = await puppeteer.launch({headless: true});
+        let page = await browser.newPage();
+        await page.setViewport({width: 1920, height: 1080})
+        await page.setDefaultNavigationTimeout(120000);
+        await page.goto(`https://racefactorygaming.com/Profiles/Rider?uid=11747`);
+        await page.waitForNetworkIdle();
+
+
+        for(i=0;i<riders.length;i++){
+            
+            await page.goto(`https://racefactorygaming.com/Profiles/Rider?uid=${riders[i].uid}`)
+            await page.waitForNetworkIdle();
+
+            let riderNames = await page.evaluate(() =>{
+                function capitalize(str) {
+                    return str.replace(
+                        /\w\S*/g,
+                        function(txt) {
+                            return txt.charAt(0).toUpperCase() + txt.substr(1);
+                        }
+                    );
+                }
+                let rider;
+                rider = capitalize(document.querySelector(`#nav-home-profile > div.col-sm-8 > div:nth-child(2)`).innerHTML);
+        
+                return {rider};
+            });
+            let newRider = riderNames.rider.trim();
+            fs.appendFileSync(`${path.join(__dirname, "riderNames.txt")}`, `${riders[i].uid}` + "," + newRider + "\n")
+            
+        }
+        await browser.close();
+    } catch (e){
+        console.log(e)
+    }
+}
+
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
 })
@@ -2043,63 +2104,3 @@ async function mxOveralls(urlm1, urlm2){
     await browser.close();
 }
 
-//Get stats from google sheets
-async function doStats(){
-    var count = Object.keys(stats).length;
-
-    for(let i =0;i<count;i++){
-        if(stats[i].Filters === undefined){
-            //do nothing
-        } else if(stats[i].Filters === "LineBreak"){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n`);
-        } else {
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n${stats[i].Filters}`);
-        }  
-    }
-}
-
-//Get riders names from rF
-async function getrfRiders(){
-    const ridersURL = 'https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/findNames'
-    fs.writeFileSync(`${path.join(__dirname, "riderNames.txt")}`, ``)
-    
-    try {
-        const response = await fetch(ridersURL);
-        riders = await response.json();
-
-        let browser = await puppeteer.launch({headless: true});
-        let page = await browser.newPage();
-        await page.setViewport({width: 1920, height: 1080})
-        await page.setDefaultNavigationTimeout(120000);
-        await page.goto(`https://racefactorygaming.com/Profiles/Rider?uid=11747`);
-        await page.waitForNetworkIdle();
-
-
-        for(i=0;i<riders.length;i++){
-            
-            await page.goto(`https://racefactorygaming.com/Profiles/Rider?uid=${riders[i].uid}`)
-            await page.waitForNetworkIdle();
-
-            let riderNames = await page.evaluate(() =>{
-                function capitalize(str) {
-                    return str.replace(
-                        /\w\S*/g,
-                        function(txt) {
-                            return txt.charAt(0).toUpperCase() + txt.substr(1);
-                        }
-                    );
-                }
-                let rider;
-                rider = capitalize(document.querySelector(`#nav-home-profile > div.col-sm-8 > div:nth-child(2)`).innerHTML);
-        
-                return {rider};
-            });
-            let newRider = riderNames.rider.trim();
-            fs.appendFileSync(`${path.join(__dirname, "riderNames.txt")}`, `${riders[i].uid}` + "," + newRider + "\n")
-            
-        }
-        await browser.close();
-    } catch (e){
-        console.log(e)
-    }
-}
