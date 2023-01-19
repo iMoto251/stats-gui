@@ -1,9 +1,8 @@
 const { app, BrowserWindow, ipcMain, clipboard } = require('electron')
-const fetch = require("node-fetch");naSxStatsURL
+const fetch = require("node-fetch");
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 const path = require("path");
-
 const vars = require("./vars.json")
 
 let teams = [];
@@ -18,6 +17,7 @@ let euMxStatsURL = vars.mxEUAMA;
 let naGpStatsURL = vars.mxNAGP;
 let euGpStatsURL = vars.mxEUGP;
 let amsMxStatsURL = vars.mxAms;
+
 
 const createWindow = () => {
     win = new BrowserWindow({
@@ -823,7 +823,7 @@ async function rfQualifyingFunction(qualurl, nation, coast, raceClass, bikeClass
                 if(bikeClass === "250"){
                     if(coast === "West"){
                         //NA 250W
-                        selectorTable='DataTables_Table_13' //#DataTables_Table_13 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        selectorTable='DataTables_Table_4' //#DataTables_Table_4 > tbody > tr:nth-child(1) > td:nth-child(2)
                         classSelector='2'
                     } else if(coast === "East"){
                         //NA 250E
@@ -834,7 +834,7 @@ async function rfQualifyingFunction(qualurl, nation, coast, raceClass, bikeClass
                     }
                 } else {
                     //NA 450
-                    selectorTable='DataTables_Table_14'
+                    selectorTable='DataTables_Table_3' //#DataTables_Table_3 > tbody > tr:nth-child(1) > td:nth-child(2)
                     classSelector='1'
                 }
             } else if(raceClass === "Am"){
@@ -939,7 +939,7 @@ async function rfQualifyingFunction(qualurl, nation, coast, raceClass, bikeClass
         for(let i=0;i<10;i++){
             numberArray[i] = document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
             nameArray[i] = capitalize(document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
-            timeArray[i] = document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML;
+            timeArray[i] = document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML; 
             uidArray[i] = parseInt(document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(7)`).innerHTML)
             }
         return {numberArray, nameArray, timeArray, uidArray};
@@ -980,7 +980,7 @@ async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
                 if(bikeClass === "250"){
                     if(coast === "West"){
                         //NA 250W
-                        selectorTable='DataTables_Table_13' //#DataTables_Table_13 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        selectorTable='DataTables_Table_14' //#DataTables_Table_14 > tbody > tr:nth-child(1) > td:nth-child(2)
                         classSelector='2'
                     } else if(coast === "East"){
                         //NA 250E
@@ -991,7 +991,7 @@ async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
                     }
                 } else {
                     //NA 450
-                    selectorTable='DataTables_Table_14'
+                    selectorTable='DataTables_Table_13'//
                     classSelector='1'
                 }
             } else if(raceClass === "Am"){
