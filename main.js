@@ -1,9 +1,8 @@
 const { app, BrowserWindow, ipcMain, clipboard } = require('electron')
-const fetch = require("node-fetch");naSxStatsURL
+const fetch = require("node-fetch");
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 const path = require("path");
-
 const vars = require("./vars.json")
 
 let teams = [];
@@ -18,6 +17,7 @@ let euMxStatsURL = vars.mxEUAMA;
 let naGpStatsURL = vars.mxNAGP;
 let euGpStatsURL = vars.mxEUGP;
 let amsMxStatsURL = vars.mxAms;
+
 
 const createWindow = () => {
     win = new BrowserWindow({
@@ -770,7 +770,7 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
 
 ipcMain.on("getRidersFunc", async (event, data) =>{
     await win.webContents.send("statsUpdates", 'Starting grabbing riders')
-    await getRiders();
+    await getrfRiders();
     await win.webContents.send("statsUpdates", 'Finished grabbing riders')
 })
 
@@ -813,7 +813,7 @@ ipcMain.on("updateVars", async (event, data) =>{
     await win.webContents.send("sendError", "")
 })
 
-
+//rf specific functions
 async function rfQualifyingFunction(qualurl, nation, coast, raceClass, bikeClass, series){
     let selectorTable=''
     let classSelector=''
@@ -823,7 +823,7 @@ async function rfQualifyingFunction(qualurl, nation, coast, raceClass, bikeClass
                 if(bikeClass === "250"){
                     if(coast === "West"){
                         //NA 250W
-                        selectorTable='DataTables_Table_13' //#DataTables_Table_13 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        selectorTable='DataTables_Table_4' //#DataTables_Table_4 > tbody > tr:nth-child(1) > td:nth-child(2)
                         classSelector='2'
                     } else if(coast === "East"){
                         //NA 250E
@@ -834,7 +834,7 @@ async function rfQualifyingFunction(qualurl, nation, coast, raceClass, bikeClass
                     }
                 } else {
                     //NA 450
-                    selectorTable='DataTables_Table_14'
+                    selectorTable='DataTables_Table_3' //#DataTables_Table_3 > tbody > tr:nth-child(1) > td:nth-child(2)
                     classSelector='1'
                 }
             } else if(raceClass === "Am"){
@@ -939,7 +939,7 @@ async function rfQualifyingFunction(qualurl, nation, coast, raceClass, bikeClass
         for(let i=0;i<10;i++){
             numberArray[i] = document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
             nameArray[i] = capitalize(document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
-            timeArray[i] = document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML;
+            timeArray[i] = document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML; 
             uidArray[i] = parseInt(document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(7)`).innerHTML)
             }
         return {numberArray, nameArray, timeArray, uidArray};
@@ -971,6 +971,531 @@ async function rfQualifyingFunction(qualurl, nation, coast, raceClass, bikeClass
     //await browser.close();
 }
 
+async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
+    let selectorTable=''
+    let classSelector=''
+    if(series === "SX"){
+        if(nation === "NA"){
+            if(raceClass === "Pro"){
+                if(bikeClass === "250"){
+                    if(coast === "West"){
+                        //NA 250W
+                        selectorTable='DataTables_Table_14' //#DataTables_Table_14 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        classSelector='2'
+                    } else if(coast === "East"){
+                        //NA 250E
+                        selectorTable='DataTables_Table_4'
+                    } else {
+                        //NA No Coast
+                        selectorTable='DataTables_Table_4'
+                    }
+                } else {
+                    //NA 450
+                    selectorTable='DataTables_Table_13'//
+                    classSelector='1'
+                }
+            } else if(raceClass === "Am"){
+                if(bikeClass === "Nov"){
+                    selectorTable='DataTables_Table_21'
+                    classSelector='80'
+                } else if(bikeClass === "250"){
+                    selectorTable='DataTables_Table_20'
+                    classSelector='76'
+                } else {
+                    selectorTable='DataTables_Table_19'
+                    classSelector='74'
+                }
+            }
+        } else if(nation === "EU"){
+            if(bikeClass === "250"){
+                //EU 250
+                selectorTable='DataTables_Table_13'
+                classSelector='8'
+                } else {
+                //EU 450
+                selectorTable='DataTables_Table_14'
+                classSelector='37'
+            }
+        }
+    } else {
+        if(nation === "NA"){
+            if(coast = "AMA"){
+                if(raceClass = "Pro"){
+                    if(bikeClass = "250"){
+                        //NA AMA 250
+
+                    } else {
+                        //NA AMA 450
+
+                    }
+                } else {
+                    if(bikeClass = "250"){
+                        //NA AMS 250
+
+                    } else {
+                        //NA AMS 450
+
+                    }
+                }
+            } else {
+                if(bikeClass = "250"){
+                    //NA GP 250
+
+                } else {
+                    //NA GP 450
+
+                }
+            }
+        } else if(nation === "EU"){
+            if(coast = "AMA"){
+                if(raceClass = "Pro"){
+                    if(bikeClass = "250"){
+                        //EU AMA 250
+
+                    } else {
+                        //NA AMA 450
+
+                    }
+                }
+            } else {
+                if(bikeClass = "250"){
+                    //EU GP 250
+
+                } else {
+                    //EU GP 450
+
+                }
+            }
+        }
+    }
+    
+
+    let browser = await puppeteer.launch({headless: true});
+    let page = await browser.newPage();
+    await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
+    await page.goto(qualurl);
+    await page.waitForNetworkIdle();
+
+    await page.click('#nav-standings-tab')
+    await page.select('#standingsClassSelector', classSelector)
+    await page.select(`#${selectorTable}_length > label:nth-child(1) > select:nth-child(1)`, '100')
+    await page.waitForNetworkIdle();
+
+    let points = await page.evaluate((selectorTable) =>{
+        function capitalize(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                }
+            );
+        }
+        let numberArray = [];
+        let nameArray = [];
+        let pointArray = [];
+        let uidArray = [];
+        
+        for(let i=0;i<20;i++){
+            numberArray[i] = document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+            nameArray[i] = capitalize(document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            pointArray[i] = document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(7)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML);
+        }
+
+        return {numberArray, nameArray, pointArray, uidArray};
+    }, selectorTable);
+
+    for(let i = 0;i<20;i++){
+        let bikeColor = '000000';
+        let teamStr = '';
+        let name = points.nameArray[i]
+        for(let j=0; j<teams.length; j++){
+            if(points.uidArray[i] === parseInt(teams[j].uid)){
+                bikeColor = teams[j].bike;
+                teamStr = teams[j].team;
+                name = teams[j].name;
+            } else{
+                //do nothing
+            }
+        }
+        if(teamStr !== '' && teamStr !== "Privateer"){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${points.numberArray[i]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[i]}[/i][/size]\n`)
+        } else {
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${points.numberArray[i]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[i]}[/i][/size]\n`)
+        }
+    }
+    await browser.close();
+}
+
+async function rfDiffOAQuali(qualurl, urlm1, urlm2){
+    let selectorTable=''
+    let classSelector=''
+    if(series === "SX"){
+        if(nation === "NA"){
+            if(raceClass === "Pro"){
+                if(bikeClass === "250"){
+                    if(coast === "West"){
+                        //NA 250W
+                        selectorTable='DataTables_Table_13' //#DataTables_Table_13 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        classSelector='2'
+                    } else if(coast === "East"){
+                        //NA 250E
+                        selectorTable='DataTables_Table_4'
+                    } else {
+                        //NA No Coast
+                        selectorTable='DataTables_Table_4'
+                    }
+                } else {
+                    //NA 450
+                    selectorTable='DataTables_Table_14'
+                    classSelector='1'
+                }
+            } else if(raceClass === "Am"){
+                if(bikeClass === "Nov"){
+                    selectorTable='DataTables_Table_21'
+                    classSelector='80'
+                } else if(bikeClass === "250"){
+                    selectorTable='DataTables_Table_20'
+                    classSelector='76'
+                } else {
+                    selectorTable='DataTables_Table_19'
+                    classSelector='74'
+                }
+            }
+        } else if(nation === "EU"){
+            if(bikeClass === "250"){
+                //EU 250
+                selectorTable='DataTables_Table_13'
+                classSelector='8'
+                } else {
+                //EU 450
+                selectorTable='DataTables_Table_14'
+                classSelector='37'
+            }
+        }
+    } else {
+        if(nation === "NA"){
+            if(raceClass === "Pro"){
+                if(bikeClass === "250"){
+                    if(coast === "West"){
+                        //NA 250W
+                        selectorTable='DataTables_Table_13' //#DataTables_Table_13 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        classSelector='2'
+                    } else if(coast === "East"){
+                        //NA 250E
+                        selectorTable='DataTables_Table_4'
+                    } else {
+                        //NA No Coast
+                        selectorTable='DataTables_Table_4'
+                    }
+                } else {
+                    //NA 450
+                    selectorTable='DataTables_Table_14'
+                    classSelector='1'
+                }
+            } else if(raceClass === "Am"){
+                if(bikeClass === "Nov"){
+                    selectorTable='DataTables_Table_21'
+                    classSelector='80'
+                } else if(bikeClass === "250"){
+                    selectorTable='DataTables_Table_20'
+                    classSelector='76'
+                } else {
+                    selectorTable='DataTables_Table_19'
+                    classSelector='74'
+                }
+            }
+        } else if(nation === "EU"){
+            if(bikeClass === "250"){
+                //EU 250
+                selectorTable='DataTables_Table_13'
+                classSelector='8'
+                } else {
+                //EU 450
+                selectorTable='DataTables_Table_14'
+                classSelector='37'
+            }
+        }
+    }
+
+    let browser = await puppeteer.launch({headless: true});
+    let page = await browser.newPage();
+    await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
+    await page.goto(qualurl);
+    await page.waitForSelector(`#nav-qualifying-tab`)
+    await page.click('#nav-qualifying-tab')
+    await page.waitForSelector(`#${selectorTable}_length > label > select`)
+    await page.select(`#${selectorTable}_length > label > select`,'100')
+    await page.select('#qualifyingListClassSelector', `${classSelector}`)
+
+    let qualifying = await page.evaluate((selectorTable) =>{
+        function capitalize(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                }
+            );
+        }
+        let numberArray = [];
+        let nameArray = [];
+        let timeArray = [];
+        let uidArray = [];
+        for(let i=0;i<10;i++){
+            numberArray[i] = document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
+            nameArray[i] = capitalize(document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
+            timeArray[i] = document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML;
+            uidArray[i] = parseInt(document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(7)`).innerHTML)
+            }
+        return {numberArray, nameArray, timeArray, uidArray};
+        
+    }, selectorTable);
+
+    await page.goto(urlm1);
+    await page.waitForNetworkIdle();
+
+    let resultsm1 = await page.evaluate(() =>{
+        function capitalize(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1);
+                }
+            );
+        }
+        function motoPoints(pos){
+            switch(pos){
+                case 1:
+                    return 25;
+                case 2:
+                    return 22;
+                case 3:
+                    return 20;
+                case 4:
+                    return 18;
+                case 5:
+                    return 16;
+                case 6:
+                    return 15;
+                case 7:
+                    return 14;
+                case 8:
+                    return 13;
+                case 9:
+                    return 12;
+                case 10:
+                    return 11;
+                case 11:
+                    return 10;
+                case 12:
+                    return 9;
+                case 13:
+                    return 8;
+                case 14:
+                    return 7;
+                case 15:
+                    return 6;
+                case 16:
+                    return 5;
+                case 17:
+                    return 4;
+                case 18:
+                    return 3;
+                case 19:
+                    return 2;
+                case 20:
+                    return 1;
+                default:
+                    return 0;
+            }
+
+        }
+
+        let position = document.querySelectorAll(`td.pos`);
+        let moto1 = [];
+        let posNum = position.length;
+        for(let i=0;i<position.length;i++){
+            moto1[i] = {
+                position: parseInt(document.querySelector(`body > div.main > table:nth-child(5) > tbody > tr:nth-child(${i+2}) > td.pos`).innerHTML),
+                number: document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(2)`).innerHTML,
+                name: capitalize(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(3) > a:nth-child(1)`).innerHTML),
+                uid: parseInt(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(9)`).innerHTML),
+                points: motoPoints(i+1)
+            }
+
+        }
+        return {posNum, moto1};
+    });
+
+    await page.goto(urlm2);
+    await page.waitForNetworkIdle();
+
+    let resultsm2 = await page.evaluate(() =>{
+        function capitalize(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1);
+                }
+            );
+        }
+        function motoPoints(pos){
+            switch(pos){
+                case 1:
+                    return 25;
+                case 2:
+                    return 22;
+                case 3:
+                    return 20;
+                case 4:
+                    return 18;
+                case 5:
+                    return 16;
+                case 6:
+                    return 15;
+                case 7:
+                    return 14;
+                case 8:
+                    return 13;
+                case 9:
+                    return 12;
+                case 10:
+                    return 11;
+                case 11:
+                    return 10;
+                case 12:
+                    return 9;
+                case 13:
+                    return 8;
+                case 14:
+                    return 7;
+                case 15:
+                    return 6;
+                case 16:
+                    return 5;
+                case 17:
+                    return 4;
+                case 18:
+                    return 3;
+                case 19:
+                    return 2;
+                case 20:
+                    return 1;
+                default:
+                    return 0;
+            }
+
+        }
+
+        let position = document.querySelectorAll(`td.pos`);
+        let moto2 = [];
+        let posNum = position.length;
+        for(let i=0;i<position.length;i++){
+            moto2[i] = {
+                position: parseInt(document.querySelector(`body > div.main > table:nth-child(5) > tbody > tr:nth-child(${i+2}) > td.pos`).innerHTML),
+                number: document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(2)`).innerHTML,
+                name: capitalize(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(3) > a:nth-child(1)`).innerHTML),
+                uid: parseInt(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(9)`).innerHTML),
+                points: motoPoints(i+1)
+            }
+
+        }
+        return {posNum, moto2};
+    });
+
+    let overall = [];
+    for(let i=0;i<resultsm1.posNum;i++){
+        overall[i] = {
+            name: resultsm1.moto1[i].name,
+            uid: resultsm1.moto1[i].uid,
+            number: resultsm1.moto1[i].number,
+            moto1: resultsm1.moto1[i].position,
+            moto2: "DNS",
+            points: (0 - parseInt(resultsm1.moto1[i].position) - 60),
+            overallPos: null
+        }
+        for(let j=0;j<resultsm2.posNum;j++){
+            if(resultsm2.moto2[j].uid === resultsm1.moto1[i].uid){
+                if((resultsm1.moto1[i].points + resultsm2.moto2[j].points) > 0){
+                    overall[i] = {
+                        name:resultsm1.moto1[i].name,
+                        uid: resultsm1.moto1[i].uid,
+                        number:resultsm1.moto1[i].number,
+                        moto1:resultsm1.moto1[i].position,
+                        moto2:resultsm2.moto2[j].position,
+                        points:(resultsm1.moto1[i].points + resultsm2.moto2[j].points),
+                        overallPos: null
+                    }
+                } else {
+                    overall[i] = {
+                        name:resultsm1.moto1[i].name,
+                        uid: resultsm1.moto1[i].uid,
+                        number:resultsm1.moto1[i].number,
+                        moto1:resultsm1.moto1[i].position,
+                        moto2:resultsm2.moto2[j].position,
+                        points:(0 - parseInt(resultsm1.moto1[i].position) - parseInt(resultsm2.moto2[j].position)),
+                        overallPos: null
+                    }
+                }
+            }
+        }
+    }
+    overall.sort((a,b)=>(a.points < b.points) ? 1 : -1)
+
+    let overQuali = [];
+    for(let i=0;i<overall.length;i++){
+        for(let j=0;j<qualifying.entryNum;j++){
+            if(qualifying.uidArray[j] === overall[i].uid){
+                overQuali[i] = {
+                    name: overall[i].name,
+                    uid: overall[i].uid,
+                    number: overall[i].number,
+                    oaPos: parseInt(overall[i].overallPos),
+                    qualiPos: j+1,
+                    difference: (j+1) - parseInt(overall[i].overallPos)
+                }
+            }
+        }
+    }
+    overQuali.sort((a,b)=>(a.difference < b.difference) ? 1 : -1)
+
+    for(let i=0; i<overQuali.length; i++){
+        let name = '';
+        let team = '';
+        let bikeColor = '000000';
+        for(let j=0; j<teams.length; j++){
+            if(overQuali.uid[i] === parseInt(teams[j].uid)){
+                bikeColor = teams[j].bike;
+                team = teams[j].team;
+                name = teams[j].name;
+            } else{
+                //do nothing
+            }
+        }
+
+        if(i === 0){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `Top 5 Most Improved\n`)
+        }
+        if(i === (overQuali.length-5)){
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `Top 5 Least Improved\n`)
+        }
+
+        if(i < 5 || i > (overQuali.length-6)){
+            if(team === 'Privateer' || team === ''){
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${overQuali[i].number}[/size][/i] - ${name} [i][size=85](Qualifying: ${overQuali[i].qualiPos} - Overall: ${overQuali[i].oaPos} - Positions Gained/Lost: ${overQuali[i].difference})[/size][/i]\n`)
+            } else{
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${overQuali[i].number}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size] [i][size=85](Qualifying: ${overQuali[i].qualiPos} - Overall: ${overQuali[i].oaPos} - Positions Gained/Lost: ${overQuali[i].difference})[/size][/i]\n`)
+            }
+        }
+
+    }
+    
+    await browser.close();
+}
+
+//Sim server page functions
 async function qualifiers(url, race){
     let transfers = 0
     if(race === "Heat"){
@@ -1133,163 +1658,6 @@ async function main(url){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${results.numberArray[i]}[/size][/i] - ${name} [size=85]- ${timeBehind[i]}[/size]\n`)
         } else {
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${results.numberArray[i]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color]- ${timeBehind[i]}[/size]\n`)
-        }
-    }
-    await browser.close();
-}
-
-async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
-    let selectorTable=''
-    let classSelector=''
-    if(series === "SX"){
-        if(nation === "NA"){
-            if(raceClass === "Pro"){
-                if(bikeClass === "250"){
-                    if(coast === "West"){
-                        //NA 250W
-                        selectorTable='DataTables_Table_13' //#DataTables_Table_13 > tbody > tr:nth-child(1) > td:nth-child(2)
-                        classSelector='2'
-                    } else if(coast === "East"){
-                        //NA 250E
-                        selectorTable='DataTables_Table_4'
-                    } else {
-                        //NA No Coast
-                        selectorTable='DataTables_Table_4'
-                    }
-                } else {
-                    //NA 450
-                    selectorTable='DataTables_Table_14'
-                    classSelector='1'
-                }
-            } else if(raceClass === "Am"){
-                if(bikeClass === "Nov"){
-                    selectorTable='DataTables_Table_21'
-                    classSelector='80'
-                } else if(bikeClass === "250"){
-                    selectorTable='DataTables_Table_20'
-                    classSelector='76'
-                } else {
-                    selectorTable='DataTables_Table_19'
-                    classSelector='74'
-                }
-            }
-        } else if(nation === "EU"){
-            if(bikeClass === "250"){
-                //EU 250
-                selectorTable='DataTables_Table_13'
-                classSelector='8'
-                } else {
-                //EU 450
-                selectorTable='DataTables_Table_14'
-                classSelector='37'
-            }
-        }
-    } else {
-        if(nation === "NA"){
-            if(coast = "AMA"){
-                if(raceClass = "Pro"){
-                    if(bikeClass = "250"){
-                        //NA AMA 250
-
-                    } else {
-                        //NA AMA 450
-
-                    }
-                } else {
-                    if(bikeClass = "250"){
-                        //NA AMS 250
-
-                    } else {
-                        //NA AMS 450
-
-                    }
-                }
-            } else {
-                if(bikeClass = "250"){
-                    //NA GP 250
-
-                } else {
-                    //NA GP 450
-
-                }
-            }
-        } else if(nation === "EU"){
-            if(coast = "AMA"){
-                if(raceClass = "Pro"){
-                    if(bikeClass = "250"){
-                        //EU AMA 250
-
-                    } else {
-                        //NA AMA 450
-
-                    }
-                }
-            } else {
-                if(bikeClass = "250"){
-                    //EU GP 250
-
-                } else {
-                    //EU GP 450
-
-                }
-            }
-        }
-    }
-    
-
-    let browser = await puppeteer.launch({headless: true});
-    let page = await browser.newPage();
-    await page.setViewport({width: 1920, height: 1080})
-    await page.setDefaultNavigationTimeout(120000);
-    await page.goto(qualurl);
-    await page.waitForNetworkIdle();
-
-    await page.click('#nav-standings-tab')
-    await page.select('#standingsClassSelector', classSelector)
-    await page.select(`#${selectorTable}_length > label:nth-child(1) > select:nth-child(1)`, '100')
-    await page.waitForNetworkIdle();
-
-    let points = await page.evaluate((selectorTable) =>{
-        function capitalize(str) {
-            return str.replace(
-                /\w\S*/g,
-                function(txt) {
-                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-                }
-            );
-        }
-        let numberArray = [];
-        let nameArray = [];
-        let pointArray = [];
-        let uidArray = [];
-        
-        for(let i=0;i<20;i++){
-            numberArray[i] = document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
-            pointArray[i] = document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(7)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML);
-        }
-
-        return {numberArray, nameArray, pointArray, uidArray};
-    }, selectorTable);
-
-    for(let i = 0;i<20;i++){
-        let bikeColor = '000000';
-        let teamStr = '';
-        let name = points.nameArray[i]
-        for(let j=0; j<teams.length; j++){
-            if(points.uidArray[i] === parseInt(teams[j].uid)){
-                bikeColor = teams[j].bike;
-                teamStr = teams[j].team;
-                name = teams[j].name;
-            } else{
-                //do nothing
-            }
-        }
-        if(teamStr !== '' && teamStr !== "Privateer"){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${points.numberArray[i]}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${teamStr}[/color][/size] - [size=85][i]${points.pointArray[i]}[/i][/size]\n`)
-        } else {
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${points.numberArray[i]}[/size][/i] - ${name} - [size=85][i]${points.pointArray[i]}[/i][/size]\n`)
         }
     }
     await browser.close();
@@ -1670,373 +2038,7 @@ async function mxOveralls(urlm1, urlm2){
     await browser.close();
 }
 
-async function rfDiffOAQuali(qualurl, urlm1, urlm2){
-    let selectorTable=''
-    let classSelector=''
-    if(series === "SX"){
-        if(nation === "NA"){
-            if(raceClass === "Pro"){
-                if(bikeClass === "250"){
-                    if(coast === "West"){
-                        //NA 250W
-                        selectorTable='DataTables_Table_13' //#DataTables_Table_13 > tbody > tr:nth-child(1) > td:nth-child(2)
-                        classSelector='2'
-                    } else if(coast === "East"){
-                        //NA 250E
-                        selectorTable='DataTables_Table_4'
-                    } else {
-                        //NA No Coast
-                        selectorTable='DataTables_Table_4'
-                    }
-                } else {
-                    //NA 450
-                    selectorTable='DataTables_Table_14'
-                    classSelector='1'
-                }
-            } else if(raceClass === "Am"){
-                if(bikeClass === "Nov"){
-                    selectorTable='DataTables_Table_21'
-                    classSelector='80'
-                } else if(bikeClass === "250"){
-                    selectorTable='DataTables_Table_20'
-                    classSelector='76'
-                } else {
-                    selectorTable='DataTables_Table_19'
-                    classSelector='74'
-                }
-            }
-        } else if(nation === "EU"){
-            if(bikeClass === "250"){
-                //EU 250
-                selectorTable='DataTables_Table_13'
-                classSelector='8'
-                } else {
-                //EU 450
-                selectorTable='DataTables_Table_14'
-                classSelector='37'
-            }
-        }
-    } else {
-        if(nation === "NA"){
-            if(raceClass === "Pro"){
-                if(bikeClass === "250"){
-                    if(coast === "West"){
-                        //NA 250W
-                        selectorTable='DataTables_Table_13' //#DataTables_Table_13 > tbody > tr:nth-child(1) > td:nth-child(2)
-                        classSelector='2'
-                    } else if(coast === "East"){
-                        //NA 250E
-                        selectorTable='DataTables_Table_4'
-                    } else {
-                        //NA No Coast
-                        selectorTable='DataTables_Table_4'
-                    }
-                } else {
-                    //NA 450
-                    selectorTable='DataTables_Table_14'
-                    classSelector='1'
-                }
-            } else if(raceClass === "Am"){
-                if(bikeClass === "Nov"){
-                    selectorTable='DataTables_Table_21'
-                    classSelector='80'
-                } else if(bikeClass === "250"){
-                    selectorTable='DataTables_Table_20'
-                    classSelector='76'
-                } else {
-                    selectorTable='DataTables_Table_19'
-                    classSelector='74'
-                }
-            }
-        } else if(nation === "EU"){
-            if(bikeClass === "250"){
-                //EU 250
-                selectorTable='DataTables_Table_13'
-                classSelector='8'
-                } else {
-                //EU 450
-                selectorTable='DataTables_Table_14'
-                classSelector='37'
-            }
-        }
-    }
-
-    let browser = await puppeteer.launch({headless: true});
-    let page = await browser.newPage();
-    await page.setViewport({width: 1920, height: 1080})
-    await page.setDefaultNavigationTimeout(120000);
-    await page.goto(qualurl);
-    await page.waitForSelector(`#nav-qualifying-tab`)
-    await page.click('#nav-qualifying-tab')
-    await page.waitForSelector(`#${selectorTable}_length > label > select`)
-    await page.select(`#${selectorTable}_length > label > select`,'100')
-    await page.select('#qualifyingListClassSelector', `${classSelector}`)
-
-    let qualifying = await page.evaluate((selectorTable) =>{
-        function capitalize(str) {
-            return str.replace(
-                /\w\S*/g,
-                function(txt) {
-                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-                }
-            );
-        }
-        let numberArray = [];
-        let nameArray = [];
-        let timeArray = [];
-        let uidArray = [];
-        for(let i=0;i<10;i++){
-            numberArray[i] = document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
-            nameArray[i] = capitalize(document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
-            timeArray[i] = document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML;
-            uidArray[i] = parseInt(document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(7)`).innerHTML)
-            }
-        return {numberArray, nameArray, timeArray, uidArray};
-        
-    }, selectorTable);
-
-    await page.goto(urlm1);
-    await page.waitForNetworkIdle();
-
-    let resultsm1 = await page.evaluate(() =>{
-        function capitalize(str) {
-            return str.replace(
-                /\w\S*/g,
-                function(txt) {
-                    return txt.charAt(0).toUpperCase() + txt.substr(1);
-                }
-            );
-        }
-        function motoPoints(pos){
-            switch(pos){
-                case 1:
-                    return 25;
-                case 2:
-                    return 22;
-                case 3:
-                    return 20;
-                case 4:
-                    return 18;
-                case 5:
-                    return 16;
-                case 6:
-                    return 15;
-                case 7:
-                    return 14;
-                case 8:
-                    return 13;
-                case 9:
-                    return 12;
-                case 10:
-                    return 11;
-                case 11:
-                    return 10;
-                case 12:
-                    return 9;
-                case 13:
-                    return 8;
-                case 14:
-                    return 7;
-                case 15:
-                    return 6;
-                case 16:
-                    return 5;
-                case 17:
-                    return 4;
-                case 18:
-                    return 3;
-                case 19:
-                    return 2;
-                case 20:
-                    return 1;
-                default:
-                    return 0;
-            }
-
-        }
-
-        let position = document.querySelectorAll(`td.pos`);
-        let moto1 = [];
-        let posNum = position.length;
-        for(let i=0;i<position.length;i++){
-            moto1[i] = {
-                position: parseInt(document.querySelector(`body > div.main > table:nth-child(5) > tbody > tr:nth-child(${i+2}) > td.pos`).innerHTML),
-                number: document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(2)`).innerHTML,
-                name: capitalize(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(3) > a:nth-child(1)`).innerHTML),
-                uid: parseInt(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(9)`).innerHTML),
-                points: motoPoints(i+1)
-            }
-
-        }
-        return {posNum, moto1};
-    });
-
-    await page.goto(urlm2);
-    await page.waitForNetworkIdle();
-
-    let resultsm2 = await page.evaluate(() =>{
-        function capitalize(str) {
-            return str.replace(
-                /\w\S*/g,
-                function(txt) {
-                    return txt.charAt(0).toUpperCase() + txt.substr(1);
-                }
-            );
-        }
-        function motoPoints(pos){
-            switch(pos){
-                case 1:
-                    return 25;
-                case 2:
-                    return 22;
-                case 3:
-                    return 20;
-                case 4:
-                    return 18;
-                case 5:
-                    return 16;
-                case 6:
-                    return 15;
-                case 7:
-                    return 14;
-                case 8:
-                    return 13;
-                case 9:
-                    return 12;
-                case 10:
-                    return 11;
-                case 11:
-                    return 10;
-                case 12:
-                    return 9;
-                case 13:
-                    return 8;
-                case 14:
-                    return 7;
-                case 15:
-                    return 6;
-                case 16:
-                    return 5;
-                case 17:
-                    return 4;
-                case 18:
-                    return 3;
-                case 19:
-                    return 2;
-                case 20:
-                    return 1;
-                default:
-                    return 0;
-            }
-
-        }
-
-        let position = document.querySelectorAll(`td.pos`);
-        let moto2 = [];
-        let posNum = position.length;
-        for(let i=0;i<position.length;i++){
-            moto2[i] = {
-                position: parseInt(document.querySelector(`body > div.main > table:nth-child(5) > tbody > tr:nth-child(${i+2}) > td.pos`).innerHTML),
-                number: document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(2)`).innerHTML,
-                name: capitalize(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(3) > a:nth-child(1)`).innerHTML),
-                uid: parseInt(document.querySelector(`table.laptimes:nth-child(5) > tbody:nth-child(1) > tr:nth-child(${i+2}) > td:nth-child(9)`).innerHTML),
-                points: motoPoints(i+1)
-            }
-
-        }
-        return {posNum, moto2};
-    });
-
-    let overall = [];
-    for(let i=0;i<resultsm1.posNum;i++){
-        overall[i] = {
-            name: resultsm1.moto1[i].name,
-            uid: resultsm1.moto1[i].uid,
-            number: resultsm1.moto1[i].number,
-            moto1: resultsm1.moto1[i].position,
-            moto2: "DNS",
-            points: (0 - parseInt(resultsm1.moto1[i].position) - 60),
-            overallPos: null
-        }
-        for(let j=0;j<resultsm2.posNum;j++){
-            if(resultsm2.moto2[j].uid === resultsm1.moto1[i].uid){
-                if((resultsm1.moto1[i].points + resultsm2.moto2[j].points) > 0){
-                    overall[i] = {
-                        name:resultsm1.moto1[i].name,
-                        uid: resultsm1.moto1[i].uid,
-                        number:resultsm1.moto1[i].number,
-                        moto1:resultsm1.moto1[i].position,
-                        moto2:resultsm2.moto2[j].position,
-                        points:(resultsm1.moto1[i].points + resultsm2.moto2[j].points),
-                        overallPos: null
-                    }
-                } else {
-                    overall[i] = {
-                        name:resultsm1.moto1[i].name,
-                        uid: resultsm1.moto1[i].uid,
-                        number:resultsm1.moto1[i].number,
-                        moto1:resultsm1.moto1[i].position,
-                        moto2:resultsm2.moto2[j].position,
-                        points:(0 - parseInt(resultsm1.moto1[i].position) - parseInt(resultsm2.moto2[j].position)),
-                        overallPos: null
-                    }
-                }
-            }
-        }
-    }
-    overall.sort((a,b)=>(a.points < b.points) ? 1 : -1)
-
-    let overQuali = [];
-    for(let i=0;i<overall.length;i++){
-        for(let j=0;j<qualifying.entryNum;j++){
-            if(qualifying.uidArray[j] === overall[i].uid){
-                overQuali[i] = {
-                    name: overall[i].name,
-                    uid: overall[i].uid,
-                    number: overall[i].number,
-                    oaPos: parseInt(overall[i].overallPos),
-                    qualiPos: j+1,
-                    difference: (j+1) - parseInt(overall[i].overallPos)
-                }
-            }
-        }
-    }
-    overQuali.sort((a,b)=>(a.difference < b.difference) ? 1 : -1)
-
-    for(let i=0; i<overQuali.length; i++){
-        let name = '';
-        let team = '';
-        let bikeColor = '000000';
-        for(let j=0; j<teams.length; j++){
-            if(overQuali.uid[i] === parseInt(teams[j].uid)){
-                bikeColor = teams[j].bike;
-                team = teams[j].team;
-                name = teams[j].name;
-            } else{
-                //do nothing
-            }
-        }
-
-        if(i === 0){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `Top 5 Most Improved\n`)
-        }
-        if(i === (overQuali.length-5)){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `Top 5 Least Improved\n`)
-        }
-
-        if(i < 5 || i > (overQuali.length-6)){
-            if(team === 'Privateer' || team === ''){
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${overQuali[i].number}[/size][/i] - ${name} [i][size=85](Qualifying: ${overQuali[i].qualiPos} - Overall: ${overQuali[i].oaPos} - Positions Gained/Lost: ${overQuali[i].difference})[/size][/i]\n`)
-            } else{
-                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${overQuali[i].number}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size] [i][size=85](Qualifying: ${overQuali[i].qualiPos} - Overall: ${overQuali[i].oaPos} - Positions Gained/Lost: ${overQuali[i].difference})[/size][/i]\n`)
-            }
-        }
-
-    }
-    
-    await browser.close();
-}
-
+//Get stats from google sheets
 async function doStats(){
     var count = Object.keys(stats).length;
 
@@ -2051,7 +2053,8 @@ async function doStats(){
     }
 }
 
-async function getRiders(){
+//Get riders names from rF
+async function getrfRiders(){
     const ridersURL = 'https://opensheet.elk.sh/1IHACz7Rg342djrRl9uffGFI141cuydRBG3mmU88_I1I/findNames'
     fs.writeFileSync(`${path.join(__dirname, "riderNames.txt")}`, ``)
     
