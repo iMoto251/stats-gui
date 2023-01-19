@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 
-export async function qualifyingEMF(qualurl, bikeClass){
+async function qualifyingEMF(qualurl, bikeClass, teams){
     let selectorTable=''
     let qualSelector=''
     if(bikeClass === "250"){
@@ -13,7 +13,7 @@ export async function qualifyingEMF(qualurl, bikeClass){
         selectorTable = '#affiche-contenu-2'
         qualSelector = "#contenu_2"
     }
-    let browser = await puppeteer.launch({headless: true});
+    let browser = await puppeteer.launch({headless: false});
     let page = await browser.newPage();
     await page.setViewport({width: 1920, height: 1080})
     await page.setDefaultNavigationTimeout(120000);
@@ -42,12 +42,13 @@ export async function qualifyingEMF(qualurl, bikeClass){
         let uidArray = [];
         for(let i = 0;i<10;i++){
             timeArray[i] = replaceSymbols(document.querySelector(`${qualSelector} > div:nth-child(3) > div:nth-child(${i+1}) > div:nth-child(5)`).innerHTML);
-            nameArray[i] = capitalize(document.querySelector(`${qualSelector} > div:nth-child(3) > div:nth-child(${i+1}) > div:nth-child(4)`).innerHTML).trim();
+            nameArray[i] = capitalize(document.querySelector(`${qualSelector} > div:nth-child(3) > div:nth-child(${i+1}) > div:nth-child(4)`).innerHTML.trim());
             numberArray[i] = document.querySelector(`${qualSelector} > div:nth-child(3) > div:nth-child(${i+1}) > div:nth-child(7)`).innerHTML;
             uidArray[i] = parseInt((document.querySelector(`${qualSelector} > div:nth-child(3) > div:nth-child(${i+1})`).outerHTML).match(/\d+/));
         }
         return {numberArray,nameArray,timeArray,uidArray}    
     },qualSelector)
+
 
     for(let i = 0;i<10;i++){
         let teamStr = '';
@@ -69,3 +70,5 @@ export async function qualifyingEMF(qualurl, bikeClass){
 
     await browser.close();
 }
+
+exports.qualifyingEMF = qualifyingEMF;

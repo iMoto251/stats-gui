@@ -3,7 +3,9 @@ const fetch = require("node-fetch");
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 const path = require("path");
-const vars = require("./vars.json")
+const vars = require("./vars.json");
+const qualifyingEMF = require('./emf');
+
 
 let teams = [];
 let stats = [];
@@ -770,7 +772,10 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
 
 ipcMain.on("getRidersFunc", async (event, data) =>{
     await win.webContents.send("statsUpdates", 'Starting grabbing riders')
-    await getrfRiders();
+    //await getrfRiders();
+    await getTeams();
+    fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[url=http://mxsemf.com/racecenter.php?series=350&race=1658][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n`)
+    await qualifyingEMF.qualifyingEMF("http://mxsemf.com/racecenter.php?series=350&race=1658", "250", teams);
     await win.webContents.send("statsUpdates", 'Finished grabbing riders')
 })
 
