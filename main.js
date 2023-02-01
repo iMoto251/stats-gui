@@ -249,8 +249,8 @@ ipcMain.on("generateProSxStats", async (event, data) => {
 
 ipcMain.on("generateProSxTCStats", async (event, data) => {
     await getTeams();
-    let nation = data.proNation;
-    let coast = data.coast;
+    let nation = data.proNationTc;
+    let coast = data.coastTc;
     try{
         await win.webContents.send("statsUpdates", 'Starting')
         await win.webContents.send("sendError", "")
@@ -342,10 +342,12 @@ ipcMain.on("generateProSxTCStats", async (event, data) => {
             
             if(nation === "NA"){
                 await getStats(naSxStatsURL);
+                console.log("here NA")
             } else {
                 await getStats(euSxStatsURL);
+                console.log("here EU")
             }
-            doStats();
+            await doStats();
             await copyStatsToClip();
             await win.webContents.send("statsUpdates", 'Finished!')
         } else {
@@ -918,11 +920,11 @@ async function rfQualifyingFunction(qualurl, nation, coast, raceClass, bikeClass
         } else if(nation === "EU"){
             if(bikeClass === "250"){
                 //EU 250
-                selectorTable='DataTables_Table_13'
+                selectorTable='DataTables_Table_3'
                 classSelector='8'
                 } else {
                 //EU 450
-                selectorTable='DataTables_Table_14'
+                selectorTable='DataTables_Table_4'
                 classSelector='37'
             }
         }
@@ -1046,7 +1048,7 @@ async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
                 if(bikeClass === "250"){
                     if(coast === "West"){
                         //NA 250W
-                        selectorTable='DataTables_Table_14' //#DataTables_Table_14 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        selectorTable='DataTables_Table_15' //#DataTables_Table_14 > tbody > tr:nth-child(1) > td:nth-child(2)
                         classSelector='2'
                     } else if(coast === "East"){
                         //NA 250E
@@ -1057,7 +1059,7 @@ async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
                     }
                 } else {
                     //NA 450
-                    selectorTable='DataTables_Table_13'//
+                    selectorTable='DataTables_Table_16'//
                     classSelector='1'
                 }
             } else if(raceClass === "Am"){
@@ -1075,11 +1077,11 @@ async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
         } else if(nation === "EU"){
             if(bikeClass === "250"){
                 //EU 250
-                selectorTable='DataTables_Table_13'
+                selectorTable='DataTables_Table_15'
                 classSelector='8'
                 } else {
                 //EU 450
-                selectorTable='DataTables_Table_14'
+                selectorTable='DataTables_Table_16'
                 classSelector='37'
             }
         }
@@ -1851,8 +1853,27 @@ async function tcOverall(urlm1, urlm2, urlm3){
         }        
     }
 
-    for(let i=0; i<overall.length;i++){ 
-        overall[i].points = (parseInt(overall[i].main1) + parseInt(overall[i].main2) + parseInt(overall[i].main3) + (parseInt(overall[i].main3)*.01)) 
+    for(let i=0; i<overall.length;i++){
+
+        if(overall[i].main3 !== "DNS"){
+            if(overall[i].main2 !== "DNS"){
+                overall[i].points = (parseInt(overall[i].main1) + parseInt(overall[i].main2) + parseInt(overall[i].main3) + (parseInt(overall[i].main3)*.01))
+            }
+            else {
+                overall[i].points = (parseInt(overall[i].main1) + 40 + parseInt(overall[i].main3) + (parseInt(overall[i].main3)*.01))
+            }
+        } else {
+            if(overall[i].main2 !== "DNS"){
+                overall[i].points = (parseInt(overall[i].main1) + parseInt(overall[i].main2) + 40)
+            }
+            else {
+                overall[i].points = (parseInt(overall[i].main1) + 80)
+            }
+        }
+
+
+        
+        //overall[i].points = (parseInt(overall[i].main1) + parseInt(overall[i].main2) + parseInt(overall[i].main3) + (parseInt(overall[i].main3)*.01))
     }
 
     overall.sort((a,b)=>(a.points - b.points))
