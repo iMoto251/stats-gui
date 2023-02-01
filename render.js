@@ -34,7 +34,7 @@ const generateProSxTCStats = () => {
     ipcRenderer.send(
         "generateProSxTCStats",
         {
-            proNation: document.querySelector(".proNation").value,
+            proNationTc: document.querySelector(".proNationTc").value,
             proSxTcQualifying: document.querySelector(".proSxTcQualifying").value,
             proSxTcLCQ_250: document.querySelector(".proSxTcLCQ_250").value,
             proSxTcLCQ_450: document.querySelector(".proSxTcLCQ_450").value,
@@ -44,9 +44,9 @@ const generateProSxTCStats = () => {
             proSxTcMain1_450: document.querySelector('.proSxTcMain1_450').value,
             proSxTcMain2_450: document.querySelector('.proSxTcMain2_450').value,
             proSxTcMain3_450: document.querySelector('.proSxTcMain3_450').value,
-            coast: document.querySelector('.coast').value
+            coastTc: document.querySelector('.coastTc').value
         },
-        document.querySelector(".proNation").value,
+        document.querySelector(".proNationTc").value,
         document.querySelector(".proSxTcQualifying").value,
         document.querySelector(".proSxTcLCQ_250").value,
         document.querySelector(".proSxTcLCQ_450").value,
@@ -56,7 +56,7 @@ const generateProSxTCStats = () => {
         document.querySelector('.proSxTcMain1_450').value,
         document.querySelector('.proSxTcMain2_450').value,
         document.querySelector('.proSxTcMain3_450').value,
-        document.querySelector('.coast').value
+        document.querySelector('.coastTc').value
     );
 }
 

@@ -51,6 +51,30 @@ input {
     margin: 5px;
 }
 
+.coastTc{
+    width: 762px;
+    height: 30px;
+    border: none;
+    border-radius: 7px;
+    background-color: rgba(0,0,0,0.7);
+    color: white;
+    font-size: 18px;
+    padding-left: 10px;
+    margin: 5px;
+}
+
+.proNationTc{
+    width: 762px;
+    height: 30px;
+    border: none;
+    border-radius: 7px;
+    background-color: rgba(0,0,0,0.7);
+    color: white;
+    font-size: 18px;
+    padding-left: 10px;
+    margin: 5px;
+}
+
 .proMxNation{
     width: 762px;
     height: 30px;
