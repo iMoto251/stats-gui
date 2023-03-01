@@ -1047,41 +1047,41 @@ async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
             if(raceClass === "Pro"){
                 if(bikeClass === "250"){
                     if(coast === "West"){
-                        //NA 250W
-                        selectorTable='DataTables_Table_15' //#DataTables_Table_14 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        //NA 250W 
+                        selectorTable='DataTables_Table_14'
                         classSelector='2'
                     } else if(coast === "East"){
                         //NA 250E
-                        selectorTable='DataTables_Table_4'
+                        selectorTable='DataTables_Table_17'
                     } else {
                         //NA No Coast
                         selectorTable='DataTables_Table_4'
                     }
                 } else {
                     //NA 450
-                    selectorTable='DataTables_Table_16'//
+                    selectorTable='DataTables_Table_15'//
                     classSelector='1'
                 }
             } else if(raceClass === "Am"){
                 if(bikeClass === "Nov"){
-                    selectorTable='DataTables_Table_21'
+                    selectorTable='DataTables_Table_24'
                     classSelector='80'
                 } else if(bikeClass === "250"){
-                    selectorTable='DataTables_Table_20'
+                    selectorTable='DataTables_Table_23'
                     classSelector='76'
                 } else {
-                    selectorTable='DataTables_Table_19'
+                    selectorTable='DataTables_Table_22'
                     classSelector='74'
                 }
             }
         } else if(nation === "EU"){
             if(bikeClass === "250"){
-                //EU 250
-                selectorTable='DataTables_Table_15'
+                //EU 250 #DataTables_Table_16 > tbody > tr:nth-child(1) > td:nth-child(2)
+                selectorTable='DataTables_Table_16'
                 classSelector='8'
                 } else {
-                //EU 450
-                selectorTable='DataTables_Table_16'
+                //EU 450 #DataTables_Table_15 > tbody > tr:nth-child(1) > td:nth-child(2)
+                selectorTable='DataTables_Table_15'
                 classSelector='37'
             }
         }
