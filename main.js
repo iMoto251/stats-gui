@@ -15,11 +15,7 @@ let naSxStatsURL = vars.sxAMA;
 let euSxStatsURL = vars.sxEU;
 let amSxStatsURL = vars.sxAms;
 let naMxStatsURL = vars.mxNAAMA;
-let euMxStatsURL = vars.mxEUAMA;
-let naGpStatsURL = vars.mxNAGP;
-let euGpStatsURL = vars.mxEUGP;
 let amsMxStatsURL = vars.mxAms;
-
 
 const createWindow = () => {
     win = new BrowserWindow({
@@ -145,10 +141,21 @@ ipcMain.on("generateProSxStats", async (event, data) => {
         await win.webContents.send("sendError", "")
         //await makePoints("250", data.proSxMain_250, "Supercross", "Main Event");
         if(data.proSxQualifying !== ""){
-            fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[url=${data.proSxQualifying}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n`)
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
-            await rfQualifyingFunction(data.proSxQualifying, nation, coast, "Pro", "250", "SX")
+            if(data.coast === "Showdown"){
+                fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[url=${data.proSxQualifying}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n`)
 
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 West Supercross[/b][/u][/color]\n`)
+                await rfQualifyingFunction(data.proSxQualifying, nation, "DataTables_Table_6", "Pro", "250", "SX")
+
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 East Supercross[/b][/u][/color]\n`)
+                await rfQualifyingFunction(data.proSxQualifying, nation, "DataTables_Table_7", "Pro", "250", "SX")
+            } else {
+                fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[url=${data.proSxQualifying}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n`)
+
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
+                await rfQualifyingFunction(data.proSxQualifying, nation, coast, "Pro", "250", "SX")
+            }
+            
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Supercross[/b][/u][/color]\n`)
             await rfQualifyingFunction(data.proSxQualifying, nation, coast, "Pro", "450", "SX")
 
@@ -222,9 +229,20 @@ ipcMain.on("generateProSxStats", async (event, data) => {
 
     try{
         if(data.proSxQualifying !== ""){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n\n`);
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
-            await rfPoints(data.proSxQualifying, nation, coast, "Pro", "250", "SX")
+            if(data.coast === "Showdown"){
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n\n`);
+
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 West Supercross[/b][/u][/color]\n`)
+                await rfPoints(data.proSxQualifying, nation, "DataTables_Table_27", "Pro", "250", "SX")
+
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 East Supercross[/b][/u][/color]\n`)
+                await rfPoints(data.proSxQualifying, nation, "DataTables_Table_26", "Pro", "250", "SX")
+            } else {
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n\n`);
+                
+                fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
+                await rfPoints(data.proSxQualifying, nation, coast, "Pro", "250", "SX")
+            }
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Supercross[/b][/u][/color]\n`)
             await rfPoints(data.proSxQualifying, nation, coast, "Pro", "450", "SX")
@@ -585,7 +603,7 @@ ipcMain.on("generateAmSxTCStats", async (event, data) => {
             await copyStatsToClip();
             await win.webContents.send("statsUpdates", 'Finished!')
         } else {
-            fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
             await win.webContents.send("statsUpdates", 'Points Skipped')
         }
     } catch(e) {
@@ -600,7 +618,7 @@ ipcMain.on("generateProMxStats", async (event, data) => {
     let series = data.proMxSeries;
     let class250 = ""
     let class450 = ""
-    if(series = 'GP'){
+    if(series === 'GP'){
         class250 = "MX2"
         class450 = "MXGP"
     } else{
@@ -612,15 +630,15 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await win.webContents.send("sendError", "")
         if(data.proMxQualifying !== ""){
             fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[url=${data.proMxQualifying}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n`)
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]${class250}[/b][/u][/color]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[b][u]${class250}[/b][/u]\n`)
             await rfQualifyingFunction(data.proMxQualifying, nation, series, "Pro", "250", "MX")
 
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class450}[/b][/u][/color]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${class450}[/b][/u]\n`)
             await rfQualifyingFunction(data.proMxQualifying, nation, series, "Pro", "450", "MX")
 
             await win.webContents.send("statsUpdates", 'Qualifying Done')
         } else {
-            fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]${class250}[/b][/u][/color]\n`)
+            fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[b][u]${class250}[/b][/u]\n`)
             await win.webContents.send("statsUpdates", 'Qualifying Skipped')
         }
 
@@ -634,11 +652,11 @@ ipcMain.on("generateProMxStats", async (event, data) => {
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Consi Results[/b][/u][/color]\n`)
         }
         if(data.proMxConsi_250 !==""){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class250} Consi Results[/b][/u][/color]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${class250} Consi Results[/b][/u]\n`)
             await qualifiers(data.proMxConsi_250,"Consi");
         }
         if(data.proMxConsi_450 !==""){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class450} Consi Results[/b][/u][/color]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${class450} Consi Results[/b][/u]\n`)
             await qualifiers(data.proMxConsi_450,"Consi");
         }
         await win.webContents.send("statsUpdates", 'Consis Done')
@@ -649,14 +667,14 @@ ipcMain.on("generateProMxStats", async (event, data) => {
 
     try {
         fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Moto Results[/b][/u][/color]\n`)
-        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class250} Moto 1 Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${class250} Moto 1 Results[/b][/u]\n`)
         await main(data.proMxMoto1_250);
-        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class250} Moto 2 Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${class250} Moto 2 Results[/b][/u]\n`)
         await main(data.proMxMoto2_250);
 
-        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class450} Moto 1 Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${class450} Moto 1 Results[/b][/u]\n`)
         await main(data.proMxMoto1_450);
-        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class450} Moto 2 Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${class450} Moto 2 Results[/b][/u]\n`)
         await main(data.proMxMoto2_450);
         await win.webContents.send("statsUpdates", 'Motos Done')
     } catch(e){
@@ -666,10 +684,10 @@ ipcMain.on("generateProMxStats", async (event, data) => {
 
     try {
         fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Overall Results[/b][/u][/color]\n`);
-        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class250} Overall Results[/b][/u][/color]\n`);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${class250} Overall Results[/b][/u]\n`);
         await mxOveralls(data.proMxMoto1_250, data.proMxMoto2_250);
 
-        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class450} Overall Results[/b][/u][/color]\n`);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${class450} Overall Results[/b][/u]\n`);
         await mxOveralls(data.proMxMoto1_450, data.proMxMoto2_450);
         await win.webContents.send("statsUpdates", 'Overalls Done')
     } catch(e) {
@@ -680,11 +698,11 @@ ipcMain.on("generateProMxStats", async (event, data) => {
     try {
         if(data.proMxQualifying !==""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Qualifying to Overall Results Differences[/b][/u][/color]\n`);
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class250} Quali - Overall Difference[/b][/u][/color]\n`);
-            await rfDiffOAQuali(data.proMxQualifying, data.proMxMoto1_250, data.proMxMoto2_250)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${class250} Quali - Overall Difference[/b][/u]\n`);
+            await rfDiffOAQuali(data.proMxQualifying, data.proMxMoto1_250, data.proMxMoto2_250, nation, "AMA", "Pro", "250", "MX")
 
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class450} Quali - Overall Difference[/b][/u][/color]\n`);
-            await rfDiffOAQuali(data.proMxQualifying, data.proMxMoto1_450, data.proMxMoto2_450)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${class450} Quali - Overall Difference[/b][/u]\n`);
+            await rfDiffOAQuali(data.proMxQualifying, data.proMxMoto1_450, data.proMxMoto2_450, nation, "AMA", "Pro", "450", "MX")
             await win.webContents.send("statsUpdates", 'Quali - Overalls Done')
         }
     } catch (e) {
@@ -695,11 +713,11 @@ ipcMain.on("generateProMxStats", async (event, data) => {
     try {
         if(data.proMxQualifying !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]${class250}[/b][/u][/color]\n`)
-            await rfPoints(data.proSxQualifying, nation, series, "Pro", "250", "MX", )
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${class250}[/b][/u]\n`)
+            await rfPoints(data.proMxQualifying, nation, series, "Pro", "250", "MX")
 
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class450}[/b][/u][/color]\n`)
-            await rfPoints(data.proSxQualifying, nation, series, "Pro", "450", "MX")
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${class450}[/b][/u]\n`)
+            await rfPoints(data.proMxQualifying, nation, series, "Pro", "450", "MX")
             
             if(nation === "NA"){
                 if(series === "AMA"){
@@ -835,10 +853,10 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
 
 ipcMain.on("getRidersFunc", async (event, data) =>{
     await win.webContents.send("statsUpdates", 'Starting grabbing riders')
-    //await getrfRiders();
+    await getrfRiders();
     await getTeams();
-    fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[url=http://mxsemf.com/racecenter.php?series=350&race=1658][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n`)
-    await qualifyingEMF.qualifyingEMF("http://mxsemf.com/racecenter.php?series=350&race=1658", "250", teams);
+    //fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[url=http://mxsemf.com/racecenter.php?series=350&race=1658][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n`)
+    //await qualifyingEMF.qualifyingEMF("http://mxsemf.com/racecenter.php?series=350&race=1658", "250", teams);
     await win.webContents.send("statsUpdates", 'Finished grabbing riders')
 })
 
@@ -891,18 +909,18 @@ async function rfQualifyingFunction(qualurl, nation, coast, raceClass, bikeClass
                 if(bikeClass === "250"){
                     if(coast === "West"){
                         //NA 250W
-                        selectorTable='DataTables_Table_4' //#DataTables_Table_4 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        selectorTable='DataTables_Table_6' //#DataTables_Table_6 > tbody > tr:nth-child(1) > td:nth-child(2)
                         classSelector='2'
                     } else if(coast === "East"){
                         //NA 250E
-                        selectorTable='DataTables_Table_4'
+                        selectorTable='DataTables_Table_7' //#DataTables_Table_7 > tbody > tr:nth-child(1) > td:nth-child(2)
                     } else {
                         //NA No Coast
-                        selectorTable='DataTables_Table_4'
+                        selectorTable=coast
                     }
                 } else {
                     //NA 450
-                    selectorTable='DataTables_Table_3' //#DataTables_Table_3 > tbody > tr:nth-child(1) > td:nth-child(2)
+                    selectorTable='DataTables_Table_5' //#DataTables_Table_3 > tbody > tr:nth-child(1) > td:nth-child(2)
                     classSelector='1'
                 }
             } else if(raceClass === "Am"){
@@ -930,14 +948,14 @@ async function rfQualifyingFunction(qualurl, nation, coast, raceClass, bikeClass
         }
     } else {
         if(nation === "NA"){
-            if(coast = "AMA"){
-                if(raceClass = "Pro"){
-                    if(bikeClass = "250"){
-                        //NA AMA 250
-
+            if(coast === "AMA"){
+                if(raceClass === "Pro"){
+                    if(bikeClass === "250"){
+                        //NA AMA 250 #DataTables_Table_4 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        selectorTable='DataTables_Table_4'
                     } else {
-                        //NA AMA 450
-
+                        //NA AMA 450 #DataTables_Table_3 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        selectorTable='DataTables_Table_3'
                     }
                 } else {
                     if(bikeClass = "250"){
@@ -1014,7 +1032,6 @@ async function rfQualifyingFunction(qualurl, nation, coast, raceClass, bikeClass
         
     }, selectorTable);
 
-
     for(let i = 0; i<10; i++){
         let bikeColor = '000000';
         let teamStr = '';
@@ -1035,8 +1052,7 @@ async function rfQualifyingFunction(qualurl, nation, coast, raceClass, bikeClass
         }
     }
 
-    
-    //await browser.close();
+    await browser.close();
 }
 
 async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
@@ -1047,19 +1063,19 @@ async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
             if(raceClass === "Pro"){
                 if(bikeClass === "250"){
                     if(coast === "West"){
-                        //NA 250W 
-                        selectorTable='DataTables_Table_14'
+                        //NA 250W
+                        selectorTable='DataTables_Table_16'
                         classSelector='2'
                     } else if(coast === "East"){
                         //NA 250E
-                        selectorTable='DataTables_Table_17'
+                        selectorTable='DataTables_Table_15'
                     } else {
                         //NA No Coast
-                        selectorTable='DataTables_Table_4'
+                        selectorTable=coast
                     }
                 } else {
                     //NA 450
-                    selectorTable='DataTables_Table_15'//
+                    selectorTable='DataTables_Table_25'//#DataTables_Table_25 > tbody > tr:nth-child(1) > td:nth-child(2)
                     classSelector='1'
                 }
             } else if(raceClass === "Am"){
@@ -1076,28 +1092,30 @@ async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
             }
         } else if(nation === "EU"){
             if(bikeClass === "250"){
-                //EU 250 #DataTables_Table_16 > tbody > tr:nth-child(1) > td:nth-child(2)
-                selectorTable='DataTables_Table_16'
+                //EU 250 #DataTables_Table_14 > tbody > tr:nth-child(1) > td:nth-child(2)
+                selectorTable='DataTables_Table_14'
                 classSelector='8'
                 } else {
-                //EU 450 #DataTables_Table_15 > tbody > tr:nth-child(1) > td:nth-child(2)
-                selectorTable='DataTables_Table_15'
+                //EU 450 #DataTables_Table_13 > tbody > tr:nth-child(1) > td:nth-child(2)
+                selectorTable='DataTables_Table_13'
                 classSelector='37'
             }
         }
     } else {
         if(nation === "NA"){
-            if(coast = "AMA"){
-                if(raceClass = "Pro"){
-                    if(bikeClass = "250"){
-                        //NA AMA 250
-
+            if(coast === "AMA"){
+                if(raceClass === "Pro"){
+                    if(bikeClass === "250"){
+                        //NA AMA 250 #DataTables_Table_13 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        selectorTable='DataTables_Table_13'
+                        classSelector='5'
                     } else {
-                        //NA AMA 450
-
+                        //NA AMA 450 #DataTables_Table_14 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        selectorTable='DataTables_Table_14'
+                        classSelector='4'
                     }
                 } else {
-                    if(bikeClass = "250"){
+                    if(bikeClass === "250"){
                         //NA AMS 250
 
                     } else {
@@ -1106,7 +1124,7 @@ async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
                     }
                 }
             } else {
-                if(bikeClass = "250"){
+                if(bikeClass === "250"){
                     //NA GP 250
 
                 } else {
@@ -1116,8 +1134,8 @@ async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
             }
         } else if(nation === "EU"){
             if(coast = "AMA"){
-                if(raceClass = "Pro"){
-                    if(bikeClass = "250"){
+                if(raceClass === "Pro"){
+                    if(bikeClass === "250"){
                         //EU AMA 250
 
                     } else {
@@ -1126,7 +1144,7 @@ async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
                     }
                 }
             } else {
-                if(bikeClass = "250"){
+                if(bikeClass === "250"){
                     //EU GP 250
 
                 } else {
@@ -1196,7 +1214,7 @@ async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
     await browser.close();
 }
 
-async function rfDiffOAQuali(qualurl, urlm1, urlm2){
+async function rfDiffOAQuali(qualurl, urlm1, urlm2, nation, coast, raceClass, bikeClass, series){
     let selectorTable=''
     let classSelector=''
     if(series === "SX"){
@@ -1205,84 +1223,91 @@ async function rfDiffOAQuali(qualurl, urlm1, urlm2){
                 if(bikeClass === "250"){
                     if(coast === "West"){
                         //NA 250W
-                        selectorTable='DataTables_Table_13' //#DataTables_Table_13 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        selectorTable='DataTables_Table_6' //#DataTables_Table_6 > tbody > tr:nth-child(1) > td:nth-child(2)
                         classSelector='2'
                     } else if(coast === "East"){
                         //NA 250E
-                        selectorTable='DataTables_Table_4'
+                        selectorTable='DataTables_Table_7' //#DataTables_Table_7 > tbody > tr:nth-child(1) > td:nth-child(2)
                     } else {
                         //NA No Coast
-                        selectorTable='DataTables_Table_4'
+                        selectorTable=coast
                     }
                 } else {
                     //NA 450
-                    selectorTable='DataTables_Table_14'
+                    selectorTable='DataTables_Table_5' //#DataTables_Table_3 > tbody > tr:nth-child(1) > td:nth-child(2)
                     classSelector='1'
                 }
             } else if(raceClass === "Am"){
                 if(bikeClass === "Nov"){
-                    selectorTable='DataTables_Table_21'
+                    selectorTable='DataTables_Table_6'
                     classSelector='80'
                 } else if(bikeClass === "250"){
-                    selectorTable='DataTables_Table_20'
+                    selectorTable='DataTables_Table_5'
                     classSelector='76'
                 } else {
-                    selectorTable='DataTables_Table_19'
+                    selectorTable='DataTables_Table_4'
                     classSelector='74'
                 }
             }
         } else if(nation === "EU"){
             if(bikeClass === "250"){
                 //EU 250
-                selectorTable='DataTables_Table_13'
+                selectorTable='DataTables_Table_3'
                 classSelector='8'
                 } else {
                 //EU 450
-                selectorTable='DataTables_Table_14'
+                selectorTable='DataTables_Table_4'
                 classSelector='37'
             }
         }
     } else {
         if(nation === "NA"){
-            if(raceClass === "Pro"){
-                if(bikeClass === "250"){
-                    if(coast === "West"){
-                        //NA 250W
-                        selectorTable='DataTables_Table_13' //#DataTables_Table_13 > tbody > tr:nth-child(1) > td:nth-child(2)
-                        classSelector='2'
-                    } else if(coast === "East"){
-                        //NA 250E
+            if(coast === "AMA"){
+                if(raceClass === "Pro"){
+                    if(bikeClass === "250"){
+                        //NA AMA 250 #DataTables_Table_4 > tbody > tr:nth-child(1) > td:nth-child(2)
                         selectorTable='DataTables_Table_4'
                     } else {
-                        //NA No Coast
-                        selectorTable='DataTables_Table_4'
+                        //NA AMA 450 #DataTables_Table_3 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        selectorTable='DataTables_Table_3'
                     }
                 } else {
-                    //NA 450
-                    selectorTable='DataTables_Table_14'
-                    classSelector='1'
+                    if(bikeClass = "250"){
+                        //NA AMS 250
+
+                    } else {
+                        //NA AMS 450
+
+                    }
                 }
-            } else if(raceClass === "Am"){
-                if(bikeClass === "Nov"){
-                    selectorTable='DataTables_Table_21'
-                    classSelector='80'
-                } else if(bikeClass === "250"){
-                    selectorTable='DataTables_Table_20'
-                    classSelector='76'
+            } else {
+                if(bikeClass = "250"){
+                    //NA GP 250
+
                 } else {
-                    selectorTable='DataTables_Table_19'
-                    classSelector='74'
+                    //NA GP 450
+
                 }
             }
         } else if(nation === "EU"){
-            if(bikeClass === "250"){
-                //EU 250
-                selectorTable='DataTables_Table_13'
-                classSelector='8'
+            if(coast = "AMA"){
+                if(raceClass = "Pro"){
+                    if(bikeClass = "250"){
+                        //EU AMA 250
+
+                    } else {
+                        //NA AMA 450
+
+                    }
+                }
+            } else {
+                if(bikeClass = "250"){
+                    //EU GP 250
+
                 } else {
-                //EU 450
-                selectorTable='DataTables_Table_14'
-                classSelector='37'
+                    //EU GP 450
+
+                }
             }
         }
     }
@@ -1294,7 +1319,8 @@ async function rfDiffOAQuali(qualurl, urlm1, urlm2){
     await page.goto(qualurl);
     await page.waitForSelector(`#nav-qualifying-tab`)
     await page.click('#nav-qualifying-tab')
-    await page.waitForSelector(`#${selectorTable}_length > label > select`)
+    await page.waitForTimeout(1000);
+    //await page.waitForSelector(`#${selectorTable}_length > label > select`)
     await page.select(`#${selectorTable}_length > label > select`,'100')
     await page.select('#qualifyingListClassSelector', `${classSelector}`)
 
@@ -1309,15 +1335,15 @@ async function rfDiffOAQuali(qualurl, urlm1, urlm2){
         }
         let numberArray = [];
         let nameArray = [];
-        let timeArray = [];
         let uidArray = [];
-        for(let i=0;i<10;i++){
+        let entry = document.querySelectorAll(`#${selectorTable} > tbody:nth-child(2) > tr`);
+        let entryNum = entry.length
+        for(let i=0;i<entry.length;i++){
             numberArray[i] = document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(2)`).innerHTML;
             nameArray[i] = capitalize(document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(4)`).innerHTML);
-            timeArray[i] = document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(6)`).innerHTML;
             uidArray[i] = parseInt(document.querySelector(`#${selectorTable} > tbody:nth-child(2) > tr:nth-child(${i+1}) > td:nth-child(7)`).innerHTML)
             }
-        return {numberArray, nameArray, timeArray, uidArray};
+        return {numberArray, nameArray, uidArray, entryNum};
         
     }, selectorTable);
 
@@ -1396,6 +1422,7 @@ async function rfDiffOAQuali(qualurl, urlm1, urlm2){
         }
         return {posNum, moto1};
     });
+
 
     await page.goto(urlm2);
     await page.waitForNetworkIdle();
@@ -1512,6 +1539,10 @@ async function rfDiffOAQuali(qualurl, urlm1, urlm2){
     }
     overall.sort((a,b)=>(a.points < b.points) ? 1 : -1)
 
+    for(let i=0;i<overall.length;i++){
+        overall[i].overallPos = (i+1)
+    }
+
     let overQuali = [];
     for(let i=0;i<overall.length;i++){
         for(let j=0;j<qualifying.entryNum;j++){
@@ -1534,7 +1565,7 @@ async function rfDiffOAQuali(qualurl, urlm1, urlm2){
         let team = '';
         let bikeColor = '000000';
         for(let j=0; j<teams.length; j++){
-            if(overQuali.uid[i] === parseInt(teams[j].uid)){
+            if(overQuali[i].uid === parseInt(teams[j].uid)){
                 bikeColor = teams[j].bike;
                 team = teams[j].team;
                 name = teams[j].name;
@@ -1542,12 +1573,12 @@ async function rfDiffOAQuali(qualurl, urlm1, urlm2){
                 //do nothing
             }
         }
-
+        
         if(i === 0){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `Top 5 Most Improved\n`)
         }
         if(i === (overQuali.length-5)){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `Top 5 Least Improved\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\nTop 5 Least Improved\n`)
         }
 
         if(i < 5 || i > (overQuali.length-6)){
@@ -2106,11 +2137,11 @@ async function mxOveralls(urlm1, urlm2){
         let name = '';
         let team = '';
         let bikeColor = '000000';
-        for(let b=0;b<teams.length;b++){
-            if(overall[a].uid === parseInt(teams[b].uid)){
-                bikeColor = teams[b].bike;
-                team = teams[b].team;
-                name = teams[b].name;
+        for(let j=0;j<teams.length;j++){
+            if(overall[i].uid === parseInt(teams[j].uid)){
+                bikeColor = teams[j].bike;
+                team = teams[j].team;
+                name = teams[j].name;
             } else {
                 //do nothing
             }
@@ -2119,7 +2150,7 @@ async function mxOveralls(urlm1, urlm2){
         if(team === "Privateer"){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${overall[i].number}[/size][/i] - ${name} [i][size=85](${overall[i].moto1} - ${overall[i].moto2})[/size][/i]\n`)
         } else {
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${a+1}. [i][size=85]#${overall[i].number}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size] [i][size=85](${overall[i].moto1} - ${overall[i].moto2})[/size][/i]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `${i+1}. [i][size=85]#${overall[i].number}[/size][/i] - ${name} | [size=85][color=#${bikeColor}]${team}[/color][/size] [i][size=85](${overall[i].moto1} - ${overall[i].moto2})[/size][/i]\n`)
         }
     }
     await browser.close();
