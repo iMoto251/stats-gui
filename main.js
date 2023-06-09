@@ -15,7 +15,7 @@ let naSxStatsURL = vars.sxAMA;
 let euSxStatsURL = vars.sxEU;
 let amSxStatsURL = vars.sxAms;
 let naMxStatsURL = vars.mxNAAMA;
-let amsMxStatsURL = vars.mxAms;
+let amMxStatsURL = vars.mxAms;
 
 const createWindow = () => {
     win = new BrowserWindow({
@@ -90,6 +90,8 @@ async function getrfRiders(){
     try {
         const response = await fetch(ridersURL);
         riders = await response.json();
+
+        console.log(riders.uid)
 
         let browser = await puppeteer.launch({headless: true});
         let page = await browser.newPage();
@@ -751,15 +753,15 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
         await win.webContents.send("sendError", "")
         if(data.amMxQualifying !== ""){
             fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[url=${data.amMxQualifying}][color=#0080BF][b]Top 10 Qualifiers[/b][/color][/url]\n\n`)
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]${class250}[/b][/u][/color]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[b][u]250 Motocross[/b][/u]\n`)
             await rfQualifyingFunction(data.amMxQualifying, "NA", "AMA", "Am", "250", "MX")
 
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]${class450}[/b][/u][/color]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Motocross[/b][/u]\n`)
             await rfQualifyingFunction(data.amMxQualifying, "NA", "AMA", "Am", "450", "MX")
 
             await win.webContents.send("statsUpdates", 'Qualifying Done')
         } else {
-            fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]${class250}[/b][/u][/color]\n`)
+            fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[b][u]250 Motocross[/b][/u]\n`)
             await win.webContents.send("statsUpdates", 'Qualifying Skipped')
         }
         
@@ -772,11 +774,11 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Consi Results[/b][/u][/color]\n`)
         }
         if(data.amMxConsi_250 !==""){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Motocross Consi Results[/b][/u][/color]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 Motocross Consi Results[/b][/u]\n`)
             await qualifiers(data.amMxConsi_250,"Consi");
         }
         if(data.amMxConsi_450 !==""){
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Motocross Consi Results[/b][/u][/color]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Motocross Consi Results[/b][/u]\n`)
             await qualifiers(data.amMxConsi_450,"Consi");
         }
         await win.webContents.send("statsUpdates", 'Consis Done')
@@ -787,14 +789,14 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
 
     try {
         fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Moto Results[/b][/u][/color]\n`)
-        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Motocross Moto 1 Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 Motocross Moto 1 Results[/b][/u]\n`)
         await main(data.amMxMoto1_250);
-        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Motocross Moto 2 Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 Motocross Moto 2 Results[/b][/u]\n`)
         await main(data.amMxMoto2_250);
 
-        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Motocross Moto 1 Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Motocross Moto 1 Results[/b][/u]\n`)
         await main(data.amMxMoto1_450);
-        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Motocross Moto 2 Results[/b][/u][/color]\n`)
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Motocross Moto 2 Results[/b][/u]\n`)
         await main(data.amMxMoto2_450);
         await win.webContents.send("statsUpdates", 'Motos Done')
     } catch(e){
@@ -804,10 +806,10 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
 
     try {
         fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Overall Results[/b][/u][/color]\n`);
-        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Motocross Overall Results[/b][/u][/color]\n`);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 Motocross Overall Results[/b][/u]\n`);
         await mxOveralls(data.amMxMoto1_250, data.amMxMoto2_250);
 
-        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Motocross Overall Results[/b][/u][/color]\n`);
+        fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Motocross Overall Results[/b][/u]\n`);
         await mxOveralls(data.amMxMoto1_450, data.amMxMoto2_450);
         await win.webContents.send("statsUpdates", 'Overalls Done')
     } catch(e) {
@@ -818,11 +820,11 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
     try {
         if(data.amMxQualifying !==""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Qualifying to Overall Results Differences[/b][/u][/color]\n`);
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 Motocross Quali - Overall Difference[/b][/u][/color]\n`);
-            await rfDiffOAQuali(data.amMxQualifying, data.amMxMoto1_250, data.amMxMoto2_250)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]250 Motocross Quali - Overall Difference[/b][/u]\n`);
+            await rfDiffOAQuali(data.amMxQualifying, data.amMxMoto1_250, data.amMxMoto2_250, "NA", "AMA", "Am", "250", "MX")
 
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Motocross Quali - Overall Difference[/b][/u][/color]\n`);
-            await rfDiffOAQuali(data.amMxQualifying, data.amMxMoto1_450, data.amMxMoto2_450)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Motocross Quali - Overall Difference[/b][/u]\n`);
+            await rfDiffOAQuali(data.amMxQualifying, data.amMxMoto1_450, data.amMxMoto2_450, "NA", "AMA", "Am", "450", "MX")
             await win.webContents.send("statsUpdates", 'Quali - Overalls Done')
         }
     } catch (e) {
@@ -833,13 +835,13 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
     try {
         if(data.amMxQualifying !== ""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n`);
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Motocross[/b][/u][/color]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[b][u]250 Motocross[/b][/u]\n`)
             await rfPoints(data.amMxQualifying, "NA", "AMA", "Am", "250", "MX", )
 
-            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]450 Motocross[/b][/u][/color]\n`)
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Motocross[/b][/u]\n`)
             await rfPoints(data.amMxQualifying, "NA", "AMA", "Am", "450", "MX")
             
-            
+            await getStats(amMxStatsURL);
             await doStats();
             await copyStatsToClip();
             await win.webContents.send("statsUpdates", 'Finished!')
@@ -958,12 +960,12 @@ async function rfQualifyingFunction(qualurl, nation, coast, raceClass, bikeClass
                         selectorTable='DataTables_Table_3'
                     }
                 } else {
-                    if(bikeClass = "250"){
-                        //NA AMS 250
-
+                    if(bikeClass === "250"){
+                        //NA AMS 250 #DataTables_Table_3 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        selectorTable='DataTables_Table_3'
                     } else {
-                        //NA AMS 450
-
+                        //NA AMS 450 #DataTables_Table_4 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        selectorTable='DataTables_Table_4'
                     }
                 }
             } else {
@@ -1106,21 +1108,21 @@ async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
             if(coast === "AMA"){
                 if(raceClass === "Pro"){
                     if(bikeClass === "250"){
-                        //NA AMA 250 #DataTables_Table_13 > tbody > tr:nth-child(1) > td:nth-child(2)
-                        selectorTable='DataTables_Table_13'
+                        //NA AMA 250 #DataTables_Table_16 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        selectorTable='DataTables_Table_14'
                         classSelector='5'
                     } else {
-                        //NA AMA 450 #DataTables_Table_14 > tbody > tr:nth-child(1) > td:nth-child(2)
-                        selectorTable='DataTables_Table_14'
+                        //NA AMA 450 #DataTables_Table_13 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        selectorTable='DataTables_Table_13'
                         classSelector='4'
                     }
                 } else {
                     if(bikeClass === "250"){
-                        //NA AMS 250
-
+                        //NA AMS 250 #DataTables_Table_14 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        selectorTable='DataTables_Table_14'
                     } else {
-                        //NA AMS 450
-
+                        //NA AMS 450 #DataTables_Table_13 > tbody > tr:nth-child(1) > td:nth-child(2)
+                        selectorTable='DataTables_Table_13'
                     }
                 }
             } else {
@@ -1272,12 +1274,12 @@ async function rfDiffOAQuali(qualurl, urlm1, urlm2, nation, coast, raceClass, bi
                         selectorTable='DataTables_Table_3'
                     }
                 } else {
-                    if(bikeClass = "250"){
+                    if(bikeClass === "250"){
                         //NA AMS 250
-
+                        selectorTable='DataTables_Table_3'
                     } else {
                         //NA AMS 450
-
+                        selectorTable='DataTables_Table_4'
                     }
                 }
             } else {
