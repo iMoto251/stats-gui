@@ -71,4 +71,57 @@ async function qualifyingEMF(qualurl, bikeClass, teams){
     await browser.close();
 }
 
+async function getDatatables(qualurl){
+    //let selectorTable=''
+    //let qualSelector=''
+    let browser = await puppeteer.launch({headless: true});
+    let page = await browser.newPage();
+    await page.setViewport({width: 1920, height: 1080})
+    await page.setDefaultNavigationTimeout(120000);
+    await page.goto(qualurl + "#nav-standings");
+    //await page.click(selectorTable);
+
+    const inputs = [
+        '<option selected="" value="1">450 Supercross</option>',
+        '<option value="2">250 Motocross</option>',
+        '<option value="3">125 Supercross</option>'
+      ];
+      
+      const regex = /value="([^"]+)"[^>]*>([^<]+)/;
+      
+      inputs.forEach(input => {
+        const match = input.match(regex);
+        
+        if (match) {
+          const value = match[1];
+          const text = match[2];
+          console.log(value); // Output: 1, 2, 3
+          console.log(text);  // Output: 450 Supercross, 250 Motocross, 125 Supercross
+        } else {
+          console.log('No match found for input:', input);
+        }
+      });
+      
+
+    let points = await page.evaluate(() =>{
+
+        let totalTables = document.querySelectorAll('#standingsClassSelector > option')
+        let tableVals = [];
+
+        for(let i=0;i<totalTables.length;i++){
+            tableVals[i] = document.querySelector(`#standingsClassSelector > option:nth-child(${i+1})`).outerHTML;
+        }
+
+        //newTables = document.querySelector("#standingsClassSelector").outerHTML
+        console.log(document.querySelector("#standingsClassSelector"))
+        
+        return {tableVals, totalTables};
+    });
+
+    console.log(points.tableVals, "\n\n\n\n", points.totalTables)
+
+}
+
+getDatatables("https://racefactorygaming.com/Events/Event?event=980")
+
 exports.qualifyingEMF = qualifyingEMF;
