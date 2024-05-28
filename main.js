@@ -4,7 +4,7 @@ const puppeteer = require("puppeteer");
 const fs = require("fs");
 const path = require("path");
 const vars = require("./vars.json");
-const qualifyingEMF = require('./emf');
+//const qualifyingEMF = require('./emf');
 
 
 let teams = [];
@@ -16,6 +16,7 @@ let euSxStatsURL = vars.sxEU;
 let amSxStatsURL = vars.sxAms;
 let naMxStatsURL = vars.mxNAAMA;
 let amMxStatsURL = vars.mxAms;
+//https://docs.google.com/spreadsheets/d/1j-L3vk7ZObUn0qRB6TlsBHnJH_qAy8M4sBVFpTqpD_o/edit?usp=sharing
 
 const createWindow = () => {
     win = new BrowserWindow({
@@ -258,8 +259,15 @@ ipcMain.on("generateProSxStats", async (event, data) => {
             await copyStatsToClip();
             await win.webContents.send("statsUpdates", 'Finished!')
         } else {
-            fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
-            await win.webContents.send("statsUpdates", 'Points Skipped')
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
+            await win.webContents.send("statsUpdates", 'Points Skipped and Finished')
+            if(nation === "NA"){
+                await getStats(naSxStatsURL);
+            } else {
+                await getStats(euSxStatsURL);
+            }
+            await doStats();
+            await copyStatsToClip();
         }
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Points')
@@ -371,8 +379,15 @@ ipcMain.on("generateProSxTCStats", async (event, data) => {
             await copyStatsToClip();
             await win.webContents.send("statsUpdates", 'Finished!')
         } else {
-            fs.writeFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
-            await win.webContents.send("statsUpdates", 'Points Skipped')
+            fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 Supercross[/b][/u][/color]\n`)
+            await win.webContents.send("statsUpdates", 'Points Skipped and Finished')
+            if(nation === "NA"){
+                await getStats(naSxStatsURL);
+            } else {
+                await getStats(euSxStatsURL);
+            }
+            await doStats();
+            await copyStatsToClip();
         }
     } catch(e) {
         await win.webContents.send("statsUpdates", 'Error in Points')
@@ -720,24 +735,24 @@ ipcMain.on("generateProMxStats", async (event, data) => {
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]${class450}[/b][/u]\n`)
             await rfPoints(data.proMxQualifying, nation, series, "Pro", "450", "MX")
-            
-            if(nation === "NA"){
-                if(series === "AMA"){
-                    await getStats(naMxStatsURL);
-                } else {
-                    await getStats(naGpStatsURL);
-                }
+        }    
+        if(nation === "NA"){
+            if(series === "AMA"){
+                await getStats(naMxStatsURL);
             } else {
-                if(series === "AMA"){
-                    await getStats(euMxStatsURL);
-                } else {
-                    await getStats(euGpStatsURL);
-                }
+                await getStats(naGpStatsURL);
             }
-            await doStats();
-            await copyStatsToClip();
-            await win.webContents.send("statsUpdates", 'Finished!')
+        } else {
+            if(series === "AMA"){
+                await getStats(euMxStatsURL);
+            } else {
+                await getStats(euGpStatsURL);
+            }
         }
+        await doStats();
+        await copyStatsToClip();
+        await win.webContents.send("statsUpdates", 'Finished!')
+        
 
     } catch (e) {
         await win.webContents.send("statsUpdates", 'Error in Points')
@@ -840,12 +855,12 @@ ipcMain.on("generateAmMxStats", async (event, data) => {
 
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[b][u]450 Motocross[/b][/u]\n`)
             await rfPoints(data.amMxQualifying, "NA", "AMA", "Am", "450", "MX")
-            
-            await getStats(amMxStatsURL);
-            await doStats();
-            await copyStatsToClip();
-            await win.webContents.send("statsUpdates", 'Finished!')
-        }
+        }    
+        await getStats(amMxStatsURL);
+        await doStats();
+        await copyStatsToClip();
+        await win.webContents.send("statsUpdates", 'Finished!')
+        
 
     } catch (e) {
         await win.webContents.send("statsUpdates", 'Error in Points')
