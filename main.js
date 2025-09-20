@@ -236,10 +236,10 @@ ipcMain.on("generateProSxStats", async (event, data) => {
                 fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n\n`);
 
                 fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 West Supercross[/b][/u][/color]\n`)
-                await rfPoints(data.proSxQualifying, nation, "DataTables_Table_27", "Pro", "250", "SX")
+                await rfPoints(data.proSxQualifying, nation, "DataTables_Table_26", "Pro", "250", "SX")
 
                 fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]250 East Supercross[/b][/u][/color]\n`)
-                await rfPoints(data.proSxQualifying, nation, "DataTables_Table_26", "Pro", "250", "SX")
+                await rfPoints(data.proSxQualifying, nation, "DataTables_Table_27", "Pro", "250", "SX")
             } else {
                 fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Top 20 in Points[/b][/u][/color]\n\n`);
                 
@@ -346,7 +346,7 @@ ipcMain.on("generateProSxTCStats", async (event, data) => {
     }
 
     try {
-        let coast = data.coast
+        let coast = data.coastTc
         fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Triple Crown Overalls[/b][/u][/color]\n\n`);
         fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `[color=#FF0000][b][u]250 ${coast} Supercross Triple Crown[/b][/u][/color]\n`)
         await tcOverall(data.proSxTcMain1_250, data.proSxTcMain2_250, data.proSxTcMain3_250);
@@ -712,6 +712,8 @@ ipcMain.on("generateProMxStats", async (event, data) => {
         await win.webContents.send("sendError", e)
     }
 
+    fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Fastest Lap by Lap[/b][/u][/color]\n`);
+
     try {
         if(data.proMxQualifying !==""){
             fs.appendFileSync(`${path.join(__dirname, "stats.txt")}`, `\n[color=#FF0000][b][u]Qualifying to Overall Results Differences[/b][/u][/color]\n`);
@@ -1017,6 +1019,14 @@ async function rfQualifyingFunction(qualurl, nation, coast, raceClass, bikeClass
 
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
+    await page.goto("https://racefactorygaming.com/Account/Login")
+    await page.type('#Username',"DBRider251")
+    await page.type('#Password',"Made@919")
+    await page.click('#RememberMe')
+    await Promise.all([
+        page.click('.btn'),
+        page.waitForNavigation({ waitUntil: 'networkidle0' }),
+    ])
     await page.setViewport({width: 1920, height: 1080})
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
@@ -1081,7 +1091,7 @@ async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
                 if(bikeClass === "250"){
                     if(coast === "West"){
                         //NA 250W
-                        selectorTable='DataTables_Table_16'
+                        selectorTable='DataTables_Table_14'
                         classSelector='2'
                     } else if(coast === "East"){
                         //NA 250E
@@ -1175,15 +1185,21 @@ async function rfPoints(qualurl, nation, coast, raceClass, bikeClass, series){
 
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
+    await page.goto("https://racefactorygaming.com/Account/Login")
+    await page.type('#Username',"DBRider251")
+    await page.type('#Password',"Made@919")
+    await page.click('#RememberMe')
+    await Promise.all([
+        page.click('.btn'),
+        page.waitForNavigation({ waitUntil: 'networkidle0' }),
+    ])
     await page.setViewport({width: 1920, height: 1080})
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
-    await page.waitForNetworkIdle();
-
+    //await page.waitForNavigation({ waitUntil: 'networkidle0' })
     await page.click('#nav-standings-tab')
     await page.select('#standingsClassSelector', classSelector)
     await page.select(`#${selectorTable}_length > label:nth-child(1) > select:nth-child(1)`, '100')
-    await page.waitForNetworkIdle();
 
     let points = await page.evaluate((selectorTable) =>{
         function capitalize(str) {
@@ -1331,13 +1347,20 @@ async function rfDiffOAQuali(qualurl, urlm1, urlm2, nation, coast, raceClass, bi
 
     let browser = await puppeteer.launch({headless: true});
     let page = await browser.newPage();
+    await page.goto("https://racefactorygaming.com/Account/Login")
+    await page.type('#Username',"DBRider251")
+    await page.type('#Password',"Made@919")
+    await page.click('#RememberMe')
+    await Promise.all([
+        page.click('.btn'),
+        page.waitForNavigation({ waitUntil: 'networkidle0' }),
+    ])
     await page.setViewport({width: 1920, height: 1080})
     await page.setDefaultNavigationTimeout(120000);
     await page.goto(qualurl);
     await page.waitForSelector(`#nav-qualifying-tab`)
     await page.click('#nav-qualifying-tab')
-    await page.waitForTimeout(1000);
-    //await page.waitForSelector(`#${selectorTable}_length > label > select`)
+    await page.waitForSelector(`#${selectorTable}_length > label > select`)
     await page.select(`#${selectorTable}_length > label > select`,'100')
     await page.select('#qualifyingListClassSelector', `${classSelector}`)
 
@@ -1365,7 +1388,7 @@ async function rfDiffOAQuali(qualurl, urlm1, urlm2, nation, coast, raceClass, bi
     }, selectorTable);
 
     await page.goto(urlm1);
-    await page.waitForNetworkIdle();
+    await page.waitForSelector('table.laptimes:nth-child(5)')
 
     let resultsm1 = await page.evaluate(() =>{
         function capitalize(str) {
@@ -1387,36 +1410,38 @@ async function rfDiffOAQuali(qualurl, urlm1, urlm2, nation, coast, raceClass, bi
                 case 4:
                     return 18;
                 case 5:
-                    return 16;
+                    return 17;
                 case 6:
-                    return 15;
+                    return 16;
                 case 7:
-                    return 14;
+                    return 15;
                 case 8:
-                    return 13;
+                    return 14;
                 case 9:
-                    return 12;
+                    return 13;
                 case 10:
-                    return 11;
+                    return 12;
                 case 11:
-                    return 10;
+                    return 11;
                 case 12:
-                    return 9;
+                    return 10;
                 case 13:
-                    return 8;
+                    return 9;
                 case 14:
-                    return 7;
+                    return 8;
                 case 15:
-                    return 6;
+                    return 7;
                 case 16:
-                    return 5;
+                    return 6;
                 case 17:
-                    return 4;
+                    return 5;
                 case 18:
-                    return 3;
+                    return 4;
                 case 19:
-                    return 2;
+                    return 3;
                 case 20:
+                    return 2;
+                case 21:
                     return 1;
                 default:
                     return 0;
@@ -1442,7 +1467,7 @@ async function rfDiffOAQuali(qualurl, urlm1, urlm2, nation, coast, raceClass, bi
 
 
     await page.goto(urlm2);
-    await page.waitForNetworkIdle();
+    await page.waitForSelector('table.laptimes:nth-child(5)')
 
     let resultsm2 = await page.evaluate(() =>{
         function capitalize(str) {
@@ -1464,36 +1489,38 @@ async function rfDiffOAQuali(qualurl, urlm1, urlm2, nation, coast, raceClass, bi
                 case 4:
                     return 18;
                 case 5:
-                    return 16;
+                    return 17;
                 case 6:
-                    return 15;
+                    return 16;
                 case 7:
-                    return 14;
+                    return 15;
                 case 8:
-                    return 13;
+                    return 14;
                 case 9:
-                    return 12;
+                    return 13;
                 case 10:
-                    return 11;
+                    return 12;
                 case 11:
-                    return 10;
+                    return 11;
                 case 12:
-                    return 9;
+                    return 10;
                 case 13:
-                    return 8;
+                    return 9;
                 case 14:
-                    return 7;
+                    return 8;
                 case 15:
-                    return 6;
+                    return 7;
                 case 16:
-                    return 5;
+                    return 6;
                 case 17:
-                    return 4;
+                    return 5;
                 case 18:
-                    return 3;
+                    return 4;
                 case 19:
-                    return 2;
+                    return 3;
                 case 20:
+                    return 2;
+                case 21:
                     return 1;
                 default:
                     return 0;
@@ -1982,36 +2009,38 @@ async function mxOveralls(urlm1, urlm2){
                 case 4:
                     return 18;
                 case 5:
-                    return 16;
+                    return 17;
                 case 6:
-                    return 15;
+                    return 16;
                 case 7:
-                    return 14;
+                    return 15;
                 case 8:
-                    return 13;
+                    return 14;
                 case 9:
-                    return 12;
+                    return 13;
                 case 10:
-                    return 11;
+                    return 12;
                 case 11:
-                    return 10;
+                    return 11;
                 case 12:
-                    return 9;
+                    return 10;
                 case 13:
-                    return 8;
+                    return 9;
                 case 14:
-                    return 7;
+                    return 8;
                 case 15:
-                    return 6;
+                    return 7;
                 case 16:
-                    return 5;
+                    return 6;
                 case 17:
-                    return 4;
+                    return 5;
                 case 18:
-                    return 3;
+                    return 4;
                 case 19:
-                    return 2;
+                    return 3;
                 case 20:
+                    return 2;
+                case 21:
                     return 1;
                 default:
                     return 0;
@@ -2058,36 +2087,38 @@ async function mxOveralls(urlm1, urlm2){
                 case 4:
                     return 18;
                 case 5:
-                    return 16;
+                    return 17;
                 case 6:
-                    return 15;
+                    return 16;
                 case 7:
-                    return 14;
+                    return 15;
                 case 8:
-                    return 13;
+                    return 14;
                 case 9:
-                    return 12;
+                    return 13;
                 case 10:
-                    return 11;
+                    return 12;
                 case 11:
-                    return 10;
+                    return 11;
                 case 12:
-                    return 9;
+                    return 10;
                 case 13:
-                    return 8;
+                    return 9;
                 case 14:
-                    return 7;
+                    return 8;
                 case 15:
-                    return 6;
+                    return 7;
                 case 16:
-                    return 5;
+                    return 6;
                 case 17:
-                    return 4;
+                    return 5;
                 case 18:
-                    return 3;
+                    return 4;
                 case 19:
-                    return 2;
+                    return 3;
                 case 20:
+                    return 2;
+                case 21:
                     return 1;
                 default:
                     return 0;
